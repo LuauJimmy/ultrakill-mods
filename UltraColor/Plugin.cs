@@ -38,8 +38,6 @@ public sealed class Plugin : BaseUnityPlugin {
     [HarmonyPatch(typeof(Shotgun), "Start")]
     static void RecolorShotgunProjectile(Shotgun __instance)
     {
-        var newExplosionMat = ColorHelper.LoadBulletColor(ColorHelper.BulletColor.Purple);
-
         __instance.bullet.GetComponent<TrailRenderer>().startColor = global::UltraColor.Config.shotgunProjectileStartColor.value;
         __instance.bullet.GetComponent<TrailRenderer>().endColor = global::UltraColor.Config.shotgunProjectileEndColor.value;
         
