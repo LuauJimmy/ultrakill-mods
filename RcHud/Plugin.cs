@@ -142,15 +142,15 @@ public sealed class Plugin : BaseUnityPlugin {
                 spriteToLoad = global::UltraColor.Config.piercerRevolverMuzzleFlashColor.value;
                 break;
             case "Revolver Twirl(Clone)":
-                if (global::UltraColor.Config.sharpShooterMuzzleFlashColor== default) return;
+                if (global::UltraColor.Config.sharpShooterMuzzleFlashColor == default) return;
                 spriteToLoad = global::UltraColor.Config.sharpShooterMuzzleFlashColor.value;
                 break;
             case "Revolver Ricochet(Clone)":
-                if (global::UltraColor.Config.marksmanMuzzleFlashColor== default) return;
+                if (global::UltraColor.Config.marksmanMuzzleFlashColor == default) return;
                 spriteToLoad = global::UltraColor.Config.marksmanMuzzleFlashColor.value;
                 break;
             case "Alternative Revolver Ricochet(Clone)":
-                if (global::UltraColor.Config.altMarksmanMuzzleFlashColor== default) return;
+                if (global::UltraColor.Config.altMarksmanMuzzleFlashColor == default) return;
                 spriteToLoad = global::UltraColor.Config.altMarksmanMuzzleFlashColor.value;
                 break;
             case "Alternative Revolver Twirl(Clone)":
