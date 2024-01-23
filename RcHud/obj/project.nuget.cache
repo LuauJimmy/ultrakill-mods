@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "b1c8P5/vMmhjnHX3wJLS9oSU0zWe0o5WAThQZXNhS/nHOolkw5nep3iVNcPEORCIYAvjtqaVVQi7QDD7kF8ecA==",
+  "dgSpecHash": "d+SL3TXLQFRDmC8hUaT988GfevrDhXLMMO3RfM506DyJYfloAGdSup1XrEeIxOgtdqdiAEqsXKQIew19yuFV2w==",
   "success": true,
-  "projectFilePath": "F:\\Ultrakill mods\\EffectChanger\\RcHud\\EffectChanger.csproj",
+  "projectFilePath": "F:\\Ultrakill mods\\EffectChanger\\RcHud\\UltraColor.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\luauj\\.nuget\\packages\\bepinex.analyzers\\1.0.8\\bepinex.analyzers.1.0.8.nupkg.sha512",
     "C:\\Users\\luauj\\.nuget\\packages\\bepinex.baselib\\5.4.20\\bepinex.baselib.5.4.20.nupkg.sha512",
