@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EffectChanger")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+35aafefeba040923ec9c17ead69ddeedceec7714")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+ddd877f471c76e7b656ad8b1510ce4981507cf0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("EffectChanger")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EffectChanger")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.1.0")]
