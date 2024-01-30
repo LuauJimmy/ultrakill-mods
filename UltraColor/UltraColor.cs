@@ -15,8 +15,6 @@ public sealed class UltraColor : MonoSingleton<UltraColor> {
 
     private bool initialized = false;
 
-    public static object Config { get; internal set; }
-
     public void Update() {
         if (!this.TryInit()) {
             return;

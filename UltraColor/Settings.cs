@@ -11,12 +11,13 @@ namespace UltraColor;
 
 #nullable disable
 
-public class Config {
+public static class Settings {
 
     private static PluginConfigurator? config;
     public static ColorField shotgunProjectileStartColor;
     public static ColorField shotgunProjectileEndColor;
     public static EnumField<ColorHelper.MuzzleFlash> shotgunMuzzleFlashColor;
+    public static ColorField shotgunMuzzleFlashPointLightColor;
     public static EnumField<ColorHelper.BulletColor> shotgunBulletColor;
     public static EnumField<ColorHelper.MuzzleFlash> shotgunGrenadeSpriteColor;
 
@@ -136,9 +137,10 @@ public class Config {
         nukeExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Nuke Explosion Color", "NukeExplosionColor", ColorHelper.ExplosionColor.Default);
 
         // Shotgun
+        shotgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(shotgunSubPanel, "Muzzle Flash Sprite Color", "ShotgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        shotgunMuzzleFlashPointLightColor = new ColorField(shotgunSubPanel, "Muzzle Flash Point Light Color", "MuzzleFlashPointLightColor", new Color(1, 0.7725f, 0, 1));
         shotgunProjectileStartColor = new ColorField(shotgunSubPanel, "Shotgun Projectile Start Color", "ShotgunProjectileStartColor", new Color(1, 0.7725F, 0, 1));
         shotgunProjectileEndColor = new ColorField(shotgunSubPanel, "Shotgun Projectile End Color", "ShotgunProjectileEndColor", new Color(1, 0.7725F, 0, 0));
-        shotgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(shotgunSubPanel, "Muzzle Flash Color", "ShotgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
         shotgunBulletColor = new EnumField<ColorHelper.BulletColor>(shotgunSubPanel, "Bullet Color", "ShotgunProjectileMeshColor", ColorHelper.BulletColor.Default);
         shotgunGrenadeSpriteColor = new EnumField<ColorHelper.MuzzleFlash>(shotgunSubPanel, "Grenade Sprite Color", "ShotgunGrenadeSpriteColor", ColorHelper.MuzzleFlash.Default);
 

@@ -78,6 +78,8 @@ namespace EffectChanger.Enum
             return Plugin.Fetch<Sprite>($"Assets/Textures/Sprites/{muzzleFlashPath}.png");
         }
 
+        //public static RecolorPointLight
+
         //hacky as fuck but i literally dont give a fuck
         public static Material LoadBulletColor(BulletColor bulletColor)
         {
