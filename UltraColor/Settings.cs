@@ -94,6 +94,11 @@ public static class Settings {
     public static ColorField revolverCoinRicochetBeamStartColor;
     public static ColorField revolverCoinRicochetBeamEndColor;
 
+    public static ColorField freezeRocketLauncherTrailStartColor;
+    public static ColorField freezeRocketLauncherTrailEndColor;
+
+    public static ColorField cannonballRocketLauncherTrailStartColor;
+    public static ColorField cannonballRocketLauncherTrailEndColor;
 
     public static void Init(ConfigFile cfg) {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
@@ -126,7 +131,11 @@ public static class Settings {
         ConfigPanel blueRailcannonSubPanel = new ConfigPanel(railcannonSubPanel, "Blue Railcannon", "BlueRailcannonSubPanel");
         ConfigPanel redRailcannonSubPanel = new ConfigPanel(railcannonSubPanel, "Red Railcannon", "RedRailcannonSubPanel");
         ConfigPanel greenRailcannonSubPanel = new ConfigPanel(railcannonSubPanel, "Green Railcannon", "GreenRailcannonSubPanel");
-        
+
+        ConfigPanel rocketSubPanel = new ConfigPanel(config.rootPanel, "Rocket Launcher", "RocketLauncherSubPanel");
+        ConfigPanel freezeRocketSubPanel = new ConfigPanel(rocketSubPanel, "FreezeFrame Rocket Launcher", "FreezeRocketSubPanel");
+        ConfigPanel cannonballRocketSubPanel = new ConfigPanel(rocketSubPanel, "S.R.S Cannon Rocket Launcher", "CannonballRocketSubPanel");
+
         ConfigPanel explosionSubPanel = new ConfigPanel(config.rootPanel, "Explosion", "ExplosionSubPanel");
 
         // Core, friendly fire, projectile boost, probably interruption
@@ -223,5 +232,9 @@ public static class Settings {
         greenRailcannonTrailColor = new ColorField(greenRailcannonSubPanel, "Green Railcannon Trail Color", "GreenRailcannonTrailColor", new Color(0, 1, 1, 1));
         greenRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(greenRailcannonSubPanel, "Green Railcannon Muzzle Flash Color", "GreenRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
 
+        freezeRocketLauncherTrailStartColor = new ColorField(freezeRocketSubPanel, "FreezeFrame Rocket Trail Start Color", "FreezeRocketLauncherTrailStartColor", new Color(1, 0.502F, 0, 0.3922F));
+        freezeRocketLauncherTrailEndColor = new ColorField(freezeRocketSubPanel, "FreezeFrame Rocket Trail End Color", "FreezeRocketLauncherTrailEndColor", new Color(1, 0, 0, 0));
+        cannonballRocketLauncherTrailStartColor = new ColorField(cannonballRocketSubPanel, "S.R.S. Cannon Rocket Trail Start Color", "CannonballRocketLauncherTrailStartColor", new Color(1, 0.502F, 0, 0.3922F));
+        cannonballRocketLauncherTrailEndColor = new ColorField(cannonballRocketSubPanel, "S.R.S. Cannon Rocket Trail End Color", "CannonballRocketLauncherTrailEndColor", new Color(1, 0, 0, 0));
     }
 }

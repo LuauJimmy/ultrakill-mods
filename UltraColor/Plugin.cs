@@ -75,7 +75,7 @@ public sealed class Plugin : BaseUnityPlugin
             //The address is bad
             else
             {
-                Debug.Log("Didn't even find the address");
+                Debug.Log("Didn't find the address");
             }
         };
     }
@@ -96,28 +96,6 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(Shotgun), "Start")]
     static void exp(Shotgun __instance)
     {
-
-        //var tex = Utils.LoadTexture("explosion_purple");
-
-        //Debug.Log("Tex \n" + tex);
-
-        //var oldExp = __instance.explosion;
-        //var newExp = Instantiate(oldExp);
-
-        //Debug.Log("oldExp == newExp: " + (oldExp == newExp));
-
-        //var mr = newExp.GetComponentsInChildren<MeshRenderer>();
-
-        //var newMat = Instantiate(mr[0].material);
-
-        //newMat.mainTexture = tex;
-
-        //mr[0].material = newMat;
-
-        //Debug.Log("mr[0].material: " + mr[0].material);
-
-        //__instance.explosion = newExp;
-
         var exp = __instance.explosion;
 
         var mr = exp.GetComponentsInChildren<MeshRenderer>();
@@ -248,6 +226,7 @@ public sealed class Plugin : BaseUnityPlugin
         __instance.transform.Find("GameObject").GetComponentInChildren<SpriteRenderer>().sprite = newSprite;
     }
 
+    // Need to patch ReadyGun instead of Start because lots of weapons use the same normal fire mode projectile
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
     static void RecolorRevolverMuzzleFlash(Revolver __instance)
@@ -288,7 +267,6 @@ public sealed class Plugin : BaseUnityPlugin
 
     }
 
-    // Need to patch ReadyGun instead of Start because revolvers use the same normal fire mode projectile
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
     static void RecolorRevolverBeam(Revolver __instance)
@@ -319,6 +297,25 @@ public sealed class Plugin : BaseUnityPlugin
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverBeamEndColor.value;
                 break;
+        }
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(RocketLauncher), "OnEnable")]
+    static void RecolorRevolverBeam(RocketLauncher __instance)
+    {
+        Debug.Log("OnEnable");
+        switch (__instance.gameObject.name)
+        {
+            case "Rocket Launcher Freeze(Clone)":
+                __instance.rocket.GetComponent<TrailRenderer>().startColor = Settings.freezeRocketLauncherTrailStartColor.value;
+                __instance.rocket.GetComponent<TrailRenderer>().endColor= Settings.freezeRocketLauncherTrailEndColor.value;
+                break;
+            case "Rocket Launcher Cannonball(Clone)":
+                __instance.rocket.GetComponent<TrailRenderer>().startColor = Settings.cannonballRocketLauncherTrailStartColor.value;
+                __instance.rocket.GetComponent<TrailRenderer>().endColor = Settings.cannonballRocketLauncherTrailEndColor.value;
+                break;
+
         }
     }
 
