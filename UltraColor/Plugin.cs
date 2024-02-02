@@ -287,7 +287,7 @@ public sealed class Plugin : BaseUnityPlugin
             default: return;
         }
         Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
-        var muzzleFlashes = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
+        var muzzleFlashes = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
         foreach (var muzzle in muzzleFlashes) { muzzle.sprite = newSprite; }
     }
 
