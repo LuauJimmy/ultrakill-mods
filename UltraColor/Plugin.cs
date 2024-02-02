@@ -36,7 +36,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     public void Awake()
     {
-        purpleExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_purple.png");
+        purpleExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blue.png");
         Settings.Init(this.Config);
         Harmony.CreateAndPatchAll(this.GetType());
 
@@ -92,6 +92,8 @@ public sealed class Plugin : BaseUnityPlugin
         _ = UltraColor.Instance;
     }
 
+
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
     static void exp(Shotgun __instance)
@@ -105,10 +107,10 @@ public sealed class Plugin : BaseUnityPlugin
         var pl = s8.transform.Find("Point Light").GetComponent<Light>();
 
         pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
-
         var newMat = new Material(mr[0].material)
         {
-            mainTexture = purpleExplosionTexture
+            mainTexture = purpleExplosionTexture,
+            shaderKeywords = ["_FADING_ON", "_EMISSION"]
         };
 
         mr[0].material = newMat;
@@ -264,7 +266,29 @@ public sealed class Plugin : BaseUnityPlugin
         Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
         var muzzleFlashes = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
         foreach (var muzzle in muzzleFlashes) { muzzle.sprite = newSprite; }
+    }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Revolver), "ReadyGun")]
+    static void RecolorRevolverChargeMuzzleFlash(Revolver __instance)
+    {
+
+        ColorHelper.MuzzleFlash spriteToLoad;
+        switch (__instance.gameObject.name)
+        {
+            case "Revolver Pierce(Clone)":
+                if (Settings.piercerRevolverMuzzleFlashColor == default) return;
+                spriteToLoad = Settings.piercerRevolverMuzzleFlashColor.value;
+                break;
+            case "Alternative Revolver Pierce(Clone)":
+                if (Settings.altPiercerRevolverMuzzleFlashColor == default) return;
+                spriteToLoad = Settings.altPiercerRevolverMuzzleFlashColor.value;
+                break;
+            default: return;
+        }
+        Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
+        var muzzleFlashes = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var muzzle in muzzleFlashes) { muzzle.sprite = newSprite; }
     }
 
     [HarmonyPrefix]
@@ -344,7 +368,7 @@ public sealed class Plugin : BaseUnityPlugin
 
 
                 var altPiercerChargeEffect = __instance.transform.Find("Revolver_Rerigged_Alternate/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint (1)/ChargeEffect");
-                altPiercerChargeEffect.GetComponent<MeshRenderer>().material = ColorHelper.LoadBulletColor(Settings.altPiercerRevolverChargeEffectColor.value); ;
+                altPiercerChargeEffect.GetComponent<MeshRenderer>().material = ColorHelper.LoadBulletColor(Settings.altPiercerRevolverChargeEffectColor.value);
                 break;
             case "Revolver Twirl(Clone)":
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.sharpShooterChargeBeamStartColor.value;
@@ -357,6 +381,23 @@ public sealed class Plugin : BaseUnityPlugin
             default:
                 break;
         }
+    }
+
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Coin), "Start")]
+    static void RecolorCoinTrail(Coin __instance)
+    {
+        if (Settings.revolverCoinTrailStartColor.value != Settings.revolverCoinTrailStartColor.defaultValue)
+        {
+            __instance.GetComponent<TrailRenderer>().startColor = Settings.revolverCoinTrailStartColor.value;
+        }
+        if (Settings.revolverCoinTrailEndColor.value != Settings.revolverCoinTrailEndColor.defaultValue)
+        {
+            __instance.GetComponent<TrailRenderer>().endColor = Settings.revolverCoinTrailEndColor.value;
+        }
+
+
     }
 
     [HarmonyPrefix]
