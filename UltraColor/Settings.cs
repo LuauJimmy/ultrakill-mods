@@ -208,13 +208,13 @@ public static class Settings {
         revolverCoinTrailStartColor = new ColorField(coinSubPanel, "Coin Trail Start Color", "CoinTrailStartColor", new Color(1, 1, 1, 0));
         revolverCoinTrailEndColor = new ColorField(coinSubPanel, "Coin Trail End Color", "CoinTrailEndColor", new Color(1, 1, 1, 0));
 
-        // Coin Ricochet beam after being shot by normal Marksman
-        revolverCoinRicochetBeamStartColor = new ColorField(marksmanSubPanel, "Revolver Coin Ricochet Beam Start Color", "RevolverCoinRicochetBeamStartColor", new Color(1, 0.8078F, 0, 1));
-        revolverCoinRicochetBeamEndColor = new ColorField(marksmanSubPanel, "Revolver Coin Ricochet Beam End Color", "RevolverCoinRicochetBeamEndColor", new Color(1, 0.8078F, 0, 1));
-
         marksmanMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(marksmanSubPanel, "Marksman Muzzle Flash Color", "MarksmanMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
         marksmanBeamStartColor = new ColorField(marksmanSubPanel, "Normal Beam Start Color", "MarksmanBeamStartColor", new Color(1, 1, 1, 1));
         marksmanBeamEndColor = new ColorField(marksmanSubPanel, "Normal Beam End Color", "MarksmanBeamEndColor", new Color(1, 0.8078F, 0, 1));
+        // Coin Ricochet beam after being shot by normal Marksman
+        revolverCoinRicochetBeamStartColor = new ColorField(marksmanSubPanel, "Ricochet Beam Start Color", "RevolverCoinRicochetBeamStartColor", new Color(1, 0.8078F, 0, 1));
+        revolverCoinRicochetBeamEndColor = new ColorField(marksmanSubPanel, "Ricochet Beam End Color", "RevolverCoinRicochetBeamEndColor", new Color(1, 0.8078F, 0, 1));
+
 
         // Alt Marksman
         altMarksmanEnabled = new BoolField(altMarksmanSubPanel, "Enabled", "altMarksmanEnabled", false);
