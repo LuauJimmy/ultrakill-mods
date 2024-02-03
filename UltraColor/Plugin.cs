@@ -22,12 +22,10 @@ public sealed class Plugin : BaseUnityPlugin
 {
     public sealed class AssetDir : SortedDictionary<string, object>;
 
-
     public static string workingDir;
     public static string ultraColorCatalogPath;
 
     private static Texture2D purpleExplosionTexture;
-
 
     public static T Fetch<T>(string key)
     {
@@ -40,11 +38,9 @@ public sealed class Plugin : BaseUnityPlugin
         Settings.Init(this.Config);
         Harmony.CreateAndPatchAll(this.GetType());
 
-
         workingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         //PostAwake();
-
     }
 
     public void PostAwake()
@@ -57,7 +53,6 @@ public sealed class Plugin : BaseUnityPlugin
         Debug.Log(m);
         Debug.Log("PostAwake method completed successfully.");
     }
-
 
     public void checkAddress(string address)
     {
@@ -80,11 +75,9 @@ public sealed class Plugin : BaseUnityPlugin
         };
     }
 
-
     public void Start()
     {
         UltraColor.SetLogger(this.Logger);
-
     }
 
     public void Update()
@@ -92,11 +85,9 @@ public sealed class Plugin : BaseUnityPlugin
         _ = UltraColor.Instance;
     }
 
-
-
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
-    static void exp(Shotgun __instance)
+    private static void exp(Shotgun __instance)
     {
         var exp = __instance.explosion;
 
@@ -117,13 +108,11 @@ public sealed class Plugin : BaseUnityPlugin
 
         var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
         explosionRenderers[0].material = newMat;
-
     }
-
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
-    static void RecolorShotgunProjectile(Shotgun __instance)
+    private static void RecolorShotgunProjectile(Shotgun __instance)
     {
         __instance.bullet.GetComponent<TrailRenderer>().startColor = Settings.shotgunProjectileStartColor.value;
         __instance.bullet.GetComponent<TrailRenderer>().endColor = Settings.shotgunProjectileEndColor.value;
@@ -140,42 +129,45 @@ public sealed class Plugin : BaseUnityPlugin
             Material newMaterial = ColorHelper.LoadBulletColor(Settings.shotgunBulletColor.value);
             __instance.bullet.GetComponent<MeshRenderer>().material = newMaterial;
         }
-
     }
-
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Nailgun), "Start")]
-    static void RecolorNailgunProjecileTrail(Nailgun __instance)
+    private static void RecolorNailgunProjecileTrail(Nailgun __instance)
     {
         switch (__instance.gameObject.name)
         {
             case "Nailgun Magnet(Clone)":
+                if (!Settings.magnetNailgunEnabled.value) return;
                 __instance.nail.GetComponent<TrailRenderer>().startColor = Settings.magnetNailgunTrailStartColor.value;
                 __instance.nail.GetComponent<TrailRenderer>().endColor = Settings.magnetNailgunTrailEndColor.value;
 
                 break;
+
             case "Nailgun Overheat(Clone)":
+                if (!Settings.overheatNailgunEnabled.value) return;
                 __instance.nail.GetComponent<TrailRenderer>().startColor = Settings.overheatNailgunTrailStartColor.value;
                 __instance.nail.GetComponent<TrailRenderer>().endColor = Settings.overheatNailgunTrailEndColor.value;
                 __instance.heatedNail.GetComponent<TrailRenderer>().startColor = Settings.overheatNailgunHeatedNailTrailStartColor.value;
                 __instance.heatedNail.GetComponent<TrailRenderer>().endColor = Settings.overheatNailgunHeatedNailTrailEndColor.value;
 
                 break;
+
             case "Sawblade Launcher Magnet(Clone)":
+                if (!Settings.altMagnetNailgunEnabled.value) return;
                 __instance.nail.GetComponent<TrailRenderer>().startColor = Settings.altMagnetNailgunTrailStartColor.value;
                 __instance.nail.GetComponent<TrailRenderer>().endColor = Settings.altMagnetNailgunTrailEndColor.value;
                 break;
+
             case "Sawblade Launcher Overheat(Clone)":
+                if (!Settings.altOverheatNailgunEnabled.value) return;
                 __instance.nail.GetComponent<TrailRenderer>().startColor = Settings.altOverheatNailgunTrailStartColor.value;
                 __instance.nail.GetComponent<TrailRenderer>().endColor = Settings.altOverheatNailgunTrailEndColor.value;
                 __instance.heatedNail.GetComponent<TrailRenderer>().startColor = Settings.altOverheatNailgunHeatedNailTrailStartColor.value;
                 __instance.heatedNail.GetComponent<TrailRenderer>().endColor = Settings.altOverheatNailgunHeatedNailTrailEndColor.value;
                 break;
-
         }
     }
-
 
     //[HarmonyPrefix]
     //[HarmonyPatch(typeof(ExplosionController), "Start")]
@@ -221,9 +213,9 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Grenade), "Start")]
-    static void RecolorGrenadeSprite(Grenade __instance)
+    private static void RecolorGrenadeSprite(Grenade __instance)
     {
-        if (Settings.shotgunGrenadeSpriteColor.value == ColorHelper.MuzzleFlash.Default) return;
+        if (!Settings.shotgunEnabled.value) return;
         Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(Settings.shotgunGrenadeSpriteColor.value);
         __instance.transform.Find("GameObject").GetComponentInChildren<SpriteRenderer>().sprite = newSprite;
     }
@@ -231,9 +223,8 @@ public sealed class Plugin : BaseUnityPlugin
     // Need to patch ReadyGun instead of Start because lots of weapons use the same normal fire mode projectile
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
-    static void RecolorRevolverMuzzleFlash(Revolver __instance)
+    private static void RecolorRevolverMuzzleFlash(Revolver __instance)
     {
-        
         ColorHelper.MuzzleFlash spriteToLoad;
         switch (__instance.gameObject.name)
         {
@@ -241,26 +232,32 @@ public sealed class Plugin : BaseUnityPlugin
                 if (Settings.piercerRevolverMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.piercerRevolverMuzzleFlashColor.value;
                 break;
+
             case "Revolver Twirl(Clone)":
                 if (Settings.sharpShooterMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.sharpShooterMuzzleFlashColor.value;
                 break;
+
             case "Revolver Ricochet(Clone)":
                 if (Settings.marksmanMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.marksmanMuzzleFlashColor.value;
                 break;
+
             case "Alternative Revolver Ricochet(Clone)":
                 if (Settings.altMarksmanMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.altMarksmanMuzzleFlashColor.value;
                 break;
+
             case "Alternative Revolver Twirl(Clone)":
                 if (Settings.altSharpShooterMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.altSharpShooterMuzzleFlashColor.value;
                 break;
+
             case "Alternative Revolver Pierce(Clone)":
                 if (Settings.altPiercerRevolverMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.altPiercerRevolverMuzzleFlashColor.value;
                 break;
+
             default: return;
         }
         Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
@@ -270,9 +267,8 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
-    static void RecolorRevolverChargeMuzzleFlash(Revolver __instance)
+    private static void RecolorRevolverChargeMuzzleFlash(Revolver __instance)
     {
-
         ColorHelper.MuzzleFlash spriteToLoad;
         switch (__instance.gameObject.name)
         {
@@ -280,10 +276,12 @@ public sealed class Plugin : BaseUnityPlugin
                 if (Settings.piercerRevolverMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.piercerRevolverMuzzleFlashColor.value;
                 break;
+
             case "Alternative Revolver Pierce(Clone)":
                 if (Settings.altPiercerRevolverMuzzleFlashColor == default) return;
                 spriteToLoad = Settings.altPiercerRevolverMuzzleFlashColor.value;
                 break;
+
             default: return;
         }
         Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
@@ -293,7 +291,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
-    static void RecolorRevolverBeam(Revolver __instance)
+    private static void RecolorRevolverBeam(Revolver __instance)
     {
         switch (__instance.gameObject.name)
         {
@@ -301,22 +299,27 @@ public sealed class Plugin : BaseUnityPlugin
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
                 break;
+
             case "Revolver Twirl(Clone)":
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.sharpShooterBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.sharpShooterBeamEndColor.value;
                 break;
+
             case "Revolver Ricochet(Clone)":
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.marksmanBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.marksmanBeamEndColor.value;
                 break;
+
             case "Alternative Revolver Ricochet(Clone)":
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altMarksmanBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altMarksmanBeamEndColor.value;
                 break;
+
             case "Alternative Revolver Twirl(Clone)":
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altSharpShooterBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altSharpShooterBeamEndColor.value;
                 break;
+
             case "Alternative Revolver Pierce(Clone)":
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverBeamEndColor.value;
@@ -326,33 +329,35 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(RocketLauncher), "OnEnable")]
-    static void RecolorRevolverBeam(RocketLauncher __instance)
+    private static void RecolorRevolverBeam(RocketLauncher __instance)
     {
         Debug.Log("OnEnable");
         switch (__instance.gameObject.name)
         {
             case "Rocket Launcher Freeze(Clone)":
+                if (!Settings.freezeRocketLauncherEnabled.value) return;
                 __instance.rocket.GetComponent<TrailRenderer>().startColor = Settings.freezeRocketLauncherTrailStartColor.value;
-                __instance.rocket.GetComponent<TrailRenderer>().endColor= Settings.freezeRocketLauncherTrailEndColor.value;
+                __instance.rocket.GetComponent<TrailRenderer>().endColor = Settings.freezeRocketLauncherTrailEndColor.value;
                 break;
+
             case "Rocket Launcher Cannonball(Clone)":
+                if (!Settings.cannonballRocketLauncherEnabled.value) return;
                 __instance.rocket.GetComponent<TrailRenderer>().startColor = Settings.cannonballRocketLauncherTrailStartColor.value;
                 __instance.rocket.GetComponent<TrailRenderer>().endColor = Settings.cannonballRocketLauncherTrailEndColor.value;
                 break;
-
         }
     }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "Start")]
-    static void RecolorRevolverChargeBeam(Revolver __instance)
+    private static void RecolorRevolverChargeBeam(Revolver __instance)
     {
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
+                if (!Settings.piercerRevolverEnabled.value) return;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.sharpShooterChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.sharpShooterChargeBeamEndColor.value;
-
 
                 if (Settings.altPiercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return;
                 // Replace revolver charge effect material
@@ -360,49 +365,47 @@ public sealed class Plugin : BaseUnityPlugin
                 var c = __instance.transform.Find("Revolver_Rerigged_Alternate/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint (1)/ChargeEffect");
                 c.GetComponent<MeshRenderer>().material = newMat;
                 break;
+
             case "Alternative Revolver Pierce(Clone)":
+                if (!Settings.altPiercerRevolverEnabled.value) return;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverChargeBeamEndColor.value;
 
                 if (Settings.altPiercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return;
 
-
                 var altPiercerChargeEffect = __instance.transform.Find("Revolver_Rerigged_Alternate/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint (1)/ChargeEffect");
                 altPiercerChargeEffect.GetComponent<MeshRenderer>().material = ColorHelper.LoadBulletColor(Settings.altPiercerRevolverChargeEffectColor.value);
                 break;
+
             case "Revolver Twirl(Clone)":
+                if (!Settings.sharpShooterEnabled.value) return;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.sharpShooterChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.sharpShooterChargeBeamEndColor.value;
                 break;
+
             case "Alternative Revolver Twirl(Clone)":
+                if (!Settings.altSharpShooterEnabled.value) return;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.altSharpShooterChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.altSharpShooterChargeBeamEndColor.value;
                 break;
+
             default:
                 break;
         }
     }
 
-
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "Start")]
-    static void RecolorCoinTrail(Coin __instance)
+    private static void RecolorCoinTrail(Coin __instance)
     {
-        if (Settings.revolverCoinTrailStartColor.value != Settings.revolverCoinTrailStartColor.defaultValue)
-        {
-            __instance.GetComponent<TrailRenderer>().startColor = Settings.revolverCoinTrailStartColor.value;
-        }
-        if (Settings.revolverCoinTrailEndColor.value != Settings.revolverCoinTrailEndColor.defaultValue)
-        {
-            __instance.GetComponent<TrailRenderer>().endColor = Settings.revolverCoinTrailEndColor.value;
-        }
-
-
+        if (!Settings.marksmanEnabled.value) return;
+        __instance.GetComponent<TrailRenderer>().startColor = Settings.revolverCoinTrailStartColor.value;
+        __instance.GetComponent<TrailRenderer>().endColor = Settings.revolverCoinTrailEndColor.value;
     }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(RevolverBeam), "Start")]
-    static void RecolorRevolverCoinShot(RevolverBeam __instance)
+    private static void RecolorRevolverCoinShot(RevolverBeam __instance)
     {
         switch (__instance.gameObject.name)
         {
@@ -410,21 +413,21 @@ public sealed class Plugin : BaseUnityPlugin
                 __instance.gameObject.GetComponentInParent<LineRenderer>().startColor = Settings.revolverCoinRicochetBeamStartColor.value;
                 __instance.gameObject.GetComponentInParent<LineRenderer>().endColor = Settings.revolverCoinRicochetBeamEndColor.value;
                 break;
+
             case "Railcannon Beam(Clone)":
                 __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.blueRailcannonStartColor.value;
                 __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.blueRailcannonEndColor.value;
                 break;
+
             case "Railcannon Beam Malicious(Clone)":
                 __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.redRailcannonStartColor.value;
                 __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.redRailcannonEndColor.value;
 
-
                 //__instance.gameObject.GetComponent<LineRenderer>().startColor = UltraColor.Config.redRailcannonGlowStartColor.value;
                 //__instance.gameObject.GetComponent<LineRenderer>().endColor = UltraColor.Config.redRailcannonGlowEndColor.value;
                 break;
+
             default: break;
         }
-
     }
-
 }
