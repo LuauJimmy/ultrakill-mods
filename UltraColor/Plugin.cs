@@ -54,26 +54,7 @@ public sealed class Plugin : BaseUnityPlugin
         Debug.Log("PostAwake method completed successfully.");
     }
 
-    public void checkAddress(string address)
-    {
-        Addressables.LoadResourceLocationsAsync(address).Completed += checkAddressHandle =>
-        {
-            //If the list is greater than zero, the address is good.
-            if (checkAddressHandle.Result.Count > 0)
-            {
-                Debug.Log($"Found {checkAddressHandle.Result.Count} assets");
-                foreach (var res in checkAddressHandle.Result)
-                {
-                    Debug.Log(res);
-                }
-            }
-            //The address is bad
-            else
-            {
-                Debug.Log("Didn't find the address");
-            }
-        };
-    }
+
 
     public void Start()
     {
@@ -298,31 +279,37 @@ public sealed class Plugin : BaseUnityPlugin
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
+                if (!Settings.piercerRevolverEnabled.value) return;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
                 break;
 
             case "Revolver Twirl(Clone)":
+                if (!Settings.sharpShooterEnabled.value) return;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.sharpShooterBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.sharpShooterBeamEndColor.value;
                 break;
 
             case "Revolver Ricochet(Clone)":
+                if (!Settings.marksmanEnabled.value) return;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.marksmanBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.marksmanBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Ricochet(Clone)":
+                if (!Settings.altMarksmanEnabled.value) return;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altMarksmanBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altMarksmanBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Twirl(Clone)":
+                if (!Settings.altSharpShooterEnabled.value) return;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altSharpShooterBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altSharpShooterBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
+                if (!Settings.altPiercerRevolverEnabled.value) return;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverBeamEndColor.value;
                 break;
@@ -400,7 +387,7 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(Coin), "Start")]
     private static void RecolorCoinTrail(Coin __instance)
     {
-        if (!Settings.marksmanEnabled.value) return;
+        if (!Settings.coinEnabled.value) return;
         __instance.GetComponent<TrailRenderer>().startColor = Settings.revolverCoinTrailStartColor.value;
         __instance.GetComponent<TrailRenderer>().endColor = Settings.revolverCoinTrailEndColor.value;
     }
