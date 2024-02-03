@@ -152,47 +152,47 @@ public sealed class Plugin : BaseUnityPlugin
         }
     }
 
-    //[HarmonyPrefix]
-    //[HarmonyPatch(typeof(ExplosionController), "Start")]
-    //static void RecolorExplosion(ExplosionController __instance)
-    //{
-    //    if (__instance.gameObject.name == "Explosion(Clone)")
-    //    {
-    //        //if (global::UltraColor.Config.smallExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(ExplosionController), "Start")]
+    static void RecolorExplosion(ExplosionController __instance)
+    {
+        //if (__instance.gameObject.name == "Explosion(Clone)")
+        //{
+        //    //if (global::UltraColor.Config.smallExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
 
-    //        //var newExplosionMat = ColorHelper.LoadExplosionMaterial(global::UltraColor.Config.smallExplosionColor.value);
-    //        //var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-    //        //explosionRenderers[0].material = newExplosionMat;
+        //    //var newExplosionMat = ColorHelper.LoadExplosionMaterial(global::UltraColor.Config.smallExplosionColor.value);
+        //    //var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
+        //    //explosionRenderers[0].material = newExplosionMat;
 
-    //        var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+        //    var mr = __instance.GetComponentsInChildren<MeshRenderer>();
 
-    //        var newMat = new Material(mr[0].material);
+        //    var newMat = new Material(mr[0].material);
 
-    //        newMat.mainTexture = explosionTexture;
+        //    newMat.mainTexture = explosionTexture;
 
-    //        mr[0].material = newMat;
+        //    mr[0].material = newMat;
 
-    //        var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-    //        explosionRenderers[0].material = newMat;
-    //    }
-    //    else if (__instance.gameObject.name == "Explosion Malicious Railcannon(Clone)")
-    //    {
-    //        if (global::UltraColor.Config.maliciousExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
+        //    var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
+        //    explosionRenderers[0].material = newMat;
+        //}
+        if (__instance.gameObject.name == "Explosion Malicious Railcannon(Clone)")
+        {
+            if (Settings.maliciousExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
 
-    //        var newExplosionMat = ColorHelper.LoadExplosionMaterial(global::UltraColor.Config.maliciousExplosionColor.value);
-    //        var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-    //        explosionRenderers[0].material = newExplosionMat;
-    //    }
-    //    else if (__instance.gameObject.name == "Explosion Super(Clone)")
-    //    {
-    //        if (global::UltraColor.Config.nukeExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
+            var newExplosionMat = ColorHelper.LoadExplosionMaterial(Settings.maliciousExplosionColor.value);
+            var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
+            explosionRenderers[0].material = newExplosionMat;
+        }
+        else if (__instance.gameObject.name == "Explosion Super(Clone)")
+        {
+            if (Settings.nukeExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
 
-    //        var newExplosionMat = ColorHelper.LoadExplosionMaterial(global::UltraColor.Config.nukeExplosionColor.value);
-    //        var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-    //        explosionRenderers[0].material = newExplosionMat;
-    //    }
+            var newExplosionMat = ColorHelper.LoadExplosionMaterial(Settings.nukeExplosionColor.value);
+            var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
+            explosionRenderers[0].material = newExplosionMat;
+        }
 
-    //}
+    }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Grenade), "Start")]

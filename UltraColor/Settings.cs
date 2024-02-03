@@ -265,9 +265,9 @@ public static class Settings {
         altOverheatNailgunHeatedNailTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail End Color", "AltOverHeatNailgunHeatedNailTrailEndColor", new Color(1, 1, 1, 0));
 
         blueRailcannonEnabled = new BoolField(blueRailcannonSubPanel, "Enabled", "blueRailcannonEnabled", false);
+        blueRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(blueRailcannonSubPanel, "Muzzle Flash Color", "BlueRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
         blueRailcannonStartColor = new ColorField(blueRailcannonSubPanel, "Beam Start Color", "BlueRailcannonBeamStartColor", new Color(1, 1, 1, 1));
         blueRailcannonEndColor = new ColorField(blueRailcannonSubPanel, "Beam End Color", "BlueRailcannonBeamEndColor", new Color(0, 0.8353F, 1, 1));
-        blueRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(blueRailcannonSubPanel, "Muzzle Flash Color", "BlueRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
 
         redRailcannonEnabled = new BoolField(redRailcannonSubPanel, "Enabled", "redRailcannonEnabled", false);
         redRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(redRailcannonSubPanel, "Muzzle Flash Color", "RedRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
