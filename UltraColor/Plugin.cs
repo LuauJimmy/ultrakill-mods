@@ -89,6 +89,7 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(Shotgun), "Start")]
     private static void exp(Shotgun __instance)
     {
+        if (!Settings.explosionsEnabled.value) return;
         var exp = __instance.explosion;
 
         var mr = exp.GetComponentsInChildren<MeshRenderer>();
@@ -114,6 +115,7 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(Shotgun), "Start")]
     private static void RecolorShotgunProjectile(Shotgun __instance)
     {
+        if (!Settings.shotgunEnabled.value) return;
         __instance.bullet.GetComponent<TrailRenderer>().startColor = Settings.shotgunProjectileStartColor.value;
         __instance.bullet.GetComponent<TrailRenderer>().endColor = Settings.shotgunProjectileEndColor.value;
 
@@ -405,21 +407,24 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(RevolverBeam), "Start")]
-    private static void RecolorRevolverCoinShot(RevolverBeam __instance)
+    private static void RecolorRevolverBeams(RevolverBeam __instance)
     {
         switch (__instance.gameObject.name)
         {
             case "ReflectedBeamPoint(Clone)":
+                if (!Settings.marksmanEnabled.value) return;
                 __instance.gameObject.GetComponentInParent<LineRenderer>().startColor = Settings.revolverCoinRicochetBeamStartColor.value;
                 __instance.gameObject.GetComponentInParent<LineRenderer>().endColor = Settings.revolverCoinRicochetBeamEndColor.value;
                 break;
 
             case "Railcannon Beam(Clone)":
+                if (!Settings.blueRailcannonEnabled.value) return;
                 __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.blueRailcannonStartColor.value;
                 __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.blueRailcannonEndColor.value;
                 break;
 
             case "Railcannon Beam Malicious(Clone)":
+                if (!Settings.redRailcannonEnabled.value) return;
                 __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.redRailcannonStartColor.value;
                 __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.redRailcannonEndColor.value;
 

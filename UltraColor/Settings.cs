@@ -265,7 +265,7 @@ public static class Settings {
 
         redRailcannonEnabled = new BoolField(redRailcannonSubPanel, "Enabled", "redRailcannonEnabled", false);
         redRailcannonStartColor = new ColorField(redRailcannonSubPanel, "Red Railcannon Beam Start Color", "RedRailcannonBeamStartColor", new Color(1, 1, 1, 1));
-        redRailcannonEndColor = new ColorField(redRailcannonSubPanel, "Red Railcannon Beam Start Color", "RedRailcannonBeamEndColor", new Color(1, 0.6314F, 0, 1));
+        redRailcannonEndColor = new ColorField(redRailcannonSubPanel, "Red Railcannon Beam End   Color", "RedRailcannonBeamEndColor", new Color(1, 0.6314F, 0, 1));
         //redRailcannonGlowStartColor = new ColorField(redRailcannonSubPanel, "Red Railcannon Beam Glow Start Color", "RedRailcannonBeamGlowStartColor", )
         redRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(redRailcannonSubPanel, "Red Railcannon Muzzle Flash Color", "RedRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
 
