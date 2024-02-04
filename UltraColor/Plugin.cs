@@ -68,9 +68,9 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
-    private static void exp(Shotgun __instance)
+    private static bool exp(Shotgun __instance)
     {
-        if (!Settings.explosionsEnabled.value) return;
+        if (!Settings.explosionsEnabled.value) return true;
         var exp = __instance.explosion;
 
         var mr = exp.GetComponentsInChildren<MeshRenderer>();
@@ -90,13 +90,14 @@ public sealed class Plugin : BaseUnityPlugin
 
         var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
         explosionRenderers[0].material = newMat;
+        return true;
     }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
-    private static void RecolorShotgunProjectile(Shotgun __instance)
+    private static bool RecolorShotgunProjectile(Shotgun __instance)
     {
-        if (!Settings.shotgunEnabled.value) return;
+        if (!Settings.shotgunEnabled.value) return true;
         __instance.bullet.GetComponent<TrailRenderer>().startColor = Settings.shotgunProjectileStartColor.value;
         __instance.bullet.GetComponent<TrailRenderer>().endColor = Settings.shotgunProjectileEndColor.value;
 
@@ -112,6 +113,8 @@ public sealed class Plugin : BaseUnityPlugin
             Material newMaterial = ColorHelper.LoadBulletColor(Settings.shotgunBulletColor.value);
             __instance.bullet.GetComponent<MeshRenderer>().material = newMaterial;
         }
+
+        return true;
     }
 
     [HarmonyPrefix]

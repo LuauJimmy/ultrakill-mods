@@ -162,6 +162,8 @@ public static class Settings {
 
         ConfigPanel explosionSubPanel = new ConfigPanel(config.rootPanel, "Explosion", "ExplosionSubPanel");
 
+        // Explosions
+        explosionsEnabled = new BoolField(explosionSubPanel, "Enabled", "explosionsEnabled", false);
         // Core, friendly fire, projectile boost, probably interruption
         smallExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Small Explosion Color", "SmallExplosionColor", ColorHelper.ExplosionColor.Default);
         
