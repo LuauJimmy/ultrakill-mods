@@ -11,8 +11,8 @@ namespace UltraColor;
 
 #nullable disable
 
-public static class Settings {
-
+public static class Settings
+{
     private static PluginConfigurator? config;
 
     public static BoolField shotgunEnabled;
@@ -123,13 +123,12 @@ public static class Settings {
     public static ColorField cannonballRocketLauncherTrailStartColor;
     public static ColorField cannonballRocketLauncherTrailEndColor;
 
-    public static void Init(ConfigFile cfg) {
+    public static void Init(ConfigFile cfg)
+    {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
         string pluginPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         string iconPath = Path.Combine(pluginPath, "icon.png");
         config.SetIconWithURL("file://" + iconPath);
-
-
 
         ConfigHeader headerTitle = new ConfigHeader(config.rootPanel, "UltraColor", 30);
         ConfigHeader headerInfo = new ConfigHeader(config.rootPanel, "--Restart Level for Changes to Take Effect--", 20);
@@ -142,7 +141,7 @@ public static class Settings {
         ConfigPanel altMarksmanSubPanel = new ConfigPanel(revolverSubPanel, "Alt Marksman", "AltMarksmanRevolverSubPanel");
         ConfigPanel sharpShooterSubPanel = new ConfigPanel(revolverSubPanel, "Sharpshooter", "SharpShooterSubPanel");
         ConfigPanel altSharpShooterSubPanel = new ConfigPanel(revolverSubPanel, "Alt Sharpshooter", "AltSharpShooterSubPanel");
-        
+
         ConfigPanel shotgunSubPanel = new ConfigPanel(config.rootPanel, "Shotgun", "ShotgunSubPanel");
 
         ConfigPanel nailgunSubPanel = new ConfigPanel(config.rootPanel, "Nailgun", "NailgunSubPanel");
@@ -166,8 +165,8 @@ public static class Settings {
         explosionsEnabled = new BoolField(explosionSubPanel, "Enabled", "explosionsEnabled", false);
         // Core, friendly fire, projectile boost, probably interruption
         smallExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Small Explosion Color", "SmallExplosionColor", ColorHelper.ExplosionColor.Default);
-        
-        // Red railcannon, airshot rockets, 
+
+        // Red railcannon, airshot rockets,
         maliciousExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Malicious Explosion Color", "MaliciousExplosionColor", ColorHelper.ExplosionColor.Default);
         nukeExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Nuke Explosion Color", "NukeExplosionColor", ColorHelper.ExplosionColor.Default);
 
@@ -180,7 +179,7 @@ public static class Settings {
         shotgunBulletColor = new EnumField<ColorHelper.BulletColor>(shotgunSubPanel, "Bullet Color", "ShotgunProjectileMeshColor", ColorHelper.BulletColor.Default);
         shotgunGrenadeSpriteColor = new EnumField<ColorHelper.MuzzleFlash>(shotgunSubPanel, "Grenade Sprite Color", "ShotgunGrenadeSpriteColor", ColorHelper.MuzzleFlash.Default);
 
-        // Piercer 
+        // Piercer
         piercerRevolverEnabled = new BoolField(piercerRevolverSubPanel, "Enabled", "piercerEnabled", false);
         piercerRevolverMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(piercerRevolverSubPanel, "Muzzle Flash Sprite Color", "PiercerRevolverMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
         piercerRevolverChargeMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(piercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "PiercerRevolverChargeMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
@@ -202,10 +201,9 @@ public static class Settings {
 
         // Marksman
         marksmanEnabled = new BoolField(marksmanSubPanel, "Enabled", "marksmanEnabled", false);
-        
 
         //Coin
-        coinEnabled  = new BoolField(coinSubPanel, "Enabled", "coinEnabled", false);
+        coinEnabled = new BoolField(coinSubPanel, "Enabled", "coinEnabled", false);
         // Coin Trail
         revolverCoinTrailStartColor = new ColorField(coinSubPanel, "Coin Trail Start Color", "CoinTrailStartColor", new Color(1, 1, 1, 0));
         revolverCoinTrailEndColor = new ColorField(coinSubPanel, "Coin Trail End Color", "CoinTrailEndColor", new Color(1, 1, 1, 0));
@@ -216,7 +214,6 @@ public static class Settings {
         // Coin Ricochet beam after being shot by normal Marksman
         revolverCoinRicochetBeamStartColor = new ColorField(marksmanSubPanel, "Ricochet Beam Start Color", "RevolverCoinRicochetBeamStartColor", new Color(1, 0.8078F, 0, 1));
         revolverCoinRicochetBeamEndColor = new ColorField(marksmanSubPanel, "Ricochet Beam End Color", "RevolverCoinRicochetBeamEndColor", new Color(1, 0.8078F, 0, 1));
-
 
         // Alt Marksman
         altMarksmanEnabled = new BoolField(altMarksmanSubPanel, "Enabled", "altMarksmanEnabled", false);
@@ -257,7 +254,6 @@ public static class Settings {
         overheatNailgunTrailEndColor = new ColorField(overheatNailgunSubPanel, "Nail Trail End Color", "OverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
         overheatNailgunHeatedNailTrailStartColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail Start Color", "OverHeatNailgunHeatedNailTrailStartColor", new Color(1, 0.5922F, 0, 0.4902F));
         overheatNailgunHeatedNailTrailEndColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail End Color", "OverHeatNailgunHeatedNailTrailEndColor", new Color(1, 1, 1, 0));
-
 
         altOverheatNailgunEnabled = new BoolField(altOverheatNailgunSubPanel, "Enabled", "altOverheatNailgunEnabled", false);
         altOverheatNailgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altOverheatNailgunSubPanel, "Muzzle Flash Sprite Color", "AltOverheatNailgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);

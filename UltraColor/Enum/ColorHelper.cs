@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UltraColor;
+﻿using UltraColor;
 using UnityEngine;
 
 namespace EffectChanger.Enum
@@ -24,6 +21,7 @@ namespace EffectChanger.Enum
             Red,
             Blue
         }
+
         public enum ExplosionColor
         {
             Default,
@@ -41,15 +39,19 @@ namespace EffectChanger.Enum
                 case ExplosionColor.Red:
                     explosionMaterialPath = "Assets/Materials/Explosion 1.mat";
                     break;
+
                 case ExplosionColor.Blue:
                     explosionMaterialPath = "Assets/Materials/Explosion 2.mat";
                     break;
+
                 case ExplosionColor.Orange:
                     explosionMaterialPath = "Assets/Materials/Explosion.mat";
                     break;
+
                 case ExplosionColor.Purple:
                     explosionMaterialPath = "Assets/Materials/Sprites/Charge 1.mat";
                     break;
+
                 default:
                     explosionMaterialPath = "Assets/Materials/Explosion.mat";
                     break;
@@ -65,12 +67,15 @@ namespace EffectChanger.Enum
                 case MuzzleFlash.Blue:
                     muzzleFlashPath = "muzzleflashblue";
                     break;
+
                 case MuzzleFlash.Red:
                     muzzleFlashPath = "muzzleflashnailgun";
                     break;
+
                 case MuzzleFlash.Purple:
                     muzzleFlashPath = "muzzleflashturret";
                     break;
+
                 default:
                     muzzleFlashPath = "muzzleflashshotgun";
                     break;

@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-using BepInEx;
-
-using HarmonyLib;
-
-using UnityEngine;
-using UnityEngine.AddressableAssets;
+﻿using BepInEx;
 using EffectChanger.Enum;
+using HarmonyLib;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Newtonsoft.Json;
-using System.Linq;
-using UnityEngine.ResourceManagement.ResourceLocations;
-using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace UltraColor;
 
@@ -24,7 +16,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     public static string workingDir;
     public static string ultraColorCatalogPath;
-
+    private static Texture2D blueExplosionTexture;
     private static Texture2D purpleExplosionTexture;
 
     public static T Fetch<T>(string key)
@@ -34,7 +26,8 @@ public sealed class Plugin : BaseUnityPlugin
 
     public void Awake()
     {
-        purpleExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blue.png");
+        blueExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blue.png");
+        purpleExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_purple.png");
         Settings.Init(this.Config);
         Harmony.CreateAndPatchAll(this.GetType());
 
@@ -53,8 +46,6 @@ public sealed class Plugin : BaseUnityPlugin
         Debug.Log(m);
         Debug.Log("PostAwake method completed successfully.");
     }
-
-
 
     public void Start()
     {
@@ -83,7 +74,7 @@ public sealed class Plugin : BaseUnityPlugin
         var newMat = new Material(mr[0].material)
         {
             mainTexture = purpleExplosionTexture,
-            shaderKeywords = ["_FADING_ON", "_EMISSION"]
+            //shaderKeywords = ["_FADING_ON", "_EMISSION"]
         };
 
         mr[0].material = newMat;
@@ -194,7 +185,6 @@ public sealed class Plugin : BaseUnityPlugin
             var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
             explosionRenderers[0].material = newExplosionMat;
         }
-
     }
 
     [HarmonyPrefix]
@@ -253,70 +243,72 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
-    private static void RecolorRevolverChargeMuzzleFlash(Revolver __instance)
+    private static bool RecolorRevolverChargeMuzzleFlash(Revolver __instance)
     {
         ColorHelper.MuzzleFlash spriteToLoad;
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
-                if (Settings.piercerRevolverMuzzleFlashColor == default) return;
+                if (Settings.piercerRevolverMuzzleFlashColor == default) return true;
                 spriteToLoad = Settings.piercerRevolverMuzzleFlashColor.value;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
-                if (Settings.altPiercerRevolverMuzzleFlashColor == default) return;
+                if (Settings.altPiercerRevolverMuzzleFlashColor == default) return true;
                 spriteToLoad = Settings.altPiercerRevolverMuzzleFlashColor.value;
                 break;
 
-            default: return;
+            default: return true;
         }
         Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
         var muzzleFlashes = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
         foreach (var muzzle in muzzleFlashes) { muzzle.sprite = newSprite; }
+        return true;
     }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
-    private static void RecolorRevolverBeam(Revolver __instance)
+    private static bool RecolorRevolverBeam(Revolver __instance)
     {
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
-                if (!Settings.piercerRevolverEnabled.value) return;
+                if (!Settings.piercerRevolverEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
                 break;
 
             case "Revolver Twirl(Clone)":
-                if (!Settings.sharpShooterEnabled.value) return;
+                if (!Settings.sharpShooterEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.sharpShooterBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.sharpShooterBeamEndColor.value;
                 break;
 
             case "Revolver Ricochet(Clone)":
-                if (!Settings.marksmanEnabled.value) return;
+                if (!Settings.marksmanEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.marksmanBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.marksmanBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Ricochet(Clone)":
-                if (!Settings.altMarksmanEnabled.value) return;
+                if (!Settings.altMarksmanEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altMarksmanBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altMarksmanBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Twirl(Clone)":
-                if (!Settings.altSharpShooterEnabled.value) return;
+                if (!Settings.altSharpShooterEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altSharpShooterBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altSharpShooterBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
-                if (!Settings.altPiercerRevolverEnabled.value) return;
+                if (!Settings.altPiercerRevolverEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverBeamEndColor.value;
                 break;
         }
+        return true;
     }
 
     [HarmonyPrefix]
@@ -342,41 +334,41 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "Start")]
-    private static void RecolorRevolverChargeBeam(Revolver __instance)
+    private static bool RecolorRevolverChargeBeam(Revolver __instance)
     {
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
-                if (!Settings.piercerRevolverEnabled.value) return;
-                __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.sharpShooterChargeBeamStartColor.value;
-                __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.sharpShooterChargeBeamEndColor.value;
+                if (!Settings.piercerRevolverEnabled.value) return true;
+                __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
+                __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
 
-                if (Settings.altPiercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return;
+                if (Settings.piercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return true;
                 // Replace revolver charge effect material
-                Material newMat = ColorHelper.LoadBulletColor(Settings.altPiercerRevolverChargeEffectColor.value);
-                var c = __instance.transform.Find("Revolver_Rerigged_Alternate/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint (1)/ChargeEffect");
+                Material newMat = ColorHelper.LoadBulletColor(Settings.piercerRevolverChargeEffectColor.value);
+                var c = __instance.transform.Find("Revolver_Rerigged_Standard/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint/ChargeEffect");
                 c.GetComponent<MeshRenderer>().material = newMat;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
-                if (!Settings.altPiercerRevolverEnabled.value) return;
+                if (!Settings.altPiercerRevolverEnabled.value) return true;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverChargeBeamEndColor.value;
 
-                if (Settings.altPiercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return;
+                if (Settings.altPiercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return true;
 
                 var altPiercerChargeEffect = __instance.transform.Find("Revolver_Rerigged_Alternate/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint (1)/ChargeEffect");
                 altPiercerChargeEffect.GetComponent<MeshRenderer>().material = ColorHelper.LoadBulletColor(Settings.altPiercerRevolverChargeEffectColor.value);
                 break;
 
             case "Revolver Twirl(Clone)":
-                if (!Settings.sharpShooterEnabled.value) return;
+                if (!Settings.sharpShooterEnabled.value) return true;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.sharpShooterChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.sharpShooterChargeBeamEndColor.value;
                 break;
 
             case "Alternative Revolver Twirl(Clone)":
-                if (!Settings.altSharpShooterEnabled.value) return;
+                if (!Settings.altSharpShooterEnabled.value) return true;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.altSharpShooterChargeBeamStartColor.value;
                 __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.altSharpShooterChargeBeamEndColor.value;
                 break;
@@ -384,6 +376,7 @@ public sealed class Plugin : BaseUnityPlugin
             default:
                 break;
         }
+        return true;
     }
 
     [HarmonyPrefix]

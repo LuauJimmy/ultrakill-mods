@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
 using System.IO;
 using System.Reflection;
+using UnityEngine;
 
 namespace UltraColor
 {
     public class Utils
     {
-        static string assetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        private static string assetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+
         public static Texture2D LoadTexture(string filePath)
         {
             Texture2D Tex = null;
@@ -25,6 +24,7 @@ namespace UltraColor
 
             return Tex;
         }
+
         public static Sprite LoadPNG(string filePath)
         {
             Texture2D Tex = null;
