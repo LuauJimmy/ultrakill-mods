@@ -287,6 +287,7 @@ public sealed class Plugin : BaseUnityPlugin
                 if (!Settings.piercerRevolverEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
+                
                 break;
 
             case "Revolver Twirl(Clone)":
@@ -324,7 +325,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(RocketLauncher), "OnEnable")]
-    private static void RecolorRevolverBeam(RocketLauncher __instance)
+    private static void RecolorRockets(RocketLauncher __instance)
     {
         Debug.Log("OnEnable");
         switch (__instance.gameObject.name)
@@ -403,6 +404,7 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(RevolverBeam), "Start")]
     private static void RecolorRevolverBeams(RevolverBeam __instance)
     {
+        Debug.Log($"GameObject: {__instance.gameObject}");
         switch (__instance.gameObject.name)
         {
             case "ReflectedBeamPoint(Clone)":
