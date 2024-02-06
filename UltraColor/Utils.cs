@@ -35,7 +35,10 @@ namespace UltraColor
                 FileData = File.ReadAllBytes(filePath);
                 Tex = new Texture2D(2, 2);
                 Tex.LoadImage(FileData);
+                
             }
+
+
 
             return Sprite.Create(Tex, new Rect(0.0f, 0.0f, Tex.width, Tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         }

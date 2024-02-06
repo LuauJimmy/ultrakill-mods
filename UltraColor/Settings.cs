@@ -92,10 +92,12 @@ public static class Settings
     public static ColorField altOverheatNailgunHeatedNailTrailEndColor;
     public static EnumField<ColorHelper.MuzzleFlash> altOverheatNailgunMuzzleFlashColor;
 
-    public static BoolField explosionsEnabled;
-    public static EnumField<ColorHelper.ExplosionColor> smallExplosionColor;
-    public static EnumField<ColorHelper.ExplosionColor> maliciousExplosionColor;
-    public static EnumField<ColorHelper.ExplosionColor> nukeExplosionColor;
+    public static BoolField smallExplosionEnabled;
+    public static ColorField smallExplosionColor;
+    public static BoolField maliciousExplosionEnabled;
+    public static ColorField maliciousExplosionColor;
+    public static BoolField nukeExplosionEnabled;
+    public static ColorField nukeExplosionColor;
 
     public static BoolField blueRailcannonEnabled;
     public static ColorField blueRailcannonStartColor;
@@ -162,13 +164,19 @@ public static class Settings
         ConfigPanel explosionSubPanel = new ConfigPanel(config.rootPanel, "Explosion", "ExplosionSubPanel");
 
         // Explosions
-        explosionsEnabled = new BoolField(explosionSubPanel, "Enabled", "explosionsEnabled", false);
+        smallExplosionEnabled = new BoolField(explosionSubPanel, "Enabled", "SmallExplosionEnabled", false);
         // Core, friendly fire, projectile boost, probably interruption
-        smallExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Small Explosion Color", "SmallExplosionColor", ColorHelper.ExplosionColor.Default);
+        smallExplosionColor = new ColorField(explosionSubPanel, "Small Explosion Color", "SmallExplosionColor", new Color(1, 0.5f, 0, 0.5f));
 
         // Red railcannon, airshot rockets,
-        maliciousExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Malicious Explosion Color", "MaliciousExplosionColor", ColorHelper.ExplosionColor.Default);
-        nukeExplosionColor = new EnumField<ColorHelper.ExplosionColor>(explosionSubPanel, "Nuke Explosion Color", "NukeExplosionColor", ColorHelper.ExplosionColor.Default);
+        
+        maliciousExplosionEnabled = new BoolField(explosionSubPanel, "Enabled", "MaliciousExplosionEnabled", false);
+        maliciousExplosionColor = new ColorField(explosionSubPanel, "Malicious Explosion Color", "MaliciousExplosionColor", new Color(1, 0.5f, 0, 0.5f));
+
+        // Core Nuke
+
+        nukeExplosionEnabled = new BoolField(explosionSubPanel, "Enabled", "NukeExplosionEnabled", false);
+        nukeExplosionColor = new ColorField(explosionSubPanel, "Nuke Explosion Color", "NukeExplosionColor", new Color(1, 0.5f, 0, 0.5f));
 
         // Shotgun
         shotgunEnabled = new BoolField(shotgunSubPanel, "Enabled", "shotgunEnabled", false);

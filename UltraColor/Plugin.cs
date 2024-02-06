@@ -16,8 +16,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     public static string workingDir;
     public static string ultraColorCatalogPath;
-    private static Texture2D blueExplosionTexture;
-    private static Texture2D purpleExplosionTexture;
+    private static Texture2D blankExplosionTexture;
 
     public static T Fetch<T>(string key)
     {
@@ -26,8 +25,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     public void Awake()
     {
-        blueExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blue.png");
-        purpleExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_purple.png");
+        blankExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blank.png");
         Settings.Init(this.Config);
         Harmony.CreateAndPatchAll(this.GetType());
 
@@ -61,7 +59,7 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(Shotgun), "Start")]
     private static bool exp(Shotgun __instance)
     {
-        if (!Settings.explosionsEnabled.value) return true;
+        if (!Settings.smallExplosionEnabled.value) return true;
         var exp = __instance.explosion;
 
         var mr = exp.GetComponentsInChildren<MeshRenderer>();
@@ -73,9 +71,11 @@ public sealed class Plugin : BaseUnityPlugin
         pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
         var newMat = new Material(mr[0].material)
         {
-            mainTexture = purpleExplosionTexture,
-            //shaderKeywords = ["_FADING_ON", "_EMISSION"]
+            mainTexture = blankExplosionTexture,
+            shaderKeywords = ["_FADING_ON", "_EMISSION"]
         };
+
+        newMat.color = Settings.smallExplosionColor.value;
 
         mr[0].material = newMat;
 
@@ -148,7 +148,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ExplosionController), "Start")]
-    static void RecolorExplosion(ExplosionController __instance)
+    static bool RecolorExplosion(ExplosionController __instance)
     {
         //if (__instance.gameObject.name == "Explosion(Clone)")
         //{
@@ -171,20 +171,31 @@ public sealed class Plugin : BaseUnityPlugin
         //}
         if (__instance.gameObject.name == "Explosion Malicious Railcannon(Clone)")
         {
-            if (Settings.maliciousExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
-
-            var newExplosionMat = ColorHelper.LoadExplosionMaterial(Settings.maliciousExplosionColor.value);
-            var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-            explosionRenderers[0].material = newExplosionMat;
+            if (!Settings.maliciousExplosionEnabled.value) return true;
+            var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+            var newMat = new Material(mr[0].material)
+            {
+                mainTexture = blankExplosionTexture,
+                shaderKeywords = ["_FADING_ON", "_EMISSION"]
+            };
+            newMat.color = Settings.maliciousExplosionColor.value;
+            mr[0].material = newMat;
         }
         else if (__instance.gameObject.name == "Explosion Super(Clone)")
         {
-            if (Settings.nukeExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
+            if (!Settings.nukeExplosionEnabled.value) return true;
 
-            var newExplosionMat = ColorHelper.LoadExplosionMaterial(Settings.nukeExplosionColor.value);
-            var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-            explosionRenderers[0].material = newExplosionMat;
+            var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+            var newMat = new Material(mr[0].material)
+            {
+                mainTexture = blankExplosionTexture,
+                shaderKeywords = ["_FADING_ON", "_EMISSION"]
+            };
+            newMat.color = Settings.nukeExplosionColor.value;
+            mr[0].material = newMat;
         }
+
+        return true;
     }
 
     [HarmonyPrefix]
