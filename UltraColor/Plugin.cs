@@ -21,6 +21,7 @@ public sealed class Plugin : BaseUnityPlugin
     private static Texture2D blankExplosionTexture;
     private static Sprite blankMuzzleFlashSprite;
     private static Sprite muzzleFlashInnerBase;
+    private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
 
     public static T Fetch<T>(string key)
@@ -501,12 +502,11 @@ public sealed class Plugin : BaseUnityPlugin
         var muzzleflashParent = __instance.transform.Find("MuzzleFlash");
         var muzzleflashChild = muzzleflashParent.transform.Find("muzzleflash");
 
-        //muzzleflashChild.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
         var colorA = muzzleflashChild.GetComponent<SpriteRenderer>().color;
-        var size = new Vector2(1, 1);
         var obj = Instantiate(muzzleflashChild);
-        var interpColor = Color.Lerp(colorA, Color.white, 0.60f);
+        var interpColor = Color.Lerp(colorA, Color.white, 0.9f);
         obj.GetComponent<SpriteRenderer>().color = interpColor;
+        obj.GetComponent <SpriteRenderer>().sprite = muzzleFlashInnerBase;
         obj.transform.position = muzzleflashChild.transform.position;
         obj.transform.rotation = muzzleflashChild.transform.rotation;
         obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();

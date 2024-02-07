@@ -19,6 +19,7 @@ namespace EffectChanger
         void Update()
         {
             this.age += Time.deltaTime;
+            //this.transform.localScale *= 0.75f;
             if (this.age >= 0.25)
             {
                 Destroy(this.gameObject);
