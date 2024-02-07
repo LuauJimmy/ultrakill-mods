@@ -1,8 +1,10 @@
 ﻿using BepInEx;
+using EffectChanger;
 using EffectChanger.Enum;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -17,6 +19,9 @@ public sealed class Plugin : BaseUnityPlugin
     public static string workingDir;
     public static string ultraColorCatalogPath;
     private static Texture2D blankExplosionTexture;
+    private static Sprite blankMuzzleFlashSprite;
+    private static Sprite muzzleFlashInnerBase;
+    private static bool debugMode;
 
     public static T Fetch<T>(string key)
     {
@@ -25,7 +30,10 @@ public sealed class Plugin : BaseUnityPlugin
 
     public void Awake()
     {
+        debugMode = false;
         blankExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blank.png");
+        blankMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashblank2.png");
+        muzzleFlashInnerBase = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash-innerbase.png");
         Settings.Init(this.Config);
         Harmony.CreateAndPatchAll(this.GetType());
 
@@ -55,6 +63,30 @@ public sealed class Plugin : BaseUnityPlugin
         _ = UltraColor.Instance;
     }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(RemoveOnTime), "Start")]
+    private static void RecolorLaserHitParticles(RemoveOnTime __instance)
+    {
+        if (__instance.gameObject.name == "LaserHitParticle(Clone)")
+        {
+            var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
+            ps.startColor = Color.red;
+        }
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Coin), "Start")]
+    private static void CoinDebugMethod(Coin __instance)
+    {
+        if (!debugMode) return;
+        var assetPaths = Addressables.ResourceLocators
+            .SelectMany(locator => locator.Keys)
+            .Distinct()
+            .OfType<string>()
+            .Where(key => key.Contains('/'));
+
+        Utils.DumpAssetPaths(assetPaths);
+    }
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
     private static bool exp(Shotgun __instance)
@@ -212,68 +244,79 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
     private static void RecolorRevolverMuzzleFlash(Revolver __instance)
     {
-        ColorHelper.MuzzleFlash spriteToLoad;
+        Color color;
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
                 if (Settings.piercerRevolverMuzzleFlashColor == default) return;
-                spriteToLoad = Settings.piercerRevolverMuzzleFlashColor.value;
+                color = Settings.piercerRevolverMuzzleFlashColor.value;
                 break;
 
             case "Revolver Twirl(Clone)":
                 if (Settings.sharpShooterMuzzleFlashColor == default) return;
-                spriteToLoad = Settings.sharpShooterMuzzleFlashColor.value;
+                color = Settings.sharpShooterMuzzleFlashColor.value;
                 break;
 
             case "Revolver Ricochet(Clone)":
                 if (Settings.marksmanMuzzleFlashColor == default) return;
-                spriteToLoad = Settings.marksmanMuzzleFlashColor.value;
+                color = Settings.marksmanMuzzleFlashColor.value;
                 break;
 
             case "Alternative Revolver Ricochet(Clone)":
                 if (Settings.altMarksmanMuzzleFlashColor == default) return;
-                spriteToLoad = Settings.altMarksmanMuzzleFlashColor.value;
+                color = Settings.altMarksmanMuzzleFlashColor.value;
                 break;
 
             case "Alternative Revolver Twirl(Clone)":
                 if (Settings.altSharpShooterMuzzleFlashColor == default) return;
-                spriteToLoad = Settings.altSharpShooterMuzzleFlashColor.value;
+                color = Settings.altSharpShooterMuzzleFlashColor.value;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
                 if (Settings.altPiercerRevolverMuzzleFlashColor == default) return;
-                spriteToLoad = Settings.altPiercerRevolverMuzzleFlashColor.value;
+                color = Settings.altPiercerRevolverMuzzleFlashColor.value;
                 break;
 
             default: return;
         }
-        Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
+        var light = __instance.revolverBeam.GetComponent<Light>();
+        light.color = color;
         var muzzleFlashes = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var muzzle in muzzleFlashes) { muzzle.sprite = newSprite; }
+        foreach (var muzzle in muzzleFlashes)
+        {
+            muzzle.sprite = blankMuzzleFlashSprite;
+            muzzle.color = color;
+        }
+
+
     }
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
     private static bool RecolorRevolverChargeMuzzleFlash(Revolver __instance)
     {
-        ColorHelper.MuzzleFlash spriteToLoad;
+        Color muzzleFlashColor;
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
                 if (Settings.piercerRevolverMuzzleFlashColor == default) return true;
-                spriteToLoad = Settings.piercerRevolverMuzzleFlashColor.value;
+                muzzleFlashColor = Settings.piercerRevolverMuzzleFlashColor.value;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
                 if (Settings.altPiercerRevolverMuzzleFlashColor == default) return true;
-                spriteToLoad = Settings.altPiercerRevolverMuzzleFlashColor.value;
+                muzzleFlashColor = Settings.altPiercerRevolverMuzzleFlashColor.value;
                 break;
 
             default: return true;
         }
-        Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(spriteToLoad);
+        
         var muzzleFlashes = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var muzzle in muzzleFlashes) { muzzle.sprite = newSprite; }
+        foreach (var muzzle in muzzleFlashes)
+        {
+            muzzle.sprite = blankMuzzleFlashSprite;
+            muzzle.color = muzzleFlashColor;
+        }
         return true;
     }
 
@@ -327,7 +370,6 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(RocketLauncher), "OnEnable")]
     private static void RecolorRockets(RocketLauncher __instance)
     {
-        Debug.Log("OnEnable");
         switch (__instance.gameObject.name)
         {
             case "Rocket Launcher Freeze(Clone)":
@@ -392,6 +434,16 @@ public sealed class Plugin : BaseUnityPlugin
     }
 
     [HarmonyPrefix]
+    [HarmonyPatch(typeof(Harpoon), "Start")]
+    private static bool RecolorScrewRail(Harpoon __instance)
+    {
+        if (!Settings.greenRailcannonEnabled.value) return true;
+        __instance.gameObject.GetComponent<TrailRenderer>().startColor = Settings.greenRailcannonTrailStartColor.value;
+        __instance.gameObject.GetComponent<TrailRenderer>().endColor = Settings.greenRailcannonTrailEndColor.value;
+        return true;
+    }
+
+    [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "Start")]
     private static void RecolorCoinTrail(Coin __instance)
     {
@@ -430,5 +482,34 @@ public sealed class Plugin : BaseUnityPlugin
 
             default: break;
         }
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(RevolverBeam), "Shoot")]
+    private static void AddMuzzleFlashInnerComponent(RevolverBeam __instance)
+    {
+        //var go = Instantiate(__instance, __instance.transform);
+        //var sr = go.GetComponent<SpriteRenderer>();
+        //sr.sprite = muzzleFlashInnerBase;
+        //sr.color = new Color(1, 1, 1);
+        var muzzleFlashes = __instance.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var flash in muzzleFlashes)
+        {
+
+        }
+        var muzzleflashParent = __instance.transform.Find("MuzzleFlash");
+        var muzzleflashChild = muzzleflashParent.transform.Find("muzzleflash");
+
+        //muzzleflashChild.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
+        var colorA = muzzleflashChild.GetComponent<SpriteRenderer>().color;
+        var size = new Vector2(1, 1);
+        var obj = Instantiate(muzzleflashChild);
+        var interpColor = Color.Lerp(colorA, Color.white, 0.60f);
+        obj.GetComponent<SpriteRenderer>().color = interpColor;
+        obj.transform.position = muzzleflashChild.transform.position;
+        obj.transform.rotation = muzzleflashChild.transform.rotation;
+        obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
+        return;
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace UltraColor
@@ -8,6 +11,8 @@ namespace UltraColor
     public class Utils
     {
         private static string assetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+
+        public sealed class AssetDir : SortedDictionary<string, object>;
 
         public static Texture2D LoadTexture(string filePath)
         {
@@ -30,7 +35,7 @@ namespace UltraColor
             Texture2D Tex = null;
             byte[] FileData;
 
-            if (File.Exists(Path.Combine(assetPath, filePath)))
+            if (File.Exists(filePath))
             {
                 FileData = File.ReadAllBytes(filePath);
                 Tex = new Texture2D(2, 2);
@@ -61,6 +66,32 @@ namespace UltraColor
                 prop.SetValue(dst, prop.GetValue(original, null), null);
             }
             return dst as T;
+        }
+
+        public static void DumpAssetPaths(IEnumerable<string> assetPaths)
+        {
+            var root = new AssetDir();
+            foreach (var path in assetPaths)
+            {
+                var segments = path.Split('/');
+                var n = segments.Length - 1;
+
+                var cwd = root;
+
+                foreach (var segment in segments.Take(n))
+                {
+                    if (!cwd.ContainsKey(segment))
+                    {
+                        cwd.Add(segment, new AssetDir());
+                    }
+                    cwd = (AssetDir)cwd[segment];
+                }
+
+                cwd.Add(segments[n], path);
+            }
+
+            var jason = JsonConvert.SerializeObject(root, Formatting.Indented);
+            File.WriteAllText("F:/assets.json", jason);
         }
     }
 }

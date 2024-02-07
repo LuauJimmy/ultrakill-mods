@@ -28,8 +28,8 @@ public static class Settings
     public static ColorField piercerRevolverChargeBeamEndColor;
     public static ColorField piercerRevolverBeamStartColor;
     public static ColorField piercerRevolverBeamEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> piercerRevolverMuzzleFlashColor;
-    public static EnumField<ColorHelper.MuzzleFlash> piercerRevolverChargeMuzzleFlashColor;
+    public static ColorField piercerRevolverMuzzleFlashColor;
+    public static ColorField piercerRevolverChargeMuzzleFlashColor;
     public static EnumField<ColorHelper.BulletColor> piercerRevolverChargeEffectColor;
 
     public static BoolField sharpShooterEnabled;
@@ -37,7 +37,7 @@ public static class Settings
     public static ColorField sharpShooterChargeBeamEndColor;
     public static ColorField sharpShooterBeamStartColor;
     public static ColorField sharpShooterBeamEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> sharpShooterMuzzleFlashColor;
+    public static ColorField sharpShooterMuzzleFlashColor;
 
     public static BoolField coinEnabled;
     public static BoolField marksmanEnabled;
@@ -45,27 +45,27 @@ public static class Settings
     public static ColorField marksmanBeamEndColor;
     public static ColorField revolverCoinTrailStartColor;
     public static ColorField revolverCoinTrailEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> marksmanMuzzleFlashColor;
+    public static ColorField marksmanMuzzleFlashColor;
 
     public static BoolField altMarksmanEnabled;
     public static ColorField altMarksmanBeamStartColor;
     public static ColorField altMarksmanBeamEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> altMarksmanMuzzleFlashColor;
+    public static ColorField altMarksmanMuzzleFlashColor;
 
     public static BoolField altSharpShooterEnabled;
     public static ColorField altSharpShooterChargeBeamStartColor;
     public static ColorField altSharpShooterChargeBeamEndColor;
     public static ColorField altSharpShooterBeamStartColor;
     public static ColorField altSharpShooterBeamEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> altSharpShooterMuzzleFlashColor;
+    public static ColorField altSharpShooterMuzzleFlashColor;
 
     public static BoolField altPiercerRevolverEnabled;
     public static ColorField altPiercerRevolverChargeBeamStartColor;
     public static ColorField altPiercerRevolverChargeBeamEndColor;
     public static ColorField altPiercerRevolverBeamStartColor;
     public static ColorField altPiercerRevolverBeamEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> altPiercerRevolverMuzzleFlashColor;
-    public static EnumField<ColorHelper.MuzzleFlash> altPiercerRevolverChargeMuzzleFlashColor;
+    public static ColorField altPiercerRevolverMuzzleFlashColor;
+    public static ColorField altPiercerRevolverChargeMuzzleFlashColor;
     public static EnumField<ColorHelper.BulletColor> altPiercerRevolverChargeEffectColor;
 
     public static BoolField magnetNailgunEnabled;
@@ -110,7 +110,8 @@ public static class Settings
     public static EnumField<ColorHelper.MuzzleFlash> redRailcannonMuzzleFlashColor;
 
     public static BoolField greenRailcannonEnabled;
-    public static ColorField greenRailcannonTrailColor;
+    public static ColorField greenRailcannonTrailStartColor;
+    public static ColorField greenRailcannonTrailEndColor;
     public static EnumField<ColorHelper.MuzzleFlash> greenRailcannonMuzzleFlashColor;
 
     public static BoolField revolverCoinRicochetBeamEnabled;
@@ -189,8 +190,8 @@ public static class Settings
 
         // Piercer
         piercerRevolverEnabled = new BoolField(piercerRevolverSubPanel, "Enabled", "piercerEnabled", false);
-        piercerRevolverMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(piercerRevolverSubPanel, "Muzzle Flash Sprite Color", "PiercerRevolverMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
-        piercerRevolverChargeMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(piercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "PiercerRevolverChargeMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        piercerRevolverMuzzleFlashColor = new ColorField(piercerRevolverSubPanel, "Muzzle Flash Sprite Color", "PiercerRevolverMuzzleFlashColor", new Color(1, 1, 1, 1));
+        piercerRevolverChargeMuzzleFlashColor = new ColorField(piercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "PiercerRevolverChargeMuzzleFlashColor", new Color(1, 1, 1, 1));
         piercerRevolverChargeEffectColor = new EnumField<ColorHelper.BulletColor>(piercerRevolverSubPanel, "Charge Effect Color", "PiercerRevolverChargeEffectColor", ColorHelper.BulletColor.Default);
         piercerRevolverBeamStartColor = new ColorField(piercerRevolverSubPanel, "Normal Beam Start Color", "PiercerRevolverBeamStartColor", new Color(1, 1, 1, 1));
         piercerRevolverBeamEndColor = new ColorField(piercerRevolverSubPanel, "Normal Beam End Color", "PiercerRevolverBeamEndColor", new Color(1, 0.8078F, 0, 1));
@@ -199,8 +200,8 @@ public static class Settings
 
         // Alt Piercer
         altPiercerRevolverEnabled = new BoolField(altPiercerRevolverSubPanel, "Enabled", "altPiercerEnabled", false);
-        altPiercerRevolverMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altPiercerRevolverSubPanel, "Muzzle Flash Sprite Color", "AltPiercerRevolverMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
-        altPiercerRevolverChargeMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altPiercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "AltPiercerRevolverChargeMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        altPiercerRevolverMuzzleFlashColor = new ColorField(altPiercerRevolverSubPanel, "Muzzle Flash Sprite Color", "AltPiercerRevolverMuzzleFlashColor", new Color(1, 1, 1, 1));
+        altPiercerRevolverChargeMuzzleFlashColor = new ColorField(altPiercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "AltPiercerRevolverChargeMuzzleFlashColor", new Color(1, 1, 1, 1));
         altPiercerRevolverChargeEffectColor = new EnumField<ColorHelper.BulletColor>(altPiercerRevolverSubPanel, "Charge Effect Color", "AltPiercerRevolverChargeEffectColor", ColorHelper.BulletColor.Default);
         altPiercerRevolverBeamStartColor = new ColorField(altPiercerRevolverSubPanel, "Normal Beam Start Color", "AltPiercerRevolverBeamStartColor", new Color(1, 1, 1, 1));
         altPiercerRevolverBeamEndColor = new ColorField(altPiercerRevolverSubPanel, "Normal Beam End Color", "AltPiercerRevolverBeamEndColor", new Color(1, 0.7255F, 0, 1));
@@ -216,7 +217,7 @@ public static class Settings
         revolverCoinTrailStartColor = new ColorField(coinSubPanel, "Coin Trail Start Color", "CoinTrailStartColor", new Color(1, 1, 1, 0));
         revolverCoinTrailEndColor = new ColorField(coinSubPanel, "Coin Trail End Color", "CoinTrailEndColor", new Color(1, 1, 1, 0));
 
-        marksmanMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(marksmanSubPanel, "Marksman Muzzle Flash Color", "MarksmanMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        marksmanMuzzleFlashColor = new ColorField(marksmanSubPanel, "Marksman Muzzle Flash Color", "MarksmanMuzzleFlashColor", new Color(1, 1, 1, 1));
         marksmanBeamStartColor = new ColorField(marksmanSubPanel, "Normal Beam Start Color", "MarksmanBeamStartColor", new Color(1, 1, 1, 1));
         marksmanBeamEndColor = new ColorField(marksmanSubPanel, "Normal Beam End Color", "MarksmanBeamEndColor", new Color(1, 0.8078F, 0, 1));
         // Coin Ricochet beam after being shot by normal Marksman
@@ -225,13 +226,13 @@ public static class Settings
 
         // Alt Marksman
         altMarksmanEnabled = new BoolField(altMarksmanSubPanel, "Enabled", "altMarksmanEnabled", false);
-        altMarksmanMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altMarksmanSubPanel, "Muzzle Flash Sprite Color", "AltMarksmanMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        altMarksmanMuzzleFlashColor = new ColorField(altMarksmanSubPanel, "Muzzle Flash Sprite Color", "AltMarksmanMuzzleFlashColor", new Color(1, 1, 1, 1));
         altMarksmanBeamStartColor = new ColorField(altMarksmanSubPanel, "Beam Start Color", "AltMarksmanBeamStartColor", new Color(1, 1, 1, 1));
         altMarksmanBeamEndColor = new ColorField(altMarksmanSubPanel, "Beam End Color", "AltMarksmanBeamEndColor", new Color(1, 0.7255F, 0, 1));
 
         // Sharpshooter
         sharpShooterEnabled = new BoolField(sharpShooterSubPanel, "Enabled", "sharpShooterEnabled", false);
-        sharpShooterMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(sharpShooterSubPanel, "Muzzle Flash Sprite Color", "SharpShooterMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        sharpShooterMuzzleFlashColor = new ColorField(sharpShooterSubPanel, "Muzzle Flash Sprite Color", "SharpShooterMuzzleFlashColor", new Color(1, 1, 1, 1));
         sharpShooterChargeBeamStartColor = new ColorField(sharpShooterSubPanel, "Charge Beam Start Color", "SharpShooterChargeBeamStartColor", new Color(1, 1, 1, 1));
         sharpShooterChargeBeamEndColor = new ColorField(sharpShooterSubPanel, "Charge Beam End Color", "SharpShooterChargeBeamEndColor", new Color(1, 0.2353F, 0.2353F, 1));
         sharpShooterBeamStartColor = new ColorField(sharpShooterSubPanel, "Beam Start Color", "SharpShooterBeamStartColor", new Color(1, 1, 1, 1));
@@ -239,7 +240,7 @@ public static class Settings
 
         //ALt Sharpshooter
         altSharpShooterEnabled = new BoolField(altSharpShooterSubPanel, "Enabled", "altSharpshooterEnabled", false);
-        altSharpShooterMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altSharpShooterSubPanel, "Muzzle Flash Color", "AltSharpShooterMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        altSharpShooterMuzzleFlashColor = new ColorField(altSharpShooterSubPanel, "Muzzle Flash Color", "AltSharpShooterMuzzleFlashColor", new Color(1, 1, 1, 1));
         altSharpShooterBeamStartColor = new ColorField(altSharpShooterSubPanel, "Beam Start Color", "AltSharpShooterBeamStartColor", new Color(1, 1, 1, 1));
         altSharpShooterBeamEndColor = new ColorField(altSharpShooterSubPanel, "Beam End Color", "AltSharpShooterBeamEndColor", new Color(1, 0.7255F, 0, 1));
         altSharpShooterChargeBeamStartColor = new ColorField(altSharpShooterSubPanel, "Charge Beam Start Color", "AltSharpShooterChargeBeamStartColor", new Color(1, 1, 1, 1));
@@ -283,7 +284,8 @@ public static class Settings
 
         greenRailcannonEnabled = new BoolField(greenRailcannonSubPanel, "Enabled", "greenRailcannonEnabled", false);
         greenRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(greenRailcannonSubPanel, "Muzzle Flash Color", "GreenRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
-        greenRailcannonTrailColor = new ColorField(greenRailcannonSubPanel, "Trail Color", "GreenRailcannonTrailColor", new Color(0, 1, 1, 1));
+        greenRailcannonTrailStartColor = new ColorField(greenRailcannonSubPanel, "Trail Start Color", "GreenRailcannonTrailStartColor", new Color(0.2667F, 1, 0.2706F, 1));
+        greenRailcannonTrailEndColor = new ColorField(greenRailcannonSubPanel, "Trail End Color", "GreenRailcannonTrailEndColor", new Color(0, 0, 0, 0));
 
         freezeRocketLauncherEnabled = new BoolField(freezeRocketSubPanel, "Enabled", "freezeRocketLauncherEnabled", false);
         freezeRocketLauncherTrailStartColor = new ColorField(freezeRocketSubPanel, "Rocket Trail Start Color", "FreezeRocketLauncherTrailStartColor", new Color(1, 0.502F, 0, 0.3922F));
