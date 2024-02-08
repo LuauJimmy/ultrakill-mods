@@ -18,7 +18,7 @@ public static class Settings
     public static BoolField shotgunEnabled;
     public static ColorField shotgunProjectileStartColor;
     public static ColorField shotgunProjectileEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> shotgunMuzzleFlashColor;
+    public static ColorField shotgunMuzzleFlashColor;
     public static ColorField shotgunMuzzleFlashPointLightColor;
     public static EnumField<ColorHelper.BulletColor> shotgunBulletColor;
     public static EnumField<ColorHelper.MuzzleFlash> shotgunGrenadeSpriteColor;
@@ -181,7 +181,7 @@ public static class Settings
 
         // Shotgun
         shotgunEnabled = new BoolField(shotgunSubPanel, "Enabled", "shotgunEnabled", false);
-        shotgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(shotgunSubPanel, "Muzzle Flash Sprite Color", "ShotgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        shotgunMuzzleFlashColor = new ColorField(shotgunSubPanel, "Muzzle Flash Sprite Color", "ShotgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         shotgunMuzzleFlashPointLightColor = new ColorField(shotgunSubPanel, "Muzzle Flash Environment Light Color", "MuzzleFlashPointLightColor", new Color(1, 0.7725f, 0, 1));
         shotgunProjectileStartColor = new ColorField(shotgunSubPanel, "Projectile Trail Start Color", "ShotgunProjectileStartColor", new Color(1, 0.7725F, 0, 1));
         shotgunProjectileEndColor = new ColorField(shotgunSubPanel, "Projectile Trail End Color", "ShotgunProjectileEndColor", new Color(1, 0.7725F, 0, 0));

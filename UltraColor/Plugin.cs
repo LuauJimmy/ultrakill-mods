@@ -125,11 +125,17 @@ public sealed class Plugin : BaseUnityPlugin
         __instance.bullet.GetComponent<TrailRenderer>().startColor = Settings.shotgunProjectileStartColor.value;
         __instance.bullet.GetComponent<TrailRenderer>().endColor = Settings.shotgunProjectileEndColor.value;
 
-        if (Settings.shotgunMuzzleFlashColor.value != ColorHelper.MuzzleFlash.Default)
+        if (true)
         {
-            Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(Settings.shotgunMuzzleFlashColor.value);
-            __instance.muzzleFlash.GetComponentInChildren<SpriteRenderer>().sprite = newSprite;
-            __instance.muzzleFlash.GetComponent<Light>().color = Settings.shotgunMuzzleFlashPointLightColor.value;
+            var color = Settings.shotgunMuzzleFlashColor.value;
+            var light = __instance.muzzleFlash.GetComponentInChildren<Light>();
+            light.color = color;
+            var muzzleFlashes = __instance.muzzleFlash.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var muzzle in muzzleFlashes)
+            {
+                muzzle.sprite = blankMuzzleFlashSprite;
+                muzzle.color = color;
+            };
         }
 
         if (Settings.shotgunBulletColor.value != ColorHelper.BulletColor.Default)
