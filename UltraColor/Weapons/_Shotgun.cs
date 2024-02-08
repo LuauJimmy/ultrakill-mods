@@ -10,13 +10,15 @@ using UnityEngine;
 namespace EffectChanger.Weapons
 {
     [BepInPlugin("luaujimmy.UltraColor", "UltraColor", "0.0.1")]
-    public sealed class ShotgunChanger : BaseUnityPlugin
+    public sealed class _Shotgun : BaseUnityPlugin
     {
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
         private static Texture2D? blankExplosionTexture => Plugin.blankExplosionTexture;
+        private static Sprite? shotgunMuzzleFlashSprite => Plugin.blankMuzzleFlashShotgunSprite;
         public void Awake()
         {
+            
         }
 
         [HarmonyPrefix]
@@ -35,7 +37,7 @@ namespace EffectChanger.Weapons
                 var muzzleFlashes = __instance.muzzleFlash.GetComponentsInChildren<SpriteRenderer>();
                 foreach (var muzzle in muzzleFlashes)
                 {
-                    muzzle.sprite = blankMuzzleFlashSprite;
+                    muzzle.sprite = shotgunMuzzleFlashSprite;
                     muzzle.color = color;
                 };
             }
