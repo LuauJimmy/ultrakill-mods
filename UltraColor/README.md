@@ -1,15 +1,17 @@
 # ULTRACOLOR 
-
+---
 
 # Requirements
 
-BepinEx
+- BepinEx
 
-PluginConfigurator
+- PluginConfigurator
 
 # Configuration
 
 ## Options
+
+---
 
 # Thank You
 
