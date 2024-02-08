@@ -130,7 +130,7 @@ public static class Settings
     {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
         string pluginPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        string iconPath = Path.Combine(pluginPath, "icon.png");
+        string iconPath = Path.Combine(pluginPath, "Assets\\icon.png");
         config.SetIconWithURL("file://" + iconPath);
 
         ConfigHeader headerTitle = new ConfigHeader(config.rootPanel, "UltraColor", 30);
