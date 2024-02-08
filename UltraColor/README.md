@@ -1,4 +1,5 @@
-# ULTRACOLOR 
+![UltraColor](assets/icon.jpg)
+# ULTRACOLOR
 ---
 
 # Requirements
