@@ -12,8 +12,11 @@
 
 ## Options
 
----
 
+# Known Issues
+
+
+---
 # Thank You
 
 originally inspired by (https://thunderstore.io/c/ultrakill/p/The0x539/RcHud/)
