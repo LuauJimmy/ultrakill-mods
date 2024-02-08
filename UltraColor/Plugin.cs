@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static EffectChanger.Enum.ColorHelper;
 
 namespace UltraColor;
 
@@ -64,16 +65,16 @@ public sealed class Plugin : BaseUnityPlugin
         _ = UltraColor.Instance;
     }
 
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(RemoveOnTime), "Start")]
-    private static void RecolorLaserHitParticles(RemoveOnTime __instance)
-    {
-        if (__instance.gameObject.name == "LaserHitParticle(Clone)")
-        {
-            var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
-            ps.startColor = Color.red;
-        }
-    }
+    //[HarmonyPrefix]
+    //[HarmonyPatch(typeof(RemoveOnTime), "Start")]
+    //private static void RecolorLaserHitParticles(RemoveOnTime __instance)
+    //{
+    //    if (__instance.gameObject.name == "LaserHitParticle(Clone)")
+    //    {
+    //        var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
+    //        ps.startColor = Color.red;
+    //    }
+    //}
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "Start")]
@@ -88,6 +89,7 @@ public sealed class Plugin : BaseUnityPlugin
 
         Utils.DumpAssetPaths(assetPaths);
     }
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Shotgun), "Start")]
     private static bool exp(Shotgun __instance)
@@ -147,6 +149,26 @@ public sealed class Plugin : BaseUnityPlugin
         return true;
     }
 
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(Shotgun), "Shoot")]
+    private static void AddMuzzleFlashInnerComponent_Shotgun(Shotgun __instance)
+    {
+        var muzzleFlashes = __instance.muzzleFlash.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var flash in muzzleFlashes)
+        {
+            var colorA = flash.GetComponent<SpriteRenderer>().color;
+            var obj = Instantiate(flash);
+            var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
+            interpColor.a = 0.8f;
+            obj.GetComponent<SpriteRenderer>().color = interpColor;
+            obj.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
+            obj.transform.position = __instance.shootPoints[0].transform.position;
+            obj.transform.rotation = __instance.shootPoints[0].transform.rotation;
+            obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
+        };
+    }
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Nailgun), "Start")]
     private static void RecolorNailgunProjecileTrail(Nailgun __instance)
@@ -187,7 +209,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ExplosionController), "Start")]
-    static bool RecolorExplosion(ExplosionController __instance)
+    private static bool RecolorExplosion(ExplosionController __instance)
     {
         //if (__instance.gameObject.name == "Explosion(Clone)")
         //{
@@ -246,6 +268,65 @@ public sealed class Plugin : BaseUnityPlugin
         __instance.transform.Find("GameObject").GetComponentInChildren<SpriteRenderer>().sprite = newSprite;
     }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Nailgun), "OnEnable")]
+    private static void RecolorNailgunMuzzleFlash(Nailgun __instance)
+    {
+        Color color;
+        switch (__instance.gameObject.name)
+        {
+            case "Nailgun Magnet(Clone)":
+                if (!Settings.magnetNailgunEnabled.value) return;
+                color = Settings.magnetNailgunMuzzleFlashColor.value;
+                break;
+
+            case "Nailgun Overheat(Clone)":
+                if (!Settings.overheatNailgunEnabled.value) return;
+                color = Settings.overheatNailgunMuzzleFlashColor.value;
+                break;
+
+            case "Sawblade Launcher Magnet(Clone)":
+                if (!Settings.altMagnetNailgunEnabled.value) return;
+                color = Settings.altMagnetNailgunMuzzleFlashColor.value;
+                break;
+
+            case "Sawblade Launcher Overheat(Clone)":
+                if (!Settings.altOverheatNailgunEnabled.value) return;
+                color = Settings.altOverheatNailgunMuzzleFlashColor.value;
+                break;
+
+            default: return;
+        }
+        var light = __instance.muzzleFlash.GetComponentInChildren<Light>();
+        light.color = color;
+        var muzzleFlashes = __instance.muzzleFlash.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var muzzle in muzzleFlashes)
+        {
+            muzzle.sprite = blankMuzzleFlashSprite;
+            muzzle.color = color;
+        };
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(Nailgun), "Shoot")]
+    private static void AddMuzzleFlashInnerComponent_Nailgun(Nailgun __instance)
+    {
+        var muzzleFlashes = __instance.muzzleFlash.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var flash in muzzleFlashes)
+        {
+            var colorA = flash.GetComponent<SpriteRenderer>().color;
+            var obj = Instantiate(flash);
+            var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
+            interpColor.a = 0.8f;
+            obj.GetComponent<SpriteRenderer>().color = interpColor;
+            obj.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
+            obj.transform.position = __instance.shootPoints[0].transform.position;
+            obj.transform.rotation = __instance.shootPoints[0].transform.rotation;
+            obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
+        };
+    }
+
     // Need to patch ReadyGun instead of Start because lots of weapons use the same normal fire mode projectile
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Revolver), "ReadyGun")]
@@ -294,8 +375,6 @@ public sealed class Plugin : BaseUnityPlugin
             muzzle.sprite = blankMuzzleFlashSprite;
             muzzle.color = color;
         }
-
-
     }
 
     [HarmonyPrefix]
@@ -339,7 +418,7 @@ public sealed class Plugin : BaseUnityPlugin
                 if (!Settings.piercerRevolverEnabled.value) return true;
                 __instance.revolverBeam.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
                 __instance.revolverBeam.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
-                
+
                 break;
 
             case "Revolver Twirl(Clone)":
@@ -495,7 +574,7 @@ public sealed class Plugin : BaseUnityPlugin
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(RevolverBeam), "Shoot")]
-    private static void AddMuzzleFlashInnerComponent(RevolverBeam __instance)
+    private static void AddMuzzleFlashInnerComponent_Revolver(RevolverBeam __instance)
     {
         //var go = Instantiate(__instance, __instance.transform);
         //var sr = go.GetComponent<SpriteRenderer>();

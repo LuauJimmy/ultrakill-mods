@@ -71,26 +71,26 @@ public static class Settings
     public static BoolField magnetNailgunEnabled;
     public static ColorField magnetNailgunTrailStartColor;
     public static ColorField magnetNailgunTrailEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> magnetNailgunMuzzleFlashColor;
+    public static ColorField magnetNailgunMuzzleFlashColor;
 
     public static BoolField overheatNailgunEnabled;
     public static ColorField overheatNailgunTrailStartColor;
     public static ColorField overheatNailgunTrailEndColor;
     public static ColorField overheatNailgunHeatedNailTrailStartColor;
     public static ColorField overheatNailgunHeatedNailTrailEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> overheatNailgunMuzzleFlashColor;
+    public static ColorField overheatNailgunMuzzleFlashColor;
 
     public static BoolField altMagnetNailgunEnabled;
     public static ColorField altMagnetNailgunTrailStartColor;
     public static ColorField altMagnetNailgunTrailEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> altMagnetNailgunMuzzleFlashColor;
+    public static ColorField altMagnetNailgunMuzzleFlashColor;
 
     public static BoolField altOverheatNailgunEnabled;
     public static ColorField altOverheatNailgunTrailStartColor;
     public static ColorField altOverheatNailgunTrailEndColor;
     public static ColorField altOverheatNailgunHeatedNailTrailStartColor;
     public static ColorField altOverheatNailgunHeatedNailTrailEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> altOverheatNailgunMuzzleFlashColor;
+    public static ColorField altOverheatNailgunMuzzleFlashColor;
 
     public static BoolField smallExplosionEnabled;
     public static ColorField smallExplosionColor;
@@ -248,24 +248,24 @@ public static class Settings
 
         // Magnet nail
         magnetNailgunEnabled = new BoolField(magnetNailgunSubPanel, "Enabled", "magnetNailgunEnabled", false);
-        magnetNailgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(magnetNailgunSubPanel, "Muzzle Flash Color", "MagnetNailgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        magnetNailgunMuzzleFlashColor = new ColorField(magnetNailgunSubPanel, "Muzzle Flash Color", "MagnetNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         magnetNailgunTrailStartColor = new ColorField(magnetNailgunSubPanel, "Nail Trail Start Color", "MagnetNailgunNailTrailStartColor", new Color(0.251F, 0.9059F, 1, 0.4902F));
         magnetNailgunTrailEndColor = new ColorField(magnetNailgunSubPanel, "Nail Trail End Color", "MagnetNailgunNailTrailEndColor", new Color(0.251F, 0.9059F, 1, 0));
 
         altMagnetNailgunEnabled = new BoolField(altMagnetNailgunSubPanel, "Enabled", "altMagnetNailgunEnabled", false);
-        altMagnetNailgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altMagnetNailgunSubPanel, "Muzzle Flash Color", "AltMagnetNailgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        altMagnetNailgunMuzzleFlashColor = new ColorField(altMagnetNailgunSubPanel, "Muzzle Flash Color", "AltMagnetNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         altMagnetNailgunTrailStartColor = new ColorField(altMagnetNailgunSubPanel, "Nail Trail Start Color", "AltMagnetNailgunNailTrailStartColor", new Color(0, 0.8745F, 1, 0.4902F));
         altMagnetNailgunTrailEndColor = new ColorField(altMagnetNailgunSubPanel, "Nail Trail End Color", "AltMagnetNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
 
         overheatNailgunEnabled = new BoolField(overheatNailgunSubPanel, "Enabled", "overheatNailgunEnabled", false);
-        overheatNailgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(overheatNailgunSubPanel, "Muzzle Flash Color", "OverheatNailgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        overheatNailgunMuzzleFlashColor = new ColorField(overheatNailgunSubPanel, "Muzzle Flash Color", "OverheatNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         overheatNailgunTrailStartColor = new ColorField(overheatNailgunSubPanel, "Nail Trail Start Color", "OverheatNailgunNailTrailStartColor", new Color(1, 1, 1, 0.4902F));
         overheatNailgunTrailEndColor = new ColorField(overheatNailgunSubPanel, "Nail Trail End Color", "OverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
         overheatNailgunHeatedNailTrailStartColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail Start Color", "OverHeatNailgunHeatedNailTrailStartColor", new Color(1, 0.5922F, 0, 0.4902F));
         overheatNailgunHeatedNailTrailEndColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail End Color", "OverHeatNailgunHeatedNailTrailEndColor", new Color(1, 1, 1, 0));
 
         altOverheatNailgunEnabled = new BoolField(altOverheatNailgunSubPanel, "Enabled", "altOverheatNailgunEnabled", false);
-        altOverheatNailgunMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(altOverheatNailgunSubPanel, "Muzzle Flash Sprite Color", "AltOverheatNailgunMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        altOverheatNailgunMuzzleFlashColor = new ColorField(altOverheatNailgunSubPanel, "Muzzle Flash Sprite Color", "AltOverheatNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         altOverheatNailgunTrailStartColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail Start Color", "AltOverheatNailgunNailTrailStartColor", new Color(0.502F, 0.502F, 0.502F, 0.4902F));
         altOverheatNailgunTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail End Color", "AltOverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
         altOverheatNailgunHeatedNailTrailStartColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail Start Color", "AltOverHeatNailgunHeatedNailTrailStartColor", new Color(1, 0.5922F, 0, 0.4902F));

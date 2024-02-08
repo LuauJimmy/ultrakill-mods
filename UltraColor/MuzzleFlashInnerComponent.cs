@@ -29,7 +29,7 @@ namespace EffectChanger
                 Destroy(this.gameObject);
                 return;
             }
-            this.transform.localScale *= 0.95f;
+            //this.transform.localScale *= 0.95f * Time.deltaTime;
             //var spr = this.GetComponent<SpriteRenderer>();
             //if (spr.color.a >= originalAlpha && fadeSpeed < 0f)
             //{
