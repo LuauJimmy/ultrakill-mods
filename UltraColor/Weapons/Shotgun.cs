@@ -7,5 +7,6 @@ namespace EffectChanger.Weapons
 {
     public sealed class Shotgun : BaseUnityPlugin
     {
+
     }
 }

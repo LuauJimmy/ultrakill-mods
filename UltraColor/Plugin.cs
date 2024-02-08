@@ -300,18 +300,20 @@ public sealed class Plugin : BaseUnityPlugin
         switch (__instance.gameObject.name)
         {
             case "Revolver Pierce(Clone)":
-                if (Settings.piercerRevolverMuzzleFlashColor == default) return true;
-                muzzleFlashColor = Settings.piercerRevolverMuzzleFlashColor.value;
+                if (Settings.piercerRevolverChargeMuzzleFlashColor == default) return true;
+                muzzleFlashColor = Settings.piercerRevolverChargeMuzzleFlashColor.value;
                 break;
 
             case "Alternative Revolver Pierce(Clone)":
-                if (Settings.altPiercerRevolverMuzzleFlashColor == default) return true;
-                muzzleFlashColor = Settings.altPiercerRevolverMuzzleFlashColor.value;
+                if (Settings.altPiercerRevolverChargeMuzzleFlashColor == default) return true;
+                muzzleFlashColor = Settings.altPiercerRevolverChargeMuzzleFlashColor.value;
                 break;
 
             default: return true;
         }
-        
+
+        var light = __instance.revolverBeam.GetComponent<Light>();
+        light.color = muzzleFlashColor;
         var muzzleFlashes = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
         foreach (var muzzle in muzzleFlashes)
         {
@@ -497,19 +499,27 @@ public sealed class Plugin : BaseUnityPlugin
 
         foreach (var flash in muzzleFlashes)
         {
-
+            var colorA = flash.GetComponent<SpriteRenderer>().color;
+            var obj = Instantiate(flash);
+            var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
+            interpColor.a = 0.8f;
+            obj.GetComponent<SpriteRenderer>().color = interpColor;
+            obj.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
+            obj.transform.position = flash.transform.position;
+            obj.transform.rotation = flash.transform.rotation;
+            obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
         }
-        var muzzleflashParent = __instance.transform.Find("MuzzleFlash");
-        var muzzleflashChild = muzzleflashParent.transform.Find("muzzleflash");
+        //var muzzleflashParent = __instance.transform.Find("MuzzleFlash");
+        //var muzzleflashChild = muzzleflashParent.transform.Find("muzzleflash");
 
-        var colorA = muzzleflashChild.GetComponent<SpriteRenderer>().color;
-        var obj = Instantiate(muzzleflashChild);
-        var interpColor = Color.Lerp(colorA, Color.white, 0.9f);
-        obj.GetComponent<SpriteRenderer>().color = interpColor;
-        obj.GetComponent <SpriteRenderer>().sprite = muzzleFlashInnerBase;
-        obj.transform.position = muzzleflashChild.transform.position;
-        obj.transform.rotation = muzzleflashChild.transform.rotation;
-        obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
+        //var colorA = muzzleflashChild.GetComponent<SpriteRenderer>().color;
+        //var obj = Instantiate(muzzleflashChild);
+        //var interpColor = Color.Lerp(colorA, Color.white, 0.95f);
+        //obj.GetComponent<SpriteRenderer>().color = interpColor;
+        //obj.GetComponent <SpriteRenderer>().sprite = muzzleFlashInnerBase;
+        //obj.transform.position = muzzleflashChild.transform.position;
+        //obj.transform.rotation = muzzleflashChild.transform.rotation;
+        //obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
         return;
     }
 }

@@ -40,7 +40,7 @@ namespace UltraColor
                 FileData = File.ReadAllBytes(filePath);
                 Tex = new Texture2D(2, 2);
                 Tex.LoadImage(FileData);
-                
+                Tex.filterMode = FilterMode.Point;
             }
 
 

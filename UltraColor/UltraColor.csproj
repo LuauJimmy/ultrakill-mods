@@ -57,9 +57,11 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\$(TargetName).dll&quot;" />
-		<!--<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\$(TargetName).dll&quot;" />-->
-
+		
+		<Exec Command="copy &quot;$(SolutionDir)\UltraColor\Assets&quot; &quot;$(OutDir)\Assets&quot;" />
+		<Exec Command="copy &quot;$(SolutionDir)\UltraColor\Assets&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\Assets&quot; " />
+		
+		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\$(TargetName).dll&quot;" />
 	</Target>
 	
 	
