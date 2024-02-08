@@ -3,9 +3,9 @@
 
 # Requirements
 
-- BepinEx
+- BepinEx (https://thunderstore.io/c/ultrakill/p/BepInEx/BepInExPack/)
 
-- PluginConfigurator
+- PluginConfigurator (https://thunderstore.io/c/ultrakill/p/EternalsTeam/PluginConfigurator/)
 
 # Configuration
 
