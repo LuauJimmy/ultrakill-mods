@@ -1,4 +1,4 @@
-![UltraColor](assets/icon.jpg)
+![UltraColor](./assets/icon.jpg)
 # ULTRACOLOR
 ---
 
