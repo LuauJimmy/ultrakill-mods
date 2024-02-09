@@ -8,8 +8,7 @@ using UnityEngine;
 
 namespace EffectChanger.Weapons
 {
-    [BepInPlugin(PluginInfo.guid, PluginInfo.name, PluginInfo.version)]
-    public sealed class _RocketLauncher : BaseUnityPlugin
+    public sealed class _RocketLauncher : MonoSingleton<_RocketLauncher>
     {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(RocketLauncher), "OnEnable")]

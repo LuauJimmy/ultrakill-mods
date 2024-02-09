@@ -9,8 +9,7 @@ using System.Linq;
 using PluginInfo = EffectChanger.PluginInfo;
 namespace UltraColor
 {
-    [BepInPlugin(PluginInfo.guid, PluginInfo.name, PluginInfo.version)]
-    public sealed class DebugPatches : BaseUnityPlugin
+    public sealed class DebugPatches : MonoSingleton<DebugPatches>
     {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Coin), "Start")]

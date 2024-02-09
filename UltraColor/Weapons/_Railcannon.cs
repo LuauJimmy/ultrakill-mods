@@ -8,8 +8,7 @@ using UnityEngine;
 
 namespace EffectChanger.Weapons
 {
-    [BepInPlugin(PluginInfo.guid, PluginInfo.name, PluginInfo.version)]
-    public sealed class _Railcannon : BaseUnityPlugin
+    public sealed class _Railcannon : MonoSingleton<_Railcannon>
     {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Harpoon), "Start")]

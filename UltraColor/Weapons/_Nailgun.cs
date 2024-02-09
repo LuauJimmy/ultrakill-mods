@@ -8,8 +8,7 @@ using UnityEngine;
 
 namespace EffectChanger.Weapons
 {
-    [BepInPlugin(PluginInfo.guid, PluginInfo.name, PluginInfo.version)]
-    public sealed class _Nailgun : BaseUnityPlugin
+    public sealed class _Nailgun : MonoSingleton<_Nailgun>
     {
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;

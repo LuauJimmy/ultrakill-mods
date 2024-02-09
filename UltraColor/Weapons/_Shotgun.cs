@@ -9,8 +9,7 @@ using UnityEngine;
 
 namespace EffectChanger.Weapons
 {
-    [BepInPlugin("luaujimmy.UltraColor", "UltraColor", "0.0.1")]
-    public sealed class _Shotgun : BaseUnityPlugin
+    public sealed class _Shotgun : MonoSingleton<_Shotgun>
     {
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
@@ -56,7 +55,10 @@ namespace EffectChanger.Weapons
         private static bool exp(Shotgun __instance)
         {
             if (!Settings.smallExplosionEnabled.value) return true;
-            var exp = __instance.explosion;
+
+            //var exp = __instance.explosion;
+
+            var exp = Instantiate(__instance.explosion);
 
             var mr = exp.GetComponentsInChildren<MeshRenderer>();
 

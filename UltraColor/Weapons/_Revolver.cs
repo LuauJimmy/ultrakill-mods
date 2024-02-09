@@ -9,9 +9,7 @@ using UnityEngine;
 
 namespace EffectChanger.Weapons
 {
-    [BepInPlugin(PluginInfo.guid, PluginInfo.name, PluginInfo.version)]
-
-    public sealed class _Revolver : BaseUnityPlugin
+    public sealed class _Revolver : MonoSingleton<_Revolver>
     {
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
