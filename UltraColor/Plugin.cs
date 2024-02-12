@@ -103,6 +103,7 @@ public sealed class Plugin : BaseUnityPlugin
         {
             if (!Settings.maliciousExplosionEnabled.value) return true;
             var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+            mr[0].transform.parent.gameObject.AddComponent<RainbowComponent>();
             var newMat = new Material(mr[0].material)
             {
                 mainTexture = blankExplosionTexture,
