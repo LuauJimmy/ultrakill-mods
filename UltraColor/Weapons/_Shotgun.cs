@@ -56,9 +56,7 @@ namespace EffectChanger.Weapons
         {
             if (!Settings.smallExplosionEnabled.value) return true;
 
-            //var exp = __instance.explosion;
-
-            var exp = Instantiate(__instance.explosion);
+            var exp = __instance.explosion;
 
             var mr = exp.GetComponentsInChildren<MeshRenderer>();
 

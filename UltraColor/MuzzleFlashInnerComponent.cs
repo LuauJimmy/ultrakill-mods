@@ -23,8 +23,8 @@ namespace EffectChanger
         private void Update()
         {
             this.age += Time.deltaTime;
-            ////this.transform.localScale *= 0.75f;
-            if (this.age >= 0.25)
+            //this.transform.localScale *= 0.75f;
+            if (this.age >= 0.1)
             {
                 Destroy(this.gameObject);
                 return;
@@ -40,6 +40,9 @@ namespace EffectChanger
             //    fadeSpeed = Mathf.Abs(fadeSpeed) * -1f;
             //}
             //Color color = spr.color;
+            //color.r = Random.Range(0, 100) * 0.1f;
+            //color.g = Random.Range(0, 100) * 0.1f;
+            //color.b = Random.Range(0, 100) * 0.1f;
             //color.a -= fadeSpeed * Time.deltaTime;
             //spr.color = color;
             //if (shrinkSpeed > 0f)
