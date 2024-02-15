@@ -102,7 +102,7 @@ public static class Settings
     public static BoolField blueRailcannonEnabled;
     public static ColorField blueRailcannonStartColor;
     public static ColorField blueRailcannonEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> blueRailcannonMuzzleFlashColor;
+    public static ColorField blueRailcannonMuzzleFlashColor;
 
     public static BoolField redRailcannonEnabled;
     public static ColorField redRailcannonStartColor;
@@ -255,24 +255,24 @@ public static class Settings
         altMagnetNailgunEnabled = new BoolField(altMagnetNailgunSubPanel, "Enabled", "altMagnetNailgunEnabled", false);
         altMagnetNailgunMuzzleFlashColor = new ColorField(altMagnetNailgunSubPanel, "Muzzle Flash Color", "AltMagnetNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         altMagnetNailgunTrailStartColor = new ColorField(altMagnetNailgunSubPanel, "Nail Trail Start Color", "AltMagnetNailgunNailTrailStartColor", new Color(0, 0.8745F, 1, 0.4902F));
-        altMagnetNailgunTrailEndColor = new ColorField(altMagnetNailgunSubPanel, "Nail Trail End Color", "AltMagnetNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
+        altMagnetNailgunTrailEndColor = new ColorField(altMagnetNailgunSubPanel, "Nail Trail End Color", "AltMagnetNailgunNailTrailEndColor", new Color(0, 0, 0, 0));
 
         overheatNailgunEnabled = new BoolField(overheatNailgunSubPanel, "Enabled", "overheatNailgunEnabled", false);
         overheatNailgunMuzzleFlashColor = new ColorField(overheatNailgunSubPanel, "Muzzle Flash Color", "OverheatNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         overheatNailgunTrailStartColor = new ColorField(overheatNailgunSubPanel, "Nail Trail Start Color", "OverheatNailgunNailTrailStartColor", new Color(1, 1, 1, 0.4902F));
         overheatNailgunTrailEndColor = new ColorField(overheatNailgunSubPanel, "Nail Trail End Color", "OverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
         overheatNailgunHeatedNailTrailStartColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail Start Color", "OverHeatNailgunHeatedNailTrailStartColor", new Color(1, 0.5922F, 0, 0.4902F));
-        overheatNailgunHeatedNailTrailEndColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail End Color", "OverHeatNailgunHeatedNailTrailEndColor", new Color(1, 1, 1, 0));
+        overheatNailgunHeatedNailTrailEndColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail End Color", "OverHeatNailgunHeatedNailTrailEndColor", new Color(0, 0, 0, 0));
 
         altOverheatNailgunEnabled = new BoolField(altOverheatNailgunSubPanel, "Enabled", "altOverheatNailgunEnabled", false);
         altOverheatNailgunMuzzleFlashColor = new ColorField(altOverheatNailgunSubPanel, "Muzzle Flash Sprite Color", "AltOverheatNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         altOverheatNailgunTrailStartColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail Start Color", "AltOverheatNailgunNailTrailStartColor", new Color(0.502F, 0.502F, 0.502F, 0.4902F));
-        altOverheatNailgunTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail End Color", "AltOverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 0));
+        altOverheatNailgunTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail End Color", "AltOverheatNailgunNailTrailEndColor", new Color(0, 0, 0, 0));
         altOverheatNailgunHeatedNailTrailStartColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail Start Color", "AltOverHeatNailgunHeatedNailTrailStartColor", new Color(1, 0.5922F, 0, 0.4902F));
-        altOverheatNailgunHeatedNailTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail End Color", "AltOverHeatNailgunHeatedNailTrailEndColor", new Color(1, 1, 1, 0));
+        altOverheatNailgunHeatedNailTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail End Color", "AltOverHeatNailgunHeatedNailTrailEndColor", new Color(0, 0, 0, 0));
 
         blueRailcannonEnabled = new BoolField(blueRailcannonSubPanel, "Enabled", "blueRailcannonEnabled", false);
-        blueRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(blueRailcannonSubPanel, "Muzzle Flash Color", "BlueRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
+        blueRailcannonMuzzleFlashColor = new ColorField(blueRailcannonSubPanel, "Muzzle Flash Color", "BlueRailcannonMuzzleFlashColor", new Color(0f, 0.8f, 0.1f));
         blueRailcannonStartColor = new ColorField(blueRailcannonSubPanel, "Beam Start Color", "BlueRailcannonBeamStartColor", new Color(1, 1, 1, 1));
         blueRailcannonEndColor = new ColorField(blueRailcannonSubPanel, "Beam End Color", "BlueRailcannonBeamEndColor", new Color(0, 0.8353F, 1, 1));
 

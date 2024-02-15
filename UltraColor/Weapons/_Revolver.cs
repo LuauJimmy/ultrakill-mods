@@ -197,12 +197,13 @@ namespace EffectChanger.Weapons
                 var colorA = flash.GetComponent<SpriteRenderer>().color;
                 var obj = Instantiate(flash);
                 var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
-                interpColor.a = 0.8f;
+                interpColor.a = 0.95f;
                 obj.GetComponent<SpriteRenderer>().color = interpColor;
                 obj.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
                 obj.transform.position = flash.transform.position;
                 obj.transform.rotation = flash.transform.rotation;
-                obj.transform.localScale = flash.transform.localScale;
+                obj.transform.localScale = __instance.transform.localScale;
+                //obj.transform.localScale = flash.transform.localScale;
                 obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
             }
             return;

@@ -10,6 +10,9 @@ namespace EffectChanger.Weapons
 {
     public sealed class _Railcannon : MonoSingleton<_Railcannon>
     {
+        private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
+        private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Harpoon), "Start")]
         private static bool RecolorScrewRail(Harpoon __instance)
@@ -31,6 +34,14 @@ namespace EffectChanger.Weapons
                     if (!Settings.blueRailcannonEnabled.value) return;
                     __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.blueRailcannonStartColor.value;
                     __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.blueRailcannonEndColor.value;
+
+                    var color = Settings.blueRailcannonMuzzleFlashColor.value;
+
+                    var light = __instance.gameObject.GetComponent<Light>();
+                    light.color = color;
+                    var flash = __instance.gameObject.GetComponentInChildren<SpriteRenderer>();
+                    flash.sprite = blankMuzzleFlashSprite;
+                    flash.color = color;
                     break;
 
                 case "Railcannon Beam Malicious(Clone)":

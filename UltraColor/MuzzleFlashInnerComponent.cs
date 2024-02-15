@@ -16,7 +16,7 @@ namespace EffectChanger
         private void Start()
         {
             this.transform.localScale *= 6;
-            this.transform.Rotate(new Vector3(0, 0, 1) * Random.Range(0, 360));
+            //this.transform.Rotate(new Vector3(0, 0, 1) * Random.Range(0, 360));
         }
 
         // Update is called once per frame

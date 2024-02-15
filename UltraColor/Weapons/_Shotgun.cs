@@ -91,7 +91,7 @@ namespace EffectChanger.Weapons
                 var colorA = flash.GetComponent<SpriteRenderer>().color;
                 var obj = Instantiate(flash);
                 var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
-                interpColor.a = 0.8f;
+                interpColor.a = 0.95f;
                 obj.GetComponent<SpriteRenderer>().color = interpColor;
                 obj.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
                 obj.transform.position = __instance.shootPoints[0].transform.position;
