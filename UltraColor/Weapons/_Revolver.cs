@@ -23,32 +23,32 @@ namespace EffectChanger.Weapons
             switch (__instance.gameObject.name)
             {
                 case "Revolver Pierce(Clone)":
-                    if (!Settings.piercerRevolverEnabled) return;
+                    if (!Settings.piercerRevolverEnabled.value) return;
                     color = Settings.piercerRevolverMuzzleFlashColor.value;
                     break;
 
                 case "Revolver Twirl(Clone)":
-                    if (!Settings.sharpShooterEnabled) return
+                    if (!Settings.sharpShooterEnabled.value) return;
                     color = Settings.sharpShooterMuzzleFlashColor.value;
                     break;
 
                 case "Revolver Ricochet(Clone)":
-                    if (!Settings.marksmanEnabled) return
+                    if (!Settings.marksmanEnabled.value) return;
                     color = Settings.marksmanMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Ricochet(Clone)":
-                    if (!Settings.altMarksmanEnabled) return
+                    if (!Settings.altMarksmanEnabled.value) return;
                     color = Settings.altMarksmanMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Twirl(Clone)":
-                    if (!Settings.altSharpShooterEnabled) return
+                    if (!Settings.altSharpShooterEnabled.value) return;
                     color = Settings.altSharpShooterMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Pierce(Clone)":
-                    if (!Settings.altPiercerRevolverEnabled) return;
+                    if (!Settings.altPiercerRevolverEnabled.value) return;
                     color = Settings.altPiercerRevolverMuzzleFlashColor.value;
                     break;
 
