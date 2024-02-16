@@ -215,7 +215,7 @@ public static class Settings
         coinEnabled = new BoolField(coinSubPanel, "Enabled", "coinEnabled", false);
         // Coin Trail
         revolverCoinTrailStartColor = new ColorField(coinSubPanel, "Coin Trail Start Color", "CoinTrailStartColor", new Color(1, 1, 1, 0));
-        revolverCoinTrailEndColor = new ColorField(coinSubPanel, "Coin Trail End Color", "CoinTrailEndColor", new Color(1, 1, 1, 0));
+        revolverCoinTrailEndColor = new ColorField(coinSubPanel, "Coin Trail End Color", "CoinTrailEndColor", new Color(0, 0, 0, 0));
 
         marksmanMuzzleFlashColor = new ColorField(marksmanSubPanel, "Marksman Muzzle Flash Color", "MarksmanMuzzleFlashColor", new Color(1, 1, 1, 1));
         marksmanBeamStartColor = new ColorField(marksmanSubPanel, "Normal Beam Start Color", "MarksmanBeamStartColor", new Color(1, 1, 1, 1));

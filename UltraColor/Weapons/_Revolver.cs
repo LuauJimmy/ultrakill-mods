@@ -72,12 +72,12 @@ namespace EffectChanger.Weapons
             switch (__instance.gameObject.name)
             {
                 case "Revolver Pierce(Clone)":
-                    if (Settings.piercerRevolverChargeMuzzleFlashColor == default) return true;
+                    if (!Settings.piercerRevolverEnabled.value) return true;
                     muzzleFlashColor = Settings.piercerRevolverChargeMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Pierce(Clone)":
-                    if (Settings.altPiercerRevolverChargeMuzzleFlashColor == default) return true;
+                    if (!Settings.altPiercerRevolverEnabled.value) return true;
                     muzzleFlashColor = Settings.altPiercerRevolverChargeMuzzleFlashColor.value;
                     break;
 
