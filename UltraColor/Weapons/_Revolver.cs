@@ -14,46 +14,62 @@ namespace EffectChanger.Weapons
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
 
+        private static Sprite? defaultMuzzleFlashSprite => Plugin.defaultMuzzleFlashSprite;
+
         // Need to patch ReadyGun instead of Start because lots of weapons use the same normal fire mode projectile
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Revolver), "ReadyGun")]
         private static void RecolorRevolverMuzzleFlash(Revolver __instance)
         {
             Color color;
+            bool resetToDefault = false;
             switch (__instance.gameObject.name)
             {
                 case "Revolver Pierce(Clone)":
-                    if (!Settings.piercerRevolverEnabled.value) return;
+                    if (!Settings.piercerRevolverEnabled.value) resetToDefault = true;
                     color = Settings.piercerRevolverMuzzleFlashColor.value;
                     break;
 
                 case "Revolver Twirl(Clone)":
-                    if (!Settings.sharpShooterEnabled.value) return;
+                    if (!Settings.sharpShooterEnabled.value) resetToDefault = true;
                     color = Settings.sharpShooterMuzzleFlashColor.value;
                     break;
 
                 case "Revolver Ricochet(Clone)":
-                    if (!Settings.marksmanEnabled.value) return;
+                    if (!Settings.marksmanEnabled.value) resetToDefault = true;
                     color = Settings.marksmanMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Ricochet(Clone)":
-                    if (!Settings.altMarksmanEnabled.value) return;
+                    if (!Settings.altMarksmanEnabled.value) resetToDefault = true;
                     color = Settings.altMarksmanMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Twirl(Clone)":
-                    if (!Settings.altSharpShooterEnabled.value) return;
+                    if (!Settings.altSharpShooterEnabled.value) resetToDefault = true;
                     color = Settings.altSharpShooterMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Pierce(Clone)":
-                    if (!Settings.altPiercerRevolverEnabled.value) return;
+                    if (!Settings.altPiercerRevolverEnabled.value) resetToDefault = true;
                     color = Settings.altPiercerRevolverMuzzleFlashColor.value;
                     break;
 
                 default: return;
             }
+
+            if (resetToDefault)
+            {
+                __instance.revolverBeam.GetComponent<Light>().color = new Color(1, 0.7594f, 0, 1);
+                var mfs = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
+                foreach (var muzzle in mfs)
+                {
+                    muzzle.sprite = defaultMuzzleFlashSprite;
+                    muzzle.color = new Color(1, 1, 1, 1);
+                }
+                return;
+            }
+
             var light = __instance.revolverBeam.GetComponent<Light>();
             light.color = color;
             var muzzleFlashes = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
@@ -186,6 +202,8 @@ namespace EffectChanger.Weapons
             }
             return true;
         }
+
+        // Add a little white
         [HarmonyPostfix]
         [HarmonyPatch(typeof(RevolverBeam), "Shoot")]
         private static void AddMuzzleFlashInnerComponent_Revolver(RevolverBeam __instance)

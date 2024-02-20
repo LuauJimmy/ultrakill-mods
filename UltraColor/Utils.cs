@@ -21,7 +21,6 @@ namespace UltraColor
 
             if (File.Exists(filePath))
             {
-                Debug.Log("FOUND THE FILE!!!!!");
                 FileData = File.ReadAllBytes(filePath);
                 Tex = new Texture2D(2, 2);
                 Tex.LoadImage(FileData);

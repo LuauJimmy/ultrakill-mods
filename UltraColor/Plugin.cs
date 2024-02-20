@@ -24,6 +24,7 @@ public sealed class Plugin : BaseUnityPlugin
     public static Sprite? muzzleFlashInnerBase;
     public static Sprite? chargeBlank;
     public static Sprite? blankMuzzleFlashShotgunSprite;
+    public static Sprite? defaultMuzzleFlashSprite;
     private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
 
@@ -35,6 +36,7 @@ public sealed class Plugin : BaseUnityPlugin
     public void Awake()
     {
         debugMode = false;
+        defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
         blankExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blank.png");
         blankMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotgunblank.png");
