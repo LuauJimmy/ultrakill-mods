@@ -22,6 +22,7 @@ public sealed class Plugin : BaseUnityPlugin
     public static Texture2D? blankExplosionTexture;
     public static Sprite? blankMuzzleFlashSprite;
     public static Sprite? muzzleFlashInnerBase;
+    public static Sprite? chargeBlank;
     public static Sprite? blankMuzzleFlashShotgunSprite;
     private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
@@ -38,6 +39,7 @@ public sealed class Plugin : BaseUnityPlugin
         blankMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotgunblank.png");
         muzzleFlashInnerBase = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash-innerbase.png");
+        chargeBlank = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\chargeblank.png");
         Settings.Init(this.Config);
         Harmony.CreateAndPatchAll(this.GetType());
         Harmony.CreateAndPatchAll(typeof(_Shotgun));
