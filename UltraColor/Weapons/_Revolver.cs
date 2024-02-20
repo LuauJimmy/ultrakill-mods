@@ -85,19 +85,39 @@ namespace EffectChanger.Weapons
         private static bool RecolorRevolverChargeMuzzleFlash(Revolver __instance)
         {
             Color muzzleFlashColor;
+            bool resetToDefault = false;
             switch (__instance.gameObject.name)
             {
                 case "Revolver Pierce(Clone)":
-                    if (!Settings.piercerRevolverEnabled.value) return true;
+                    if (!Settings.piercerRevolverEnabled.value) resetToDefault = true;
                     muzzleFlashColor = Settings.piercerRevolverChargeMuzzleFlashColor.value;
                     break;
 
                 case "Alternative Revolver Pierce(Clone)":
-                    if (!Settings.altPiercerRevolverEnabled.value) return true;
+                    if (!Settings.altPiercerRevolverEnabled.value) resetToDefault = true;
                     muzzleFlashColor = Settings.altPiercerRevolverChargeMuzzleFlashColor.value;
                     break;
-
+                case "Revolver Twirl(Clone)":
+                    if (!Settings.sharpShooterEnabled.value) resetToDefault = true;
+                    muzzleFlashColor = Settings.sharpShooterMuzzleFlashColor.value;
+                    break;
+                case "Alternative Revolver Twirl(Clone)":
+                    if (!Settings.altSharpShooterEnabled.value) resetToDefault = true;
+                    muzzleFlashColor = Settings.altSharpShooterMuzzleFlashColor.value;
+                    break;
                 default: return true;
+            }
+
+            if (resetToDefault)
+            {
+                __instance.revolverBeam.GetComponent<Light>().color = new Color(1, 0.7594f, 0, 1);
+                var mfs = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
+                foreach (var muzzle in mfs)
+                {
+                    muzzle.sprite = defaultMuzzleFlashSprite;
+                    muzzle.color = new Color(1, 1, 1, 1);
+                }
+                return true;
             }
 
             var light = __instance.revolverBeam.GetComponent<Light>();
