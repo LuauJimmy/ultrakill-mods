@@ -80,6 +80,15 @@ namespace EffectChanger.Weapons
                     if (!Settings.altPiercerRevolverEnabled.value) return true;
                     muzzleFlashColor = Settings.altPiercerRevolverChargeMuzzleFlashColor.value;
                     break;
+                case "Revolver Twirl(Clone)":
+                    if (!Settings.sharpShooterEnabled.value) return true;
+                    muzzleFlashColor = Settings.sharpShooterMuzzleFlashColor.value;
+                    break;
+                case "Alternative Revolver Twirl(Clone)":
+                    if (!Settings.altSharpShooterEnabled.value) return true;
+                    muzzleFlashColor = Settings.altSharpShooterMuzzleFlashColor.value;
+                    break;
+
 
                 default: return true;
             }

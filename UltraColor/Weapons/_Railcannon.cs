@@ -12,6 +12,7 @@ namespace EffectChanger.Weapons
     {
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
+        private static Sprite? chargeBlank => Plugin.chargeBlankSprite;
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Harpoon), "Start")]
@@ -48,6 +49,14 @@ namespace EffectChanger.Weapons
                     if (!Settings.redRailcannonEnabled.value) return;
                     __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.redRailcannonStartColor.value;
                     __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.redRailcannonEndColor.value;
+
+                    var color2 = Settings.redRailcannonMuzzleFlashColor.value;
+
+                    var light2 = __instance.gameObject.GetComponent<Light>();
+                    light2.color = color2;
+                    var flash2 = __instance.gameObject.GetComponentInChildren<SpriteRenderer>();
+                    flash2.sprite = chargeBlank;
+                    flash2.color = color2;
 
                     //__instance.gameObject.GetComponent<LineRenderer>().startColor = UltraColor.Config.redRailcannonGlowStartColor.value;
                     //__instance.gameObject.GetComponent<LineRenderer>().endColor = UltraColor.Config.redRailcannonGlowEndColor.value;
