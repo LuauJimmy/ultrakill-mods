@@ -52,7 +52,8 @@ A mod that enables users to recolor various ingame effects.
 
 # Configuration
 
-Settings must be enabled in Plugin Configurator to appear in game. Some effects require a level restart to take effect.
+- Settings must be enabled in Plugin Configurator to appear in game. 
+- Some effects require a level restart to take effect.
 
 # Known Issues
 
@@ -70,5 +71,5 @@ Hakita and team for making Ultrakill, the best game ever
 
 originally inspired by (https://thunderstore.io/c/ultrakill/p/The0x539/RcHud/)
 
-Thank you to Theo for testing!
+Thank you to Theo and surytrap for testing and feature suggestions!
 
