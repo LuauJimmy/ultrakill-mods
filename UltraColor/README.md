@@ -16,6 +16,7 @@ A mod that enables users to recolor various ingame effects.
     - Charge beam charge effect sprite
 - Coin
     -
+    - Flash
     - Coin trail start/end 
     - Marksman reflected beam start/end
 - Shotgun
@@ -57,8 +58,6 @@ Settings must be enabled in Plugin Configurator to appear in game. Some effects 
 
 # Planned Features
 
-- Revolver
-  - Coin flash color
 - Enemy parry flash color
 - Railcannon
   - Electric railcannon beam lightning colors
