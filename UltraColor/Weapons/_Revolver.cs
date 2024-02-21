@@ -237,6 +237,24 @@ namespace EffectChanger.Weapons
             if (!Settings.coinEnabled.value) return;
             __instance.GetComponent<TrailRenderer>().startColor = Settings.revolverCoinTrailStartColor.value;
             __instance.GetComponent<TrailRenderer>().endColor = Settings.revolverCoinTrailEndColor.value;
+            
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Coin), "Start")]
+        private static void RecolorCoinFlash(Coin __instance)
+        {
+            if (!Settings.revolverCoinFlashEnabled.value) { return; }
+            var color = Settings.revolverCoinFlashColor.value;
+            var flashGo = __instance.flash;
+            flashGo.GetComponent<Light>().color = color;
+            var flashes = flashGo.GetComponentsInChildren<SpriteRenderer>();
+            foreach ( var f in flashes )
+            {
+                f.sprite = blankMuzzleFlashSprite;
+                f.color = color;
+            }
+            
         }
     }
 }

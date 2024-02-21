@@ -29,5 +29,15 @@ namespace EffectChanger.Weapons
                     break;
             }
         }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Cannonball), "Start")]
+        private static void RecolorCannonballTrail(Cannonball __instance)
+        {
+            if (!Settings.cannonballRocketLauncherEnabled.value) return;
+            var tr = __instance.GetComponentInChildren<TrailRenderer>();
+            tr.startColor = Settings.cannonballTrailStartColor.value;
+            tr.endColor = Settings.cannonballTrailEndColor.value;
+        }
     }
 }
