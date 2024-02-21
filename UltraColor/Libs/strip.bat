@@ -1,1 +1,0 @@
-NStrip -cg -o -p Managed
