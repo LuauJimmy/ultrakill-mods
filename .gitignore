@@ -58,6 +58,8 @@ dlldata.c
 
 .vs
 
+UltraColor/Libs
+
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 

@@ -98,26 +98,16 @@ namespace EffectChanger.Weapons
                     muzzleFlashColor = Settings.altPiercerRevolverChargeMuzzleFlashColor.value;
                     break;
                 case "Revolver Twirl(Clone)":
-                    if (!Settings.sharpShooterEnabled.value) resetToDefault = true;
+                    if (!Settings.sharpShooterEnabled.value) return true;
                     muzzleFlashColor = Settings.sharpShooterMuzzleFlashColor.value;
                     break;
                 case "Alternative Revolver Twirl(Clone)":
-                    if (!Settings.altSharpShooterEnabled.value) resetToDefault = true;
+                    if (!Settings.altSharpShooterEnabled.value) return true;
                     muzzleFlashColor = Settings.altSharpShooterMuzzleFlashColor.value;
                     break;
-                default: return true;
-            }
 
-            if (resetToDefault)
-            {
-                __instance.revolverBeam.GetComponent<Light>().color = new Color(1, 0.7594f, 0, 1);
-                var mfs = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
-                foreach (var muzzle in mfs)
-                {
-                    muzzle.sprite = defaultMuzzleFlashSprite;
-                    muzzle.color = new Color(1, 1, 1, 1);
-                }
-                return true;
+
+                default: return true;
             }
 
             var light = __instance.revolverBeam.GetComponent<Light>();
@@ -266,6 +256,24 @@ namespace EffectChanger.Weapons
             if (!Settings.coinEnabled.value) return;
             __instance.GetComponent<TrailRenderer>().startColor = Settings.revolverCoinTrailStartColor.value;
             __instance.GetComponent<TrailRenderer>().endColor = Settings.revolverCoinTrailEndColor.value;
+            
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Coin), "Start")]
+        private static void RecolorCoinFlash(Coin __instance)
+        {
+            if (!Settings.revolverCoinFlashEnabled.value) { return; }
+            var color = Settings.revolverCoinFlashColor.value;
+            var flashGo = __instance.flash;
+            flashGo.GetComponent<Light>().color = color;
+            var flashes = flashGo.GetComponentsInChildren<SpriteRenderer>();
+            foreach ( var f in flashes )
+            {
+                f.sprite = blankMuzzleFlashSprite;
+                f.color = color;
+            }
+            
         }
     }
 }

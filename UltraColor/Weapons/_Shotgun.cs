@@ -12,7 +12,7 @@ namespace EffectChanger.Weapons
     public sealed class _Shotgun : MonoSingleton<_Shotgun>
     {
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
-        private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
+        private static Sprite? muzzleFlashInnerBase => Plugin.shotgunInnerComponent;
         private static Texture2D? blankExplosionTexture => Plugin.blankExplosionTexture;
         private static Sprite? shotgunMuzzleFlashSprite => Plugin.blankMuzzleFlashShotgunSprite;
         public void Awake()

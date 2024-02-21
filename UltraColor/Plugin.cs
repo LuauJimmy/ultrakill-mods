@@ -19,12 +19,13 @@ public sealed class Plugin : BaseUnityPlugin
 
     public static string? workingDir;
     public static string? ultraColorCatalogPath;
+    public static Sprite? chargeBlankSprite;
     public static Texture2D? blankExplosionTexture;
     public static Sprite? blankMuzzleFlashSprite;
     public static Sprite? muzzleFlashInnerBase;
     public static Sprite? chargeBlank;
     public static Sprite? blankMuzzleFlashShotgunSprite;
-    public static Sprite? defaultMuzzleFlashSprite;
+    public static Sprite? shotgunInnerComponent;
     private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
 
@@ -41,8 +42,10 @@ public sealed class Plugin : BaseUnityPlugin
         blankMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotgunblank.png");
         muzzleFlashInnerBase = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash-innerbase.png");
-        chargeBlank = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\chargeblank.png");
+        chargeBlankSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\chargeblank.png");
+        shotgunInnerComponent = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotguninnercomponent.png");
         Settings.Init(this.Config);
+
         Harmony.CreateAndPatchAll(this.GetType());
         Harmony.CreateAndPatchAll(typeof(_Shotgun));
         Harmony.CreateAndPatchAll(typeof(_Revolver));

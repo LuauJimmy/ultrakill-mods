@@ -45,7 +45,9 @@ public static class Settings
     public static ColorField marksmanBeamEndColor;
     public static ColorField revolverCoinTrailStartColor;
     public static ColorField revolverCoinTrailEndColor;
+    public static ColorField revolverCoinFlashColor;
     public static ColorField marksmanMuzzleFlashColor;
+    public static BoolField revolverCoinFlashEnabled;
 
     public static BoolField altMarksmanEnabled;
     public static ColorField altMarksmanBeamStartColor;
@@ -125,6 +127,8 @@ public static class Settings
     public static BoolField cannonballRocketLauncherEnabled;
     public static ColorField cannonballRocketLauncherTrailStartColor;
     public static ColorField cannonballRocketLauncherTrailEndColor;
+    public static ColorField cannonballTrailStartColor;
+    public static ColorField cannonballTrailEndColor;
 
     public static void Init(ConfigFile cfg)
     {
@@ -216,6 +220,8 @@ public static class Settings
         // Coin Trail
         revolverCoinTrailStartColor = new ColorField(coinSubPanel, "Coin Trail Start Color", "CoinTrailStartColor", new Color(1, 1, 1, 0));
         revolverCoinTrailEndColor = new ColorField(coinSubPanel, "Coin Trail End Color", "CoinTrailEndColor", new Color(0, 0, 0, 0));
+        revolverCoinFlashEnabled = new BoolField(coinSubPanel, "Flash Enabled", "CoinFlashEnabled", false);
+        revolverCoinFlashColor = new ColorField(coinSubPanel, "Coin Flash Color", "CoinFlashColor", new Color(1, 0.6f, 0, 1));
 
         marksmanMuzzleFlashColor = new ColorField(marksmanSubPanel, "Marksman Muzzle Flash Color", "MarksmanMuzzleFlashColor", new Color(1, 1, 1, 1));
         marksmanBeamStartColor = new ColorField(marksmanSubPanel, "Normal Beam Start Color", "MarksmanBeamStartColor", new Color(1, 1, 1, 1));
@@ -277,7 +283,7 @@ public static class Settings
         blueRailcannonEndColor = new ColorField(blueRailcannonSubPanel, "Beam End Color", "BlueRailcannonBeamEndColor", new Color(0, 0.8353F, 1, 1));
 
         redRailcannonEnabled = new BoolField(redRailcannonSubPanel, "Enabled", "redRailcannonEnabled", false);
-        redRailcannonMuzzleFlashColor = new ColorField(redRailcannonSubPanel, "Muzzle Flash Color", "RedRailcannonMuzzleFlashColor", new Color(1, 0.6314F, 0, 1));
+        redRailcannonMuzzleFlashColor = new ColorField(redRailcannonSubPanel, "Muzzle Flash Color", "RedRailcannonMuzzleFlashColor", new Color(1, 1, 1,1));
         redRailcannonStartColor = new ColorField(redRailcannonSubPanel, "Beam Start Color", "RedRailcannonBeamStartColor", new Color(1, 1, 1, 1));
         redRailcannonEndColor = new ColorField(redRailcannonSubPanel, "Beam End Color", "RedRailcannonBeamEndColor", new Color(1, 0.6314F, 0, 1));
         //redRailcannonGlowStartColor = new ColorField(redRailcannonSubPanel, "Red Railcannon Beam Glow Start Color", "RedRailcannonBeamGlowStartColor", )
@@ -294,5 +300,7 @@ public static class Settings
         cannonballRocketLauncherEnabled = new BoolField(cannonballRocketSubPanel, "Enabled", "cannonballRocketLauncherEnabled", false);
         cannonballRocketLauncherTrailStartColor = new ColorField(cannonballRocketSubPanel, "Rocket Trail Start Color", "CannonballRocketLauncherTrailStartColor", new Color(1, 0.502F, 0, 0.3922F));
         cannonballRocketLauncherTrailEndColor = new ColorField(cannonballRocketSubPanel, "Rocket Trail End Color", "CannonballRocketLauncherTrailEndColor", new Color(1, 0, 0, 0));
+        cannonballTrailStartColor = new ColorField(cannonballRocketSubPanel, "Cannonball Trail Start Color", "CannonballTrailStartColor", new Color(0.4902f, 0.4902f, 0.4902f, 1));
+        cannonballTrailEndColor = new ColorField(cannonballRocketSubPanel, "Cannonball Trail End Color", "CannonballTrailEndColor", new Color(0, 0, 0, 0));
     }
 }
