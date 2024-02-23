@@ -108,5 +108,37 @@ namespace EffectChanger.Weapons
             Sprite newSprite = ColorHelper.LoadMuzzleFlashSprite(Settings.shotgunGrenadeSpriteColor.value);
             __instance.transform.Find("GameObject").GetComponentInChildren<SpriteRenderer>().sprite = newSprite;
         }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Punch), "ParryProjectile")]
+        private static void RecolorProjectileBoost(Projectile __instance)
+        {
+            if (__instance.playerBullet)
+            {
+                Color color = new Color(0f, 1f, 1f);
+                if (__instance.TryGetComponent<MeshRenderer>(out var component2) && (bool)component2.material && component2.material.HasProperty("_Color"))
+                {
+                    component2.material.SetColor("_Color", color);
+                }
+                if (__instance.TryGetComponent<TrailRenderer>(out var component3))
+                {
+                    Gradient gradient = new Gradient();
+                    gradient.SetKeys(new GradientColorKey[2]
+                    {
+                    new GradientColorKey(color, 0f),
+                    new GradientColorKey(color, 1f)
+                    }, new GradientAlphaKey[2]
+                    {
+                    new GradientAlphaKey(1f, 0f),
+                    new GradientAlphaKey(0f, 1f)
+                    });
+                    component3.colorGradient = gradient;
+                }
+                if (__instance.TryGetComponent<Light>(out var component4))
+                {
+                    component4.color = color;
+                }
+            }
+        }
     }
 }

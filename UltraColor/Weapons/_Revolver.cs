@@ -14,7 +14,7 @@ namespace EffectChanger.Weapons
         private static Sprite? blankMuzzleFlashSprite => Plugin.blankMuzzleFlashSprite;
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
 
-        private static Sprite? defaultMuzzleFlashSprite => Plugin.defaultMuzzleFlashSprite;
+        //private static Sprite? defaultMuzzleFlashSprite => Plugin.defaultMuzzleFlashSprite;
 
         // Need to patch ReadyGun instead of Start because lots of weapons use the same normal fire mode projectile
         [HarmonyPrefix]
@@ -58,17 +58,17 @@ namespace EffectChanger.Weapons
                 default: return;
             }
 
-            if (resetToDefault)
-            {
-                __instance.revolverBeam.GetComponent<Light>().color = new Color(1, 0.7594f, 0, 1);
-                var mfs = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
-                foreach (var muzzle in mfs)
-                {
-                    muzzle.sprite = defaultMuzzleFlashSprite;
-                    muzzle.color = new Color(1, 1, 1, 1);
-                }
-                return;
-            }
+            //if (resetToDefault)
+            //{
+            //    __instance.revolverBeam.GetComponent<Light>().color = new Color(1, 0.7594f, 0, 1);
+            //    var mfs = __instance.revolverBeam.GetComponentsInChildren<SpriteRenderer>();
+            //    foreach (var muzzle in mfs)
+            //    {
+            //        muzzle.sprite = //defaultMuzzleFlashSprite;
+            //        muzzle.color = new Color(1, 1, 1, 1);
+            //    }
+            //    return;
+            //}
 
             var light = __instance.revolverBeam.GetComponent<Light>();
             light.color = color;

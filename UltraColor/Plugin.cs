@@ -37,7 +37,7 @@ public sealed class Plugin : BaseUnityPlugin
     public void Awake()
     {
         debugMode = false;
-        defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
+        //defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
         blankExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blank.png");
         blankMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotgunblank.png");
