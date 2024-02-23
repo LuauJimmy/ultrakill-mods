@@ -110,35 +110,35 @@ namespace EffectChanger.Weapons
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(Punch), "ParryProjectile")]
-        private static void RecolorProjectileBoost(Projectile __instance)
+        [HarmonyPatch(typeof(Punch), nameof(Punch.ParryProjectile))]
+        private static void RecolorProjectileBoost(Projectile __instance, object[] __args)
         {
-            if (__instance.playerBullet)
-            {
-                Color color = new Color(0f, 1f, 1f);
-                if (__instance.TryGetComponent<MeshRenderer>(out var component2) && (bool)component2.material && component2.material.HasProperty("_Color"))
+            try {
+                Projectile proj = (Projectile)__args[0];
+                if (proj.playerBullet)
                 {
-                    component2.material.SetColor("_Color", color);
-                }
-                if (__instance.TryGetComponent<TrailRenderer>(out var component3))
-                {
-                    Gradient gradient = new Gradient();
-                    gradient.SetKeys(new GradientColorKey[2]
+                    Debug.Log(__instance.gameObject);
+                    if (proj.TryGetComponent<MeshRenderer>(out var component2) && (bool)component2.material && component2.material.HasProperty("_Color"))
                     {
-                    new GradientColorKey(color, 0f),
-                    new GradientColorKey(color, 1f)
-                    }, new GradientAlphaKey[2]
+                        component2.material.SetColor("_Color", Settings.shotgunProjectileBoostStartColor.value);
+                    }
+                    if (proj.TryGetComponent<TrailRenderer>(out var component3))
                     {
-                    new GradientAlphaKey(1f, 0f),
-                    new GradientAlphaKey(0f, 1f)
-                    });
-                    component3.colorGradient = gradient;
-                }
-                if (__instance.TryGetComponent<Light>(out var component4))
-                {
-                    component4.color = color;
+                        component3.startColor = Settings.shotgunProjectileBoostStartColor.value;
+                        component3.endColor = Settings.shotgunProjectileBoostEndColor.value;
+                        Debug.Log(component3.startColor);
+                        Debug.Log(component3.endColor);
+                    }
+                    if (proj.TryGetComponent<Light>(out var component4))
+                    {
+                        component4.color = Settings.shotgunProjectileBoostStartColor.value;
+                    }
                 }
             }
+            catch {
+                return;
+            } 
+            
         }
     }
 }
