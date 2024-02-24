@@ -214,7 +214,7 @@ namespace EffectChanger.Weapons
         }
 
         // Add a little white
-        [HarmonyPostfix]
+        [HarmonyFinalizer]
         [HarmonyPatch(typeof(RevolverBeam), "Shoot")]
         private static void AddMuzzleFlashInnerComponent_Revolver(RevolverBeam __instance)
         {

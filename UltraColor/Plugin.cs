@@ -9,13 +9,17 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using EffectChanger.Weapons;
+using UnityEngine.Assertions;
 namespace UltraColor;
 using PluginInfo = EffectChanger.PluginInfo;
 
-[BepInPlugin(PluginInfo.guid, PluginInfo.name, PluginInfo.version)]
+//[BepInDependency("com.eternalUnion.pluginConfigurator", BepInDependency.DependencyFlags.HardDependency)]
+[BepInPlugin("aglooper", "aglooper", PluginInfo.version)]
 public sealed class Plugin : BaseUnityPlugin
 {
     public sealed class AssetDir : SortedDictionary<string, object>;
+
+    private static string AssetPath;
 
     public static string? workingDir;
     public static string? ultraColorCatalogPath;
@@ -26,6 +30,9 @@ public sealed class Plugin : BaseUnityPlugin
     public static Sprite? chargeBlank;
     public static Sprite? blankMuzzleFlashShotgunSprite;
     public static Sprite? shotgunInnerComponent;
+    public static Texture2D? chargeBlankTexture;
+    public static Texture2D? basicWhiteTexture;
+    public static Texture2D? whiteSparkTexture;
     private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
 
@@ -36,14 +43,19 @@ public sealed class Plugin : BaseUnityPlugin
 
     public void Awake()
     {
+        AssetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        Debug.Log("Pathname: " + AssetPath);
         debugMode = false;
         //defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
-        blankExplosionTexture = Utils.LoadTexture("BepInEx\\plugins\\Ultracolor\\Assets\\explosion_blank.png");
-        blankMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashblank2.png");
-        blankMuzzleFlashShotgunSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotgunblank.png");
-        muzzleFlashInnerBase = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash-innerbase.png");
-        chargeBlankSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\chargeblank.png");
-        shotgunInnerComponent = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflashshotguninnercomponent.png");
+        blankExplosionTexture = Utils.LoadTexture($"{AssetPath}\\explosion_blank.png");
+        blankMuzzleFlashSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashblank2.png");
+        blankMuzzleFlashShotgunSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashshotgunblank.png");
+        muzzleFlashInnerBase = Utils.LoadPNG($"{AssetPath}\\muzzleflash-innerbase.png");
+        chargeBlankSprite = Utils.LoadPNG($"{AssetPath}\\chargeblank.png");
+        shotgunInnerComponent = Utils.LoadPNG($"{AssetPath}\\muzzleflashshotguninnercomponent.png");
+        chargeBlankTexture = Utils.LoadTexture($"{AssetPath}\\chargeblank.png");
+        basicWhiteTexture = Utils.LoadTexture($"{AssetPath}\\basicwhite.png");
+        whiteSparkTexture = Utils.LoadTexture($"{AssetPath}\\spark.png");
         Settings.Init(this.Config);
 
         Harmony.CreateAndPatchAll(this.GetType());
@@ -57,7 +69,7 @@ public sealed class Plugin : BaseUnityPlugin
         if (debugMode) { Harmony.CreateAndPatchAll(typeof(DebugPatches)); }
 
 
-        workingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //workingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         //PostAwake();
     }
