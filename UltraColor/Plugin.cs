@@ -30,6 +30,7 @@ public sealed class Plugin : BaseUnityPlugin
     public static Sprite? chargeBlank;
     public static Sprite? blankMuzzleFlashShotgunSprite;
     public static Sprite? shotgunInnerComponent;
+    public static Sprite? defaultMuzzleFlashSprite;
     public static Texture2D? chargeBlankTexture;
     public static Texture2D? basicWhiteTexture;
     public static Texture2D? whiteSparkTexture;
@@ -46,7 +47,7 @@ public sealed class Plugin : BaseUnityPlugin
         AssetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         Debug.Log("Pathname: " + AssetPath);
         debugMode = false;
-        //defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
+        defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
         blankExplosionTexture = Utils.LoadTexture($"{AssetPath}\\explosion_blank.png");
         blankMuzzleFlashSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashshotgunblank.png");

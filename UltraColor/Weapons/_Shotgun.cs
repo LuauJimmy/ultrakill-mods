@@ -152,9 +152,13 @@ namespace EffectChanger.Weapons
         {
             var proj = __instance.bullet.GetComponent<Projectile>();
             var r = proj.explosionEffect.GetComponent<ParticleSystemRenderer>();
-            Material newMat = new Material(r.material);
-            newMat.mainTexture = whiteSparkTexture;
-            newMat.color = Settings.shotgunBulletColor.value;
+            var light = proj.GetComponent<Light>();
+            light.color = Settings.shotgunBulletColor.value;
+            Material newMat = new Material(r.material)
+            {
+                mainTexture = whiteSparkTexture,
+                color = Settings.shotgunBulletColor.value
+            };
             r.material = newMat;
         }
     }
