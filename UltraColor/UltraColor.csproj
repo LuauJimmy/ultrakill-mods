@@ -56,6 +56,12 @@
 		
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="RendererFader.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		
 		<Exec Command="copy &quot;$(SolutionDir)\UltraColor\Assets&quot; &quot;$(OutDir)\Assets&quot;" />

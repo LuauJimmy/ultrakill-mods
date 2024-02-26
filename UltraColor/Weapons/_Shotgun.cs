@@ -71,6 +71,10 @@ namespace EffectChanger.Weapons
 
             var pl = s8.transform.Find("Point Light").GetComponent<Light>();
 
+            //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
+
+            //glowSr.sprite = chargeBlankSprite;
+            
             pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
             var newMat = new Material(mr[0].material)
             {
@@ -84,9 +88,19 @@ namespace EffectChanger.Weapons
 
             var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
             explosionRenderers[0].material = newMat;
+            //var rf = s8.transform.gameObject.AddComponent<RendererFader>();
             return true;
         }
 
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Shotgun), "Start")]
+        private static void expFader(Shotgun __instance)
+        {
+            var exp = __instance.explosion;
+            var s8 = exp.transform.Find("Sphere_8");
+            var rf = s8.transform.gameObject.AddComponent<RendererFader>();
+
+        }
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Shotgun), "Shoot")]
         private static void AddMuzzleFlashInnerComponent_Shotgun(Shotgun __instance)

@@ -85,17 +85,41 @@ public sealed class Plugin : BaseUnityPlugin
         _ = UltraColor.Instance;
     }
 
-    //[HarmonyPrefix]
-    //[HarmonyPatch(typeof(RemoveOnTime), "Start")]
-    //private static void RecolorLaserHitParticles(RemoveOnTime __instance)
-    //{
-    //    if (__instance.gameObject.name == "LaserHitParticle(Clone)")
-    //    {
-    //        var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
-    //        ps.startColor = Color.red;
-    //    }
-    //}
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(RemoveOnTime), "Start")]
+    private static void RecolorLaserHitParticles(RemoveOnTime __instance)
+    {
+        if (__instance.gameObject.name == "LaserHitParticle(Clone)")
+        {
+            var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
+            ps.startColor = Settings.altPiercerRevolverBeamEndColor.value;
+        }
+    }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Explosion), nameof(Explosion.Start))]
+    private static bool RecolorKBExplosion(Explosion __instance)
+    {
+        if (!Settings.knuckleBlasterEnabled.value) return true;
+        Color expColor = Settings.knuckleBlasterExplosionColor.value;
+        Color lightColor = Settings.knuckleBlasterLightColor.value;
+        Color shockwaveColor = Settings.knuckleBlasterShockwaveSpriteColor.value;
+        if (__instance.transform.parent.name == "Explosion Wave(Clone)")
+        {
+            var trans = __instance.transform.parent;
+            trans.GetComponentInChildren<Light>().color = lightColor;
+            trans.GetComponentInChildren<SpriteRenderer>().color = shockwaveColor;
+            var mr = __instance.GetComponentInChildren<MeshRenderer>();
+            var newMat = new Material(mr.material)
+            {
+                //mainTexture = blankExplosionTexture,
+                //shaderKeywords = [/*"_FADING_ON",*/ "_EMISSION"],
+                color = expColor,
+            };
+            mr.material = newMat;
+        }
+        return true;
+    }
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ExplosionController), "Start")]
     private static bool RecolorExplosion(ExplosionController __instance)
@@ -126,10 +150,11 @@ public sealed class Plugin : BaseUnityPlugin
             var newMat = new Material(mr[0].material)
             {
                 mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION"]
+                shaderKeywords = ["_FADING_ON", "_EMISSION", "_COLORCOLOR_ON"]
             };
             newMat.color = Settings.maliciousExplosionColor.value;
             mr[0].material = newMat;
+            __instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
         }
         else if (__instance.gameObject.name == "Explosion Super(Clone)")
         {
@@ -139,10 +164,11 @@ public sealed class Plugin : BaseUnityPlugin
             var newMat = new Material(mr[0].material)
             {
                 mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION"]
+                shaderKeywords = ["_FADING_ON", "_EMISSION", "_COLORCOLOR_ON"]
             };
             newMat.color = Settings.nukeExplosionColor.value;
             mr[0].material = newMat;
+            __instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
         }
 
         return true;

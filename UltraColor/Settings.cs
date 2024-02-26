@@ -132,6 +132,11 @@ public static class Settings
     public static ColorField cannonballTrailStartColor;
     public static ColorField cannonballTrailEndColor;
 
+    public static ColorField knuckleBlasterShockwaveSpriteColor;
+    public static ColorField knuckleBlasterExplosionColor;
+    public static ColorField knuckleBlasterLightColor;
+    public static BoolField knuckleBlasterEnabled;
+
     public static void Init(ConfigFile cfg)
     {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
@@ -169,6 +174,8 @@ public static class Settings
         ConfigPanel cannonballRocketSubPanel = new ConfigPanel(rocketSubPanel, "S.R.S Cannon Rocket Launcher", "CannonballRocketSubPanel");
 
         ConfigPanel explosionSubPanel = new ConfigPanel(config.rootPanel, "Explosion", "ExplosionSubPanel");
+
+        ConfigPanel knuckleBlasterSubPanel = new ConfigPanel(config.rootPanel, "Knuckle Blaster", "KnuckleBlasterSubPanel");
 
         // Explosions
         smallExplosionEnabled = new BoolField(explosionSubPanel, "Enabled", "SmallExplosionEnabled", false);
@@ -306,5 +313,10 @@ public static class Settings
         cannonballRocketLauncherTrailEndColor = new ColorField(cannonballRocketSubPanel, "Rocket Trail End Color", "CannonballRocketLauncherTrailEndColor", new Color(1, 0, 0, 0));
         cannonballTrailStartColor = new ColorField(cannonballRocketSubPanel, "Cannonball Trail Start Color", "CannonballTrailStartColor", new Color(0.4902f, 0.4902f, 0.4902f, 1));
         cannonballTrailEndColor = new ColorField(cannonballRocketSubPanel, "Cannonball Trail End Color", "CannonballTrailEndColor", new Color(0, 0, 0, 0));
+
+        knuckleBlasterEnabled = new BoolField(knuckleBlasterSubPanel, "Enabled", "knuckleBlasterEnabled", false);
+        knuckleBlasterShockwaveSpriteColor = new ColorField(knuckleBlasterSubPanel, "Shockwave Color", "knuckleBlasterShockwaveSpriteColor", new Color(0.63f, 0.63f, 0.63f, 1));
+        knuckleBlasterExplosionColor = new ColorField(knuckleBlasterSubPanel, "Explosion Color", "knuckleBlasterExplosionColor", new Color(1, 1, 1, 1));
+        knuckleBlasterLightColor = new ColorField(knuckleBlasterSubPanel, "Light Color", "knuckleBlasterLightColor", new Color(1, 0.5754f, 0, 1));
     }
 }
