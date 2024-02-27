@@ -154,7 +154,7 @@ public sealed class Plugin : BaseUnityPlugin
             };
             newMat.color = Settings.maliciousExplosionColor.value;
             mr[0].material = newMat;
-            __instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
+            //__instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
         }
         else if (__instance.gameObject.name == "Explosion Super(Clone)")
         {
@@ -168,9 +168,16 @@ public sealed class Plugin : BaseUnityPlugin
             };
             newMat.color = Settings.nukeExplosionColor.value;
             mr[0].material = newMat;
-            __instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
+            //__instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
         }
 
         return true;
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(ExplosionController), "Start")]
+    private static void expFader(ExplosionController __instance)
+    {
+        __instance.transform.Find("Sphere_8").gameObject.AddComponent<ExplosionFader>();
     }
 }

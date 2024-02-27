@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EffectChanger
 {
-    public class RendererFader : MonoBehaviour
+    public class ExplosionFader : MonoBehaviour
     {
         private Sprite muzzleflashSprite;
         private SpriteRenderer sr;
@@ -12,6 +12,7 @@ namespace EffectChanger
         private float fadeSpeed = 5;
         private float shrinkSpeed = 1;
         private float originalAlpha = 1;
+        private float scalefactor = 0f;
         // Use this for initialization
         private void Start()
         {
@@ -24,11 +25,11 @@ namespace EffectChanger
         {
             var mat = this.GetComponent<MeshRenderer>().material;
             this.age += Time.deltaTime;
-            var scalefactor = 0f;
+
             //this.transform.localScale *= 0.75f;
-            if (age > 0.3)
+            if (age > 0.2)
             {
-                scalefactor += age * 0.5f;
+                scalefactor += age * 0.01f;
                 this.GetComponent<MeshRenderer>().material.color = new Color(mat.color.r - scalefactor, mat.color.g - scalefactor, mat.color.b - scalefactor);
             }
             //this.transform.localScale *= 0.95f * Time.deltaTime;

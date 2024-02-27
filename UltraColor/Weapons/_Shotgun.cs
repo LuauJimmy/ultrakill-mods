@@ -98,7 +98,7 @@ namespace EffectChanger.Weapons
         {
             var exp = __instance.explosion;
             var s8 = exp.transform.Find("Sphere_8");
-            var rf = s8.transform.gameObject.AddComponent<RendererFader>();
+            var rf = s8.transform.gameObject.AddComponent<ExplosionFader>();
 
         }
         [HarmonyPostfix]

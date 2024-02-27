@@ -57,7 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="RendererFader.cs">
+	  <Compile Update="ExplosionFader.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
