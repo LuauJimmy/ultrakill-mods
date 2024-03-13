@@ -137,6 +137,11 @@ public static class Settings
     public static ColorField knuckleBlasterLightColor;
     public static BoolField knuckleBlasterEnabled;
 
+    public static BoolField blessingEnabled;
+    public static ColorField blessingColor;
+    public static ColorField idolHaloColor;
+    public static ColorField idolSpikesColor;
+
     public static void Init(ConfigFile cfg)
     {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
@@ -176,6 +181,8 @@ public static class Settings
         ConfigPanel explosionSubPanel = new ConfigPanel(config.rootPanel, "Explosion", "ExplosionSubPanel");
 
         ConfigPanel knuckleBlasterSubPanel = new ConfigPanel(config.rootPanel, "Knuckle Blaster", "KnuckleBlasterSubPanel");
+
+        ConfigPanel enemiesSubPanel = new ConfigPanel(config.rootPanel, "Enemies", "EnemiesSubPanel");
 
         // Explosions
         smallExplosionEnabled = new BoolField(explosionSubPanel, "Enabled", "SmallExplosionEnabled", false);
@@ -318,5 +325,12 @@ public static class Settings
         knuckleBlasterShockwaveSpriteColor = new ColorField(knuckleBlasterSubPanel, "Shockwave Color", "knuckleBlasterShockwaveSpriteColor", new Color(0.63f, 0.63f, 0.63f, 1));
         knuckleBlasterExplosionColor = new ColorField(knuckleBlasterSubPanel, "Explosion Color", "knuckleBlasterExplosionColor", new Color(1, 1, 1, 1));
         knuckleBlasterLightColor = new ColorField(knuckleBlasterSubPanel, "Light Color", "knuckleBlasterLightColor", new Color(1, 0.5754f, 0, 1));
+
+        // Enemy Settings
+        // Blessing
+        blessingEnabled = new BoolField(enemiesSubPanel, "Enabled Recolor Enemy Blessing", "blessingEnabled", false);
+        blessingColor = new ColorField(enemiesSubPanel, "Enemy Blessing Color", "blessingColor", new Color(0.1f, 0.2f, 0.75f, 1));
+        idolHaloColor = new ColorField(enemiesSubPanel, "Idol Halo Color", "idolHaloColor", new Color(0.1f, 0.2f, 0.75f, 1));
+        idolSpikesColor = new ColorField(enemiesSubPanel, "Idol Spikes Color", "idolSpikesColor", new Color(0.1f, 0.2f, 0.75f, 1));
     }
 }

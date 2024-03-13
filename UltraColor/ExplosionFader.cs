@@ -6,31 +6,30 @@ namespace EffectChanger
 {
     public class ExplosionFader : MonoBehaviour
     {
-        private Sprite muzzleflashSprite;
-        private SpriteRenderer sr;
         private float age = 0;
-        private float fadeSpeed = 5;
-        private float shrinkSpeed = 1;
-        private float originalAlpha = 1;
         private float scalefactor = 0f;
-        // Use this for initialization
         private void Start()
         {
 
             //this.transform.Rotate(new Vector3(0, 0, 1) * Random.Range(0, 360));
         }
 
-        // Update is called once per frame
         private void Update()
         {
+            
             var mat = this.GetComponent<MeshRenderer>().material;
             this.age += Time.deltaTime;
 
             //this.transform.localScale *= 0.75f;
-            if (age > 0.2)
+            if (age > 0.5)
             {
-                scalefactor += age * 0.01f;
-                this.GetComponent<MeshRenderer>().material.color = new Color(mat.color.r - scalefactor, mat.color.g - scalefactor, mat.color.b - scalefactor);
+                scalefactor += 0.01f;
+                
+                var redComponent = Mathf.Max(mat.color.r - scalefactor, 0.001f);
+                var greenComponent = Mathf.Max(mat.color.g - scalefactor, 0.001f);
+                var blueComponent = Mathf.Max(mat.color.b - scalefactor, 0.001f);
+                var updatedColor = new Color(redComponent, greenComponent, blueComponent);
+                this.GetComponent<MeshRenderer>().material.color = updatedColor;
             }
             //this.transform.localScale *= 0.95f * Time.deltaTime;
             //var spr = this.GetComponent<SpriteRenderer>();

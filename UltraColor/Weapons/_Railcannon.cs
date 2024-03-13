@@ -28,7 +28,6 @@ namespace EffectChanger.Weapons
         [HarmonyPatch(typeof(RevolverBeam), "Start")]
         private static void RecolorRailcannonBeams(RevolverBeam __instance)
         {
-            Debug.Log($"GameObject: {__instance.gameObject}");
             switch (__instance.gameObject.name)
             {
                 case "Railcannon Beam(Clone)":

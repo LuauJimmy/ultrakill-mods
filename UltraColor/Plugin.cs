@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using EffectChanger.Weapons;
 using UnityEngine.Assertions;
+using System.Runtime.CompilerServices;
 namespace UltraColor;
 using PluginInfo = EffectChanger.PluginInfo;
 
@@ -47,7 +48,7 @@ public sealed class Plugin : BaseUnityPlugin
         AssetPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         Debug.Log("Pathname: " + AssetPath);
         debugMode = false;
-        defaultMuzzleFlashSprite = Utils.LoadPNG("BepInEx\\plugins\\Ultracolor\\Assets\\muzzleflash.png");
+        defaultMuzzleFlashSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflash.png");
         blankExplosionTexture = Utils.LoadTexture($"{AssetPath}\\explosion_blank.png");
         blankMuzzleFlashSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashshotgunblank.png");
@@ -65,6 +66,8 @@ public sealed class Plugin : BaseUnityPlugin
         Harmony.CreateAndPatchAll(typeof(_Nailgun));
         Harmony.CreateAndPatchAll(typeof(_RocketLauncher));
         Harmony.CreateAndPatchAll(typeof(_Railcannon));
+
+        Harmony.CreateAndPatchAll(typeof(_Idol));
         
         
         if (debugMode) { Harmony.CreateAndPatchAll(typeof(DebugPatches)); }
@@ -78,6 +81,7 @@ public sealed class Plugin : BaseUnityPlugin
     public void Start()
     {
         UltraColor.SetLogger(this.Logger);
+
     }
 
     public void Update()
@@ -85,16 +89,16 @@ public sealed class Plugin : BaseUnityPlugin
         _ = UltraColor.Instance;
     }
 
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(RemoveOnTime), "Start")]
-    private static void RecolorLaserHitParticles(RemoveOnTime __instance)
-    {
-        if (__instance.gameObject.name == "LaserHitParticle(Clone)")
-        {
-            var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
-            ps.startColor = Settings.altPiercerRevolverBeamEndColor.value;
-        }
-    }
+    //[HarmonyPrefix]
+    //[HarmonyPatch(typeof(RemoveOnTime), "Start")]
+    //private static void RecolorLaserHitParticles(RemoveOnTime __instance)
+    //{
+    //    if (__instance.gameObject.name == "LaserHitParticle(Clone)")
+    //    {
+    //        var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
+    //        ps.startColor = Settings.altPiercerRevolverBeamEndColor.value;
+    //    }
+    //}
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Explosion), nameof(Explosion.Start))]
@@ -146,11 +150,12 @@ public sealed class Plugin : BaseUnityPlugin
         if (__instance.gameObject.name == "Explosion Malicious Railcannon(Clone)")
         {
             if (!Settings.maliciousExplosionEnabled.value) return true;
+
             var mr = __instance.GetComponentsInChildren<MeshRenderer>();
             var newMat = new Material(mr[0].material)
             {
                 mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION", "_COLORCOLOR_ON"]
+                shaderKeywords = ["_FADING_ON", "_EMISSION"]
             };
             newMat.color = Settings.maliciousExplosionColor.value;
             mr[0].material = newMat;
@@ -164,7 +169,7 @@ public sealed class Plugin : BaseUnityPlugin
             var newMat = new Material(mr[0].material)
             {
                 mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION", "_COLORCOLOR_ON"]
+                shaderKeywords = ["_FADING_ON", "_EMISSION"]
             };
             newMat.color = Settings.nukeExplosionColor.value;
             mr[0].material = newMat;
@@ -178,6 +183,8 @@ public sealed class Plugin : BaseUnityPlugin
     [HarmonyPatch(typeof(ExplosionController), "Start")]
     private static void expFader(ExplosionController __instance)
     {
+        var expMesh = __instance.transform.Find("Sphere_8");
+        if (expMesh == null) return;
         __instance.transform.Find("Sphere_8").gameObject.AddComponent<ExplosionFader>();
     }
 }
