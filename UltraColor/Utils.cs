@@ -31,9 +31,9 @@ namespace UltraColor
 
         public static Sprite LoadPNG(string filePath)
         {
+            Debug.Log($"trying filePath: {filePath}");
             Texture2D Tex = null;
             byte[] FileData;
-
             if (File.Exists(filePath))
             {
                 FileData = File.ReadAllBytes(filePath);

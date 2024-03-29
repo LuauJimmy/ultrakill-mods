@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using EffectChanger;
-using EffectChanger.Enum;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +8,10 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using EffectChanger.Weapons;
+using EffectChanger.Player;
 using UnityEngine.Assertions;
 using System.Runtime.CompilerServices;
+using EffectChanger.Enemies;
 namespace UltraColor;
 using PluginInfo = EffectChanger.PluginInfo;
 
@@ -37,6 +38,11 @@ public sealed class Plugin : BaseUnityPlugin
     public static Texture2D? whiteSparkTexture;
     private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
+
+    private static bool isRidingRocket = false;
+    private static Vector3 rocketRotation;
+    private static Transform rocketPos;
+    private static Grenade ridingRocket;
 
     public static T Fetch<T>(string key)
     {
@@ -66,16 +72,12 @@ public sealed class Plugin : BaseUnityPlugin
         Harmony.CreateAndPatchAll(typeof(_Nailgun));
         Harmony.CreateAndPatchAll(typeof(_RocketLauncher));
         Harmony.CreateAndPatchAll(typeof(_Railcannon));
-
+        Harmony.CreateAndPatchAll(typeof(_Movement));
         Harmony.CreateAndPatchAll(typeof(_Idol));
-        
-        
+        //Harmony.CreateAndPatchAll(typeof(EnemyProjectile));
+
         if (debugMode) { Harmony.CreateAndPatchAll(typeof(DebugPatches)); }
 
-
-        //workingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-        //PostAwake();
     }
 
     public void Start()
@@ -88,6 +90,47 @@ public sealed class Plugin : BaseUnityPlugin
     {
         _ = UltraColor.Instance;
     }
+
+
+    //[HarmonyPostfix]
+    //[HarmonyPatch(typeof(Grenade), nameof(Grenade.PlayerRideStart))]
+    //private static void SetIsRocketRiding(Grenade __instance)
+    //{
+    //    isRidingRocket = true;
+    //    ridingRocket = __instance;
+    //}
+
+    //[HarmonyPostfix]
+    //[HarmonyPatch(typeof(Grenade), nameof(Grenade.PlayerRideEnd))]
+    //private static void DismountRocket(Grenade __instance)
+    //{
+    //    isRidingRocket = false;
+
+    //}
+
+    //[HarmonyPostfix]
+    //[HarmonyPatch(typeof(Grenade), nameof(Grenade.Update))]
+    //private static void SetRocketRidingRotation(Grenade __instance)
+    //{
+    //    if (isRidingRocket)
+    //    rocketPos = __instance.transform;
+    //}
+
+    //[HarmonyPrefix]
+    //[HarmonyPatch(typeof(CameraController), nameof(Update))]
+    //private static bool HackCameraPre(CameraController __instance)
+    //{
+    //    if (isRidingRocket) __instance.transform.rotation = rocketPos.rotation;
+    //    return true;
+    //}
+
+    //[HarmonyPostfix]
+    //[HarmonyPatch(typeof(CameraController), nameof(Update))]
+    //private static void HackCamera(CameraController __instance)
+    //{
+    //    if (isRidingRocket) __instance.transform.rotation = rocketPos.rotation;
+    //    MonoSingleton<NewMovement>.Instance.gc.transform.rotation = rocketPos.rotation;
+    //}
 
     //[HarmonyPrefix]
     //[HarmonyPatch(typeof(RemoveOnTime), "Start")]

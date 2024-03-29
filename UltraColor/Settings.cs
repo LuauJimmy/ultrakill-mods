@@ -1,5 +1,4 @@
 ﻿using BepInEx.Configuration;
-using EffectChanger.Enum;
 using PluginConfig.API;
 using PluginConfig.API.Decorators;
 using PluginConfig.API.Fields;
@@ -32,7 +31,7 @@ public static class Settings
     public static ColorField piercerRevolverBeamEndColor;
     public static ColorField piercerRevolverMuzzleFlashColor;
     public static ColorField piercerRevolverChargeMuzzleFlashColor;
-    public static EnumField<ColorHelper.BulletColor> piercerRevolverChargeEffectColor;
+    public static ColorField piercerRevolverChargeEffectColor;
 
     public static BoolField sharpShooterEnabled;
     public static ColorField sharpShooterChargeBeamStartColor;
@@ -70,7 +69,7 @@ public static class Settings
     public static ColorField altPiercerRevolverBeamEndColor;
     public static ColorField altPiercerRevolverMuzzleFlashColor;
     public static ColorField altPiercerRevolverChargeMuzzleFlashColor;
-    public static EnumField<ColorHelper.BulletColor> altPiercerRevolverChargeEffectColor;
+    public static ColorField altPiercerRevolverChargeEffectColor;
 
     public static BoolField magnetNailgunEnabled;
     public static ColorField magnetNailgunTrailStartColor;
@@ -116,7 +115,6 @@ public static class Settings
     public static BoolField greenRailcannonEnabled;
     public static ColorField greenRailcannonTrailStartColor;
     public static ColorField greenRailcannonTrailEndColor;
-    public static EnumField<ColorHelper.MuzzleFlash> greenRailcannonMuzzleFlashColor;
 
     public static BoolField revolverCoinRicochetBeamEnabled;
     public static ColorField revolverCoinRicochetBeamStartColor;
@@ -137,7 +135,18 @@ public static class Settings
     public static ColorField knuckleBlasterLightColor;
     public static BoolField knuckleBlasterEnabled;
 
+    public static BoolField slideScrapeEnabled;
+    public static ColorField slideScrapeSparksStartColor;
+    public static ColorField slideScrapeSparksEndColor;
+    public static BoolField dodgeEnabled;
+    public static ColorField dodgeStartColor;
+    public static ColorField dodgeEndColor;
+    public static BoolField slamEnabled;
+    public static ColorField slamStartColor;
+    public static ColorField slamEndColor;
+
     public static BoolField blessingEnabled;
+    public static ColorField blessingBeamColor;
     public static ColorField blessingColor;
     public static ColorField idolHaloColor;
     public static ColorField idolSpikesColor;
@@ -178,6 +187,8 @@ public static class Settings
         ConfigPanel freezeRocketSubPanel = new ConfigPanel(rocketSubPanel, "FreezeFrame Rocket Launcher", "FreezeRocketSubPanel");
         ConfigPanel cannonballRocketSubPanel = new ConfigPanel(rocketSubPanel, "S.R.S Cannon Rocket Launcher", "CannonballRocketSubPanel");
 
+        ConfigPanel effectsSubPanel = new ConfigPanel(config.rootPanel, "Misc Effects", "EffectsSubPanel");
+
         ConfigPanel explosionSubPanel = new ConfigPanel(config.rootPanel, "Explosion", "ExplosionSubPanel");
 
         ConfigPanel knuckleBlasterSubPanel = new ConfigPanel(config.rootPanel, "Knuckle Blaster", "KnuckleBlasterSubPanel");
@@ -214,7 +225,7 @@ public static class Settings
         piercerRevolverEnabled = new BoolField(piercerRevolverSubPanel, "Enabled", "piercerEnabled", false);
         piercerRevolverMuzzleFlashColor = new ColorField(piercerRevolverSubPanel, "Muzzle Flash Sprite Color", "PiercerRevolverMuzzleFlashColor", new Color(1, 1, 1, 1));
         piercerRevolverChargeMuzzleFlashColor = new ColorField(piercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "PiercerRevolverChargeMuzzleFlashColor", new Color(1, 1, 1, 1));
-        piercerRevolverChargeEffectColor = new EnumField<ColorHelper.BulletColor>(piercerRevolverSubPanel, "Charge Effect Color", "PiercerRevolverChargeEffectColor", ColorHelper.BulletColor.Default);
+        piercerRevolverChargeEffectColor = new ColorField(piercerRevolverSubPanel, "Charge Effect Color", "PiercerRevolverChargeEffectColor", new Color(0.1f, 0.25f, 0.85f, 1));
         piercerRevolverBeamStartColor = new ColorField(piercerRevolverSubPanel, "Normal Beam Start Color", "PiercerRevolverBeamStartColor", new Color(1, 1, 1, 1));
         piercerRevolverBeamEndColor = new ColorField(piercerRevolverSubPanel, "Normal Beam End Color", "PiercerRevolverBeamEndColor", new Color(1, 0.8078F, 0, 1));
         piercerRevolverChargeBeamStartColor = new ColorField(piercerRevolverSubPanel, "Charge Beam Start Color", "PiercerRevolverChargeBeamStartColor", new Color(1, 1, 1, 1));
@@ -224,7 +235,7 @@ public static class Settings
         altPiercerRevolverEnabled = new BoolField(altPiercerRevolverSubPanel, "Enabled", "altPiercerEnabled", false);
         altPiercerRevolverMuzzleFlashColor = new ColorField(altPiercerRevolverSubPanel, "Muzzle Flash Sprite Color", "AltPiercerRevolverMuzzleFlashColor", new Color(1, 1, 1, 1));
         altPiercerRevolverChargeMuzzleFlashColor = new ColorField(altPiercerRevolverSubPanel, "Charge Muzzle Flash Sprite Color", "AltPiercerRevolverChargeMuzzleFlashColor", new Color(1, 1, 1, 1));
-        altPiercerRevolverChargeEffectColor = new EnumField<ColorHelper.BulletColor>(altPiercerRevolverSubPanel, "Charge Effect Color", "AltPiercerRevolverChargeEffectColor", ColorHelper.BulletColor.Default);
+        altPiercerRevolverChargeEffectColor = new ColorField(altPiercerRevolverSubPanel, "Charge Effect Color", "AltPiercerRevolverChargeEffectColor", new Color(0.1f, 0.25f, 0.85f, 1));
         altPiercerRevolverBeamStartColor = new ColorField(altPiercerRevolverSubPanel, "Normal Beam Start Color", "AltPiercerRevolverBeamStartColor", new Color(1, 1, 1, 1));
         altPiercerRevolverBeamEndColor = new ColorField(altPiercerRevolverSubPanel, "Normal Beam End Color", "AltPiercerRevolverBeamEndColor", new Color(1, 0.7255F, 0, 1));
         altPiercerRevolverChargeBeamStartColor = new ColorField(altPiercerRevolverSubPanel, "Charge Beam Start Color", "AltPiercerRevolverChargeBeamStartColor", new Color(1, 1, 1, 1));
@@ -307,7 +318,6 @@ public static class Settings
         //redRailcannonGlowStartColor = new ColorField(redRailcannonSubPanel, "Red Railcannon Beam Glow Start Color", "RedRailcannonBeamGlowStartColor", )
 
         greenRailcannonEnabled = new BoolField(greenRailcannonSubPanel, "Enabled", "greenRailcannonEnabled", false);
-        greenRailcannonMuzzleFlashColor = new EnumField<ColorHelper.MuzzleFlash>(greenRailcannonSubPanel, "Muzzle Flash Color", "GreenRailcannonMuzzleFlashColor", ColorHelper.MuzzleFlash.Default);
         greenRailcannonTrailStartColor = new ColorField(greenRailcannonSubPanel, "Trail Start Color", "GreenRailcannonTrailStartColor", new Color(0.2667F, 1, 0.2706F, 1));
         greenRailcannonTrailEndColor = new ColorField(greenRailcannonSubPanel, "Trail End Color", "GreenRailcannonTrailEndColor", new Color(0, 0, 0, 0));
 
@@ -321,6 +331,19 @@ public static class Settings
         cannonballTrailStartColor = new ColorField(cannonballRocketSubPanel, "Cannonball Trail Start Color", "CannonballTrailStartColor", new Color(0.4902f, 0.4902f, 0.4902f, 1));
         cannonballTrailEndColor = new ColorField(cannonballRocketSubPanel, "Cannonball Trail End Color", "CannonballTrailEndColor", new Color(0, 0, 0, 0));
 
+        // Movement Stuff
+        slideScrapeEnabled = new BoolField(effectsSubPanel, "Slide Scrape Enabled", "SlideScrapeEnabled", false);
+        slideScrapeSparksStartColor = new ColorField(effectsSubPanel, "Slide Scrape Sparks Start Color", "SlideScrapeSparksStartColor", new Color(0.3f, 0.3f, 0.3f, 1));
+        slideScrapeSparksEndColor = new ColorField(effectsSubPanel, "Slide Scrape Sparks End Color", "SlideScrapeSparksEndColor", new Color(0.3f, 0.3f, 0.3f, 1));
+
+        dodgeEnabled = new BoolField(effectsSubPanel, "Dodge Enabled", "DodgeEnabled", false);
+        dodgeStartColor = new ColorField(effectsSubPanel, "Dodge Start Color", "DodgeStartColor", new Color(0.3f, 0.3f, 0.3f, 1));
+        dodgeEndColor = new ColorField(effectsSubPanel, "Dodge End Color", "DodgeEndColor", new Color(0.3f, 0.3f, 0.3f, 1));
+
+        slamEnabled = new BoolField(effectsSubPanel, "Slam Enabled", "SlamEnabled", false);
+        slamStartColor = new ColorField(effectsSubPanel, "Slam Start Color", "SlamStartColor", new Color(0.3f, 0.3f, 0.3f, 1));
+        slamEndColor = new ColorField(effectsSubPanel, "Slam End Color", "SlamSparksEndColor", new Color(0.3f, 0.3f, 0.3f, 1));
+
         knuckleBlasterEnabled = new BoolField(knuckleBlasterSubPanel, "Enabled", "knuckleBlasterEnabled", false);
         knuckleBlasterShockwaveSpriteColor = new ColorField(knuckleBlasterSubPanel, "Shockwave Color", "knuckleBlasterShockwaveSpriteColor", new Color(0.63f, 0.63f, 0.63f, 1));
         knuckleBlasterExplosionColor = new ColorField(knuckleBlasterSubPanel, "Explosion Color", "knuckleBlasterExplosionColor", new Color(1, 1, 1, 1));
@@ -329,8 +352,9 @@ public static class Settings
         // Enemy Settings
         // Blessing
         blessingEnabled = new BoolField(enemiesSubPanel, "Enabled Recolor Enemy Blessing", "blessingEnabled", false);
-        blessingColor = new ColorField(enemiesSubPanel, "Enemy Blessing Color", "blessingColor", new Color(0.1f, 0.2f, 0.75f, 1));
-        idolHaloColor = new ColorField(enemiesSubPanel, "Idol Halo Color", "idolHaloColor", new Color(0.1f, 0.2f, 0.75f, 1));
-        idolSpikesColor = new ColorField(enemiesSubPanel, "Idol Spikes Color", "idolSpikesColor", new Color(0.1f, 0.2f, 0.75f, 1));
+        blessingColor = new ColorField(enemiesSubPanel, "Enemy Blessing Color", "blessingColor", new Color(0.3f, 0.5f, 0.8f));
+        blessingBeamColor = new ColorField(enemiesSubPanel, "Blessing Beam Color", "blessingBeamColor", new Color(0.3f, 0.5f, 0.8f));
+        idolHaloColor = new ColorField(enemiesSubPanel, "Idol Halo Color", "idolHaloColor", new Color(0.3f, 0.5f, 0.8f));
+        idolSpikesColor = new ColorField(enemiesSubPanel, "Idol Spikes Color", "idolSpikesColor", new Color(0.3f, 0.5f, 0.8f));
     }
 }

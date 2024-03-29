@@ -1,11 +1,11 @@
 ﻿using BepInEx;
-using EffectChanger.Enum;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UltraColor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace EffectChanger.Weapons
 {
@@ -57,6 +57,11 @@ namespace EffectChanger.Weapons
             return true;
         }
 
+
+
+
+
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Shotgun), "Start")]
         private static bool exp(Shotgun __instance)
@@ -70,6 +75,8 @@ namespace EffectChanger.Weapons
             var s8 = exp.transform.Find("Sphere_8");
 
             var pl = s8.transform.Find("Point Light").GetComponent<Light>();
+
+            //TODO: Change sprite inside explosion?
 
             //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
 
@@ -113,8 +120,9 @@ namespace EffectChanger.Weapons
                 var obj = Instantiate(flash);
                 var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
                 interpColor.a = 0.95f;
-                obj.GetComponent<SpriteRenderer>().color = interpColor;
-                obj.GetComponent<SpriteRenderer>().sprite = muzzleFlashInnerBase;
+                var sr = obj.GetComponent<SpriteRenderer>();
+                sr.color = interpColor;
+                sr.sprite = muzzleFlashInnerBase;
                 obj.transform.position = __instance.shootPoints[0].transform.position;
                 obj.transform.rotation = __instance.shootPoints[0].transform.rotation;
                 obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();

@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using EffectChanger.Enum;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -15,6 +14,7 @@ namespace EffectChanger.Weapons
         private static Sprite? muzzleFlashInnerBase => Plugin.muzzleFlashInnerBase;
 
         private static Sprite? defaultMuzzleFlashSprite => Plugin.defaultMuzzleFlashSprite;
+        private static Texture? defaultChargeTexture => Plugin.chargeBlankTexture;
 
         // Need to patch ReadyGun instead of Start because lots of weapons use the same normal fire mode projectile
         [HarmonyPrefix]
@@ -80,6 +80,8 @@ namespace EffectChanger.Weapons
             }
         }
 
+
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Revolver), "ReadyGun")]
         private static bool RecolorRevolverChargeMuzzleFlash(Revolver __instance)
@@ -110,7 +112,7 @@ namespace EffectChanger.Weapons
                 default: return true;
             }
 
-            var light = __instance.revolverBeam.GetComponent<Light>();
+            var light = __instance.revolverBeamSuper.GetComponent<Light>();
             light.color = muzzleFlashColor;
             var muzzleFlashes = __instance.revolverBeamSuper.GetComponentsInChildren<SpriteRenderer>();
             foreach (var muzzle in muzzleFlashes)
@@ -170,18 +172,32 @@ namespace EffectChanger.Weapons
         [HarmonyPatch(typeof(Revolver), "Start")]
         private static bool RecolorRevolverChargeBeam(Revolver __instance)
         {
+            MeshRenderer mr;
+            Material coloredChargeMaterial;
+            ParticleSystemRenderer psr;
+            
             switch (__instance.gameObject.name)
             {
                 case "Revolver Pierce(Clone)":
                     if (!Settings.piercerRevolverEnabled.value) return true;
-                    __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverBeamStartColor.value;
-                    __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverBeamEndColor.value;
+                    __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.piercerRevolverChargeBeamStartColor.value;
+                    __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.piercerRevolverChargeBeamEndColor.value;
 
-                    if (Settings.piercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return true;
+                    if (Settings.piercerRevolverChargeEffectColor.value == Settings.piercerRevolverChargeEffectColor.defaultValue) return true;
                     // Replace revolver charge effect material
-                    Material newMat = ColorHelper.LoadBulletColor(Settings.piercerRevolverChargeEffectColor.value);
-                    var c = __instance.transform.Find("Revolver_Rerigged_Standard/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint/ChargeEffect");
-                    c.GetComponent<MeshRenderer>().material = newMat;
+
+                    var piercerChargeEffect = __instance.transform.Find("Revolver_Rerigged_Standard/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint/ChargeEffect");
+                    mr = piercerChargeEffect.GetComponent<MeshRenderer>();
+                    psr = piercerChargeEffect.GetComponent<ParticleSystemRenderer>();
+                    coloredChargeMaterial = new Material(mr.material) 
+                    {
+                        mainTexture = defaultChargeTexture,
+                        color = Settings.piercerRevolverChargeEffectColor.value,
+                    };
+                    mr.material = coloredChargeMaterial;
+                    psr.material = coloredChargeMaterial;
+                    piercerChargeEffect.gameObject.AddComponent<ChargeEffectScale>();
+                    piercerChargeEffect.GetComponent<Light>().color = Settings.piercerRevolverChargeEffectColor.value;
                     break;
 
                 case "Alternative Revolver Pierce(Clone)":
@@ -189,10 +205,21 @@ namespace EffectChanger.Weapons
                     __instance.revolverBeamSuper.GetComponent<LineRenderer>().startColor = Settings.altPiercerRevolverChargeBeamStartColor.value;
                     __instance.revolverBeamSuper.GetComponent<LineRenderer>().endColor = Settings.altPiercerRevolverChargeBeamEndColor.value;
 
-                    if (Settings.altPiercerRevolverChargeEffectColor.value == ColorHelper.BulletColor.Default) return true;
+                    if (Settings.altPiercerRevolverChargeEffectColor.value == Settings.altPiercerRevolverChargeEffectColor.defaultValue) return true;
 
                     var altPiercerChargeEffect = __instance.transform.Find("Revolver_Rerigged_Alternate/Armature/Upper Arm/Forearm/Hand/Revolver_Bone/ShootPoint (1)/ChargeEffect");
-                    altPiercerChargeEffect.GetComponent<MeshRenderer>().material = ColorHelper.LoadBulletColor(Settings.altPiercerRevolverChargeEffectColor.value);
+                    mr = altPiercerChargeEffect.GetComponent<MeshRenderer>();
+                    psr = altPiercerChargeEffect.GetComponent<ParticleSystemRenderer>();
+                    
+                    coloredChargeMaterial = new Material(mr.material)
+                    {
+                        mainTexture = defaultChargeTexture,
+                        color = Settings.altPiercerRevolverChargeEffectColor.value,
+                    };
+                    mr.material = coloredChargeMaterial;
+                    psr.material = coloredChargeMaterial;
+                    altPiercerChargeEffect.gameObject.AddComponent<ChargeEffectScale>();
+                    altPiercerChargeEffect.GetComponent<Light>().color = Settings.altPiercerRevolverChargeEffectColor.value;
                     break;
 
                 case "Revolver Twirl(Clone)":
@@ -212,6 +239,7 @@ namespace EffectChanger.Weapons
             }
             return true;
         }
+
 
         // Add a little white
         [HarmonyFinalizer]

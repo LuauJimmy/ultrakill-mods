@@ -22,14 +22,12 @@ namespace EffectChanger.Weapons
         {
             if (!_shouldInitBlessing || !Settings.blessingEnabled.value) return;
 
-            Debug.Log("Doin it....");
             var glow = Resources.FindObjectsOfTypeAll<Transform>().Where(s => s.name == "BlessingGlow").First();
             if (glow != null) 
             { 
-                Debug.Log($"{glow}"); 
                 glow.GetComponentInChildren<SpriteRenderer>().color = Settings.blessingColor.value;
                 var particleEffect = glow.GetComponentInChildren<ParticleSystem>();
-                particleEffect.startColor = Settings.blessingColor.value;
+                particleEffect.startColor = Settings.blessingBeamColor.value;
             }
 
             _shouldInitBlessing = false;
@@ -41,11 +39,6 @@ namespace EffectChanger.Weapons
         {
             if (!_shouldInitIdol || !Settings.blessingEnabled.value) return;
             var glow = Resources.FindObjectsOfTypeAll<Transform>().Where(s => s.name == "Idol" && s.parent == null).First();
-            Debug.Log(glow.transform);
-            foreach(var child in glow)
-            {
-                Debug.Log(child);
-            }
             
             var halo = glow.gameObject.transform.Find("Halo (1)/New Sprite");
             halo.gameObject.GetComponent<SpriteRenderer>().color = Settings.idolHaloColor.value;
@@ -95,8 +88,6 @@ namespace EffectChanger.Weapons
         [HarmonyPatch(typeof(SceneHelper), nameof(SceneHelper.LoadScene))]
         private static void ResetGlowInitState()
         {
-
-
             _shouldInitBlessing = true;
             _shouldInitIdol = true;
         }
