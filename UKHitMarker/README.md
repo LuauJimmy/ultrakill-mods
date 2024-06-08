@@ -1,49 +1,13 @@
-![UltraColor](./assets/icon.png)
+# UKHitMarker
 
-# ULTRACOLOR
+A configurable mod for Ultrakill that provides visual feedback for damaging enemies on the HUD.
 
-A mod that enables users to recolor various ingame effects.
+# Features
 
-# Supported Weapons / Effects
-
-- Revolver (all variations)
-    - 
-    - Muzzle flash sprite
-    - Muzzle flash environmental light
-    - Beam start/end
-    - Charge beam muzzle flash sprite
-    - Charge beam start/end
-    - Charge beam charge effect sprite
-- Coin
-    -
-    - Flash
-    - Coin trail start/end 
-    - Marksman reflected beam start/end
-- Shotgun
-    -
-    - Core flash sprite
-    - Muzzle flash sprite
-    - Muzzle flash environmental light
-    - Projectile trail start/end
-- Nailgun
-    -
-    - Muzzle flash sprite
-    - Muzzle flash environmental light
-    - Nail trail start/end
-    - Saw trail start/end
-    - Magnet trail
-    - Heated nail trail start/end
-    - Heated saw trail start/end
-- Railcannon
-    -
-    - Electric railcannon muzzle flash sprite
-    - Electric railcannon muzzle flash environmental light
-    - Malicious railcannon explosion
-    - Screw railcannon trail start/end
-- Rocket Launcher (both variations)
-    - 
-    - Rocket trail start/end
-    - Cannonball trail 
+- Hit Marker Style
+		- Color and size can be configured using PluginConfigurator (See requirements)
+- Kill Marker Style
+		- Enable to show a different color when an enemy is killed.
 
 # Requirements
 
@@ -52,22 +16,19 @@ A mod that enables users to recolor various ingame effects.
 
 # Configuration
 
-- Settings must be enabled in Plugin Configurator to appear in game. 
-- Some effects require a level restart to take effect.
-
+- Select UKHitMarker in 
+- 
 # Known Issues
 
-# Planned Features
+- Some damage
 
-- Enemy parry flash color
-- Railcannon
-  - Electric railcannon beam lightning colors
+# Planned Features
 
 ---
 
 # Thank You
 
-Hakita and team for making Ultrakill, the best game ever
+Hakita and team for making Ultrakill, best game ever
 
 originally inspired by (https://thunderstore.io/c/ultrakill/p/The0x539/RcHud/)
 
