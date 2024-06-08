@@ -7,13 +7,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB308CE2-23BA-4086-BD65-05D54D8B6F50}"
 	ProjectSection(SolutionItems) = preProject
 		RcHud\README.md = RcHud\README.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StartupDummy", "..\RcHud\StartupDummy\StartupDummy.csproj", "{05773E79-3426-4A31-B6F9-C679B2605461}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UltraShade", "UltraShade\UltraShade.csproj", "{625EFD87-91AB-40E6-8B1B-FFF3C4125B5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UKHitMarker", "UKHitMarker\UKHitMarker.csproj", "{6294ADAB-E308-43D2-8286-E2BD8B71D2D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UKHitMarker", "UKHitMarker\UKHitMarker.csproj", "{6294ADAB-E308-43D2-8286-E2BD8B71D2D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
