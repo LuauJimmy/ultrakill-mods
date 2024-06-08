@@ -38,7 +38,9 @@ namespace EffectChanger.Weapons
         private static void RecolorIdolGlow(Idol __instance)
         {
             if (!_shouldInitIdol || !Settings.blessingEnabled.value) return;
-            var glow = Resources.FindObjectsOfTypeAll<Transform>().Where(s => s.name == "Idol" && s.parent == null).First();
+            var glow = Resources.FindObjectsOfTypeAll<Transform>()
+                .Where(s => s.name == "Idol" && s.parent == null)
+                .First();
             
             var halo = glow.gameObject.transform.Find("Halo (1)/New Sprite");
             halo.gameObject.GetComponent<SpriteRenderer>().color = Settings.idolHaloColor.value;

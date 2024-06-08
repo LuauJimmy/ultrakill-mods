@@ -41,6 +41,10 @@
 			<HintPath>..\lib\UnityEngine.UI.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>..\lib\Unity.TextMeshPro.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<Reference Include="Unity.Addressables">
 			<HintPath>..\lib\Unity.Addressables.dll</HintPath>
 		</Reference>

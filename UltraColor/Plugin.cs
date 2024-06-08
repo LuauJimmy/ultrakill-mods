@@ -12,6 +12,7 @@ using EffectChanger.Player;
 using UnityEngine.Assertions;
 using System.Runtime.CompilerServices;
 using EffectChanger.Enemies;
+using UnityEngine.UIElements.Experimental;
 namespace UltraColor;
 using PluginInfo = EffectChanger.PluginInfo;
 
@@ -36,6 +37,7 @@ public sealed class Plugin : BaseUnityPlugin
     public static Texture2D? chargeBlankTexture;
     public static Texture2D? basicWhiteTexture;
     public static Texture2D? whiteSparkTexture;
+    public static Texture2D? enrageEffectTextureBlank;
     private static Color _revolverMuzzleFlashColor;
     private static bool debugMode;
 
@@ -59,14 +61,17 @@ public sealed class Plugin : BaseUnityPlugin
         blankMuzzleFlashSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashblank2.png");
         blankMuzzleFlashShotgunSprite = Utils.LoadPNG($"{AssetPath}\\muzzleflashshotgunblank.png");
         muzzleFlashInnerBase = Utils.LoadPNG($"{AssetPath}\\muzzleflash-innerbase.png");
-        chargeBlankSprite = Utils.LoadPNG($"{AssetPath}\\chargeblank.png");
+        chargeBlankSprite = Utils.LoadPNG($"{AssetPath}\\chargeblank.png", FilterMode.Point);
         shotgunInnerComponent = Utils.LoadPNG($"{AssetPath}\\muzzleflashshotguninnercomponent.png");
-        chargeBlankTexture = Utils.LoadTexture($"{AssetPath}\\chargeblank.png");
+        chargeBlankTexture = Utils.LoadTexture($"{AssetPath}\\chargeblank.png", FilterMode.Point);
         basicWhiteTexture = Utils.LoadTexture($"{AssetPath}\\basicwhite.png");
         whiteSparkTexture = Utils.LoadTexture($"{AssetPath}\\spark.png");
+        enrageEffectTextureBlank = Utils.LoadTexture($"{AssetPath}\\RageEffect.png", FilterMode.Point);
+
         Settings.Init(this.Config);
 
         Harmony.CreateAndPatchAll(this.GetType());
+        Harmony.CreateAndPatchAll(typeof(EnemyProjectile));
         Harmony.CreateAndPatchAll(typeof(_Shotgun));
         Harmony.CreateAndPatchAll(typeof(_Revolver));
         Harmony.CreateAndPatchAll(typeof(_Nailgun));
@@ -74,7 +79,7 @@ public sealed class Plugin : BaseUnityPlugin
         Harmony.CreateAndPatchAll(typeof(_Railcannon));
         Harmony.CreateAndPatchAll(typeof(_Movement));
         Harmony.CreateAndPatchAll(typeof(_Idol));
-        //Harmony.CreateAndPatchAll(typeof(EnemyProjectile));
+        Harmony.CreateAndPatchAll(typeof(_EnrageEffect));
 
         if (debugMode) { Harmony.CreateAndPatchAll(typeof(DebugPatches)); }
 
@@ -132,17 +137,6 @@ public sealed class Plugin : BaseUnityPlugin
     //    MonoSingleton<NewMovement>.Instance.gc.transform.rotation = rocketPos.rotation;
     //}
 
-    //[HarmonyPrefix]
-    //[HarmonyPatch(typeof(RemoveOnTime), "Start")]
-    //private static void RecolorLaserHitParticles(RemoveOnTime __instance)
-    //{
-    //    if (__instance.gameObject.name == "LaserHitParticle(Clone)")
-    //    {
-    //        var ps = __instance.gameObject.GetComponentInChildren<ParticleSystem>();
-    //        ps.startColor = Settings.altPiercerRevolverBeamEndColor.value;
-    //    }
-    //}
-
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Explosion), nameof(Explosion.Start))]
     private static bool RecolorKBExplosion(Explosion __instance)
@@ -167,6 +161,7 @@ public sealed class Plugin : BaseUnityPlugin
         }
         return true;
     }
+
     [HarmonyPrefix]
     [HarmonyPatch(typeof(ExplosionController), "Start")]
     private static bool RecolorExplosion(ExplosionController __instance)
@@ -223,11 +218,13 @@ public sealed class Plugin : BaseUnityPlugin
     }
 
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(ExplosionController), "Start")]
-    private static void expFader(ExplosionController __instance)
+    [HarmonyPatch(typeof(Explosion), "Start")]
+    private static void expFader(Explosion __instance)
     {
-        var expMesh = __instance.transform.Find("Sphere_8");
-        if (expMesh == null) return;
-        __instance.transform.Find("Sphere_8").gameObject.AddComponent<ExplosionFader>();
+        __instance.gameObject.AddComponent<ExplosionFader>();
+        //var expMesh = __instance.transform.Find("Sphere_8");
+        //if (expMesh == null) return;
+        //expMesh.gameObject.AddComponent<ExplosionFader>();
+        //__instance.gameObject.AddComponent<ExplosionFader>();
     }
 }

@@ -15,7 +15,8 @@ namespace EffectChanger.Enemies
             if (!shouldInit) return;
             __instance.GetComponent<TrailRenderer>().startColor = new Color(0.3f, 0, 1, 1);
             __instance.GetComponent<TrailRenderer>().endColor = new Color(0.3f, 0, 1, 1);
-            
+
+            shouldInit = false;
         }
 
 

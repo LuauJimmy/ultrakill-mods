@@ -57,10 +57,23 @@ namespace EffectChanger.Weapons
             return true;
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Chainsaw), nameof(Chainsaw.Start))]
+        private static void RecolorChainsawTrail(Chainsaw __instance)
+        {
+            try
+            {
+                var tr = __instance.gameObject.GetComponent<TrailRenderer>();
+                tr.startColor = new Color(0f, 0.2f, 1, 0.25f);
+            }
+            catch
+            {
+                return;
+            }
+            
+        }
 
-
-
-
+        
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Shotgun), "Start")]
@@ -76,7 +89,7 @@ namespace EffectChanger.Weapons
 
             var pl = s8.transform.Find("Point Light").GetComponent<Light>();
 
-            //TODO: Change sprite inside explosion?
+            //TODO: Change sprite inside explosion?z
 
             //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
 
@@ -101,13 +114,13 @@ namespace EffectChanger.Weapons
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Shotgun), "Start")]
-        private static void expFader(Shotgun __instance)
+        private static void AddExplosionFader(Shotgun __instance)
         {
             var exp = __instance.explosion;
             var s8 = exp.transform.Find("Sphere_8");
             var rf = s8.transform.gameObject.AddComponent<ExplosionFader>();
-
         }
+
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Shotgun), "Shoot")]
         private static void AddMuzzleFlashInnerComponent_Shotgun(Shotgun __instance)

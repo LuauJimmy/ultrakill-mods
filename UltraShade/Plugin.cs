@@ -91,28 +91,36 @@ namespace UltraShade
             _ = UltraShade.Instance;
         }
 
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(CustomTextures), nameof(CustomTextures.Start))]
-        private static void doobie2(CustomTextures __instance)
-        {
-            var sky = __instance.skyMaterial;
-            //Resources.FindObjectsOfTypeAll<Material>()
-            //  .Where(m => m.name == "EndlessSky")
-            //    .FirstOrDefault();
-            sky.shader = jimshade;
 
-        }
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(CustomTextures), nameof(CustomTextures.Start))]
+        //private static void doobie2(CustomTextures __instance)
+        //{
+        //    var sky = __instance.skyMaterial;
+        //    //Resources.FindObjectsOfTypeAll<Material>()
+        //    //  .Where(m => m.name == "EndlessSky")
+        //    //    .FirstOrDefault();
+        //    sky.shader = universeShader;
+
+        //}
+
+        //[HarmonyPostfix]
+        //[HarmonyPatch(typeof(CustomTextures), nameof(CustomTextures.Start))]
+        //private static void doobie3(CustomTextures __instance)
+        //{
+        //    var sky = __instance.skyMaterial;
+        //    //Resources.FindObjectsOfTypeAll<Material>()
+        //    //  .Where(m => m.name == "EndlessSky")
+        //    //    .FirstOrDefault();
+        //    sky.shader = universeShader;
+
+        //}
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(CustomTextures), nameof(CustomTextures.Start))]
-        private static void doobie3(CustomTextures __instance)
+        [HarmonyPatch(typeof(OutdoorLightMaster), nameof(OutdoorLightMaster.UpdateSkyboxMaterial))]
+        private static void UpdateSkyboxMaterial(OutdoorLightMaster __instance)
         {
-            var sky = __instance.skyMaterial;
-            //Resources.FindObjectsOfTypeAll<Material>()
-            //  .Where(m => m.name == "EndlessSky")
-            //    .FirstOrDefault();
-            sky.shader = jimshade;
-
+            __instance.skyboxMaterial = universeMat;
         }
 
         [HarmonyPrefix]
@@ -122,7 +130,7 @@ namespace UltraShade
             var mrs = __instance.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
             foreach (SkinnedMeshRenderer mr in mrs)
             {
-                mr.material = universeMat;
+                //mr.material = universeMat;
             }
         }
 

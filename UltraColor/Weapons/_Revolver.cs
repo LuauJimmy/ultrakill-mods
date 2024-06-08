@@ -2,9 +2,12 @@
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using Color = UnityEngine.Color;
 using System.Text;
 using UltraColor;
 using UnityEngine;
+using System.Linq;
 
 namespace EffectChanger.Weapons
 {
@@ -80,6 +83,111 @@ namespace EffectChanger.Weapons
             }
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(RemoveOnTime), nameof(RemoveOnTime.Start))]
+        private static void RecolorLasss(RemoveOnTime __instance)
+        {
+            if (!__instance.gameObject.name.Contains("LaserHitParticle")) return;
+            var currentRevolver = GunControl.instance.currentWeapon.GetComponent<Revolver>();
+            if (currentRevolver == null) return;
+            GameObject currentBeam;
+            Color color2;
+            switch(__instance.gameObject.name)
+            {
+                case "LaserHitParticle(Clone)":
+                    currentBeam = currentRevolver.revolverBeam;
+                    color2 = currentBeam.GetComponent<LineRenderer>().endColor;
+                    break;
+                case "SuperLaserHitParticle(Clone)":
+                    currentBeam = currentRevolver.revolverBeamSuper;
+                    color2 = currentBeam.GetComponent<LineRenderer>().startColor;
+                    break;
+                case "SharpLaserHitParticle(Clone)":
+                    currentBeam = currentRevolver.revolverBeamSuper;
+                    color2 = currentBeam.GetComponent<LineRenderer>().startColor;
+                    break;
+                default:
+                    return;
+            }
+
+            Gradient gradient = new Gradient();
+            gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(Color.white, 0.0f), new GradientColorKey(Color.white, 0.3f), new GradientColorKey(color2, 1f) },
+                new GradientAlphaKey[] { new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.3f), new GradientAlphaKey(1f, 0.7f) });
+
+
+            var COL = __instance.gameObject.GetComponent<ParticleSystem>().colorOverLifetime;
+
+            COL.color = gradient;
+        }
+
+        //static bool shouldInitRevolverHitParticles = true;
+
+        //[HarmonyPostfix]
+        //[HarmonyPatch(typeof(SceneHelper), nameof(SceneHelper.RestartScene))]
+        //[HarmonyPatch(typeof(SceneHelper), nameof(SceneHelper.LoadScene))]
+        //private static void RecolorLaserHitParticles()
+        //{
+        //    Gradient gradient = new Gradient();
+
+        //    //ps.startColor = Settings.altPiercerRevolverBeamEndColor.value;
+        //    try
+        //    {
+        //        var revolver = Resources.FindObjectsOfTypeAll<Revolver>()
+        //            .Where(s => s.name.Contains("Ricochet(Clone)"))
+        //            .First();
+
+        //        if (revolver != null) { Debug.Log("\n\n\n\n\n\n\n\nSuccessfully found Revolver"); }
+
+        //        var revolverBeam = revolver.revolverBeam.GetComponent<RevolverBeam>();
+        //        var origHp = revolverBeam.hitParticle;
+        //        var origPs = origHp.GetComponent<ParticleSystem>();
+        //        var origPsr = origHp.GetComponent<ParticleSystemRenderer>();
+        //        origHp.SetActive(true);
+        //        var newHp = Instantiate(origHp);
+
+        //        revolverBeam.hitParticle = newHp;
+        //        newHp.SetActive(true);
+
+        //        Color color1 = Settings.dodgeStartColor.value;
+        //        Color color2 = Settings.dodgeEndColor.value;
+        //        //var myMat = Plugin.Fetch<Material>("Assets/Materials/Dev/Additive.mat");
+        //        //var unlitShader = Plugin.Fetch<Shader>("Assets/Shaders/Transparent/ULTRAKILL-simple-additive.shader"); //Fetch<Shader>("Assets/Shaders/Particles/Particle_Additive.shader");
+
+        //        //var newMat = new Material(myMat)
+        //        //{
+        //        //    color = new Color(1, 1, 1, 1f),
+        //        //};
+
+        //        //var ps = newHp.GetComponent<ParticleSystem>();
+        //        //var psr = newHp.GetComponent<ParticleSystemRenderer>();
+
+        //        //newHp.GetComponent<ParticleSystemRenderer>().material = newMat;
+
+        //        gradient.SetKeys(
+        //        new GradientColorKey[] { new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f) },
+        //            new GradientAlphaKey[] { new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f) });
+
+        //        var COL = revolverBeam.hitParticle.GetComponent<ParticleSystem>().colorOverLifetime;
+        //        COL.enabled = true;
+        //        COL.color = gradient;
+
+        //        //var COL = ps.colorOverLifetime;
+        //        //COL.enabled = true;
+        //        //COL.color = gradient;
+        //        //newMat.shader = unlitShader;
+
+        //        //revolverBeam.hitParticle = newHp;
+
+        //        //Debug.Log("\n\n\n\n\n\n\n\n" + revolverBeam.hitParticle);
+        //        shouldInitRevolverHitParticles = false;
+        //    }
+        //    catch
+        //    {
+        //        return;
+        //    }
+
+        //}
 
 
         [HarmonyPrefix]

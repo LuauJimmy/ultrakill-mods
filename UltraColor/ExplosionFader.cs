@@ -7,28 +7,32 @@ namespace EffectChanger
     public class ExplosionFader : MonoBehaviour
     {
         private float age = 0;
-        private float scalefactor = 0f;
+        private float scalefactor = 0.01f;
+        private Material mat;
         private void Start()
         {
-
+            this.GetComponent<MeshRenderer>().material = new Material(this.GetComponent<MeshRenderer>().material);
+            age = 0;
+            scalefactor = 0.1f;
             //this.transform.Rotate(new Vector3(0, 0, 1) * Random.Range(0, 360));
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            
             var mat = this.GetComponent<MeshRenderer>().material;
-            this.age += Time.deltaTime;
-
+            age += Time.deltaTime;
+            
             //this.transform.localScale *= 0.75f;
-            if (age > 0.5)
+            if (age > 0.6)
             {
                 scalefactor += 0.01f;
                 
                 var redComponent = Mathf.Max(mat.color.r - scalefactor, 0.001f);
                 var greenComponent = Mathf.Max(mat.color.g - scalefactor, 0.001f);
                 var blueComponent = Mathf.Max(mat.color.b - scalefactor, 0.001f);
-                var updatedColor = new Color(redComponent, greenComponent, blueComponent);
+                var alphaComponent = Mathf.Max(mat.color.b - scalefactor, 0.001f);
+                //var alphaComponent = Mathf.Max(mat.color.a - scalefactor, 0.001f);
+                var updatedColor = new Color(redComponent, greenComponent, blueComponent, alphaComponent);
                 this.GetComponent<MeshRenderer>().material.color = updatedColor;
             }
             //this.transform.localScale *= 0.95f * Time.deltaTime;

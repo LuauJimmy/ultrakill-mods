@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 
-namespace UltraShade
+namespace UKHitMarker
 {
 #nullable disable
 
@@ -16,20 +16,22 @@ namespace UltraShade
 
         public static BoolField hitMarkerEnabled;
         public static ColorField hitMarkerColor;
+        public static ColorField killMarkerColor;
         public static IntField hitMarkerSize;
         public static void Init(ConfigFile cfg)
         {
-            config = PluginConfigurator.Create("UltraShade", "luaujimmy.UltraShade");
+            config = PluginConfigurator.Create("UKHitMarker", "luaujimmy.UKHitMarker");
             string pluginPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string iconPath = Path.Combine(pluginPath, "Assets\\icon.png");
             config.SetIconWithURL("file://" + iconPath);
 
-            ConfigHeader headerTitle = new ConfigHeader(config.rootPanel, "UltraShade", 30);
+            ConfigHeader headerTitle = new ConfigHeader(config.rootPanel, "UKHitMarker", 30);
             ConfigHeader headerInfo = new ConfigHeader(config.rootPanel, "--Restart Level for Changes to Take Effect--", 20);
 
             hitMarkerEnabled = new BoolField(config.rootPanel, "Enabled", "HitMarkerEnabled", true);
-            hitMarkerColor = new ColorField(config.rootPanel, "Hit Marker Color", "HitMarkerColor", new Color(0.8f, 0.2f, 0.2f, 1));
-            hitMarkerSize = new IntField(config.rootPanel, "Hit Marker Size", "HitMarkerSize", 16);
+            hitMarkerColor = new ColorField(config.rootPanel, "Hit Marker Color", "HitMarkerColor", new Color(1, 1, 1, 1));
+            killMarkerColor = new ColorField(config.rootPanel, "Kill Marker Color", "KillMarkerColor", Color.red);
+            hitMarkerSize = new IntField(config.rootPanel, "Hit Marker Size", "HitMarkerSize", 20);
         }
     }
 }

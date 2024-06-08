@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<AssemblyName>EffectChanger</AssemblyName>
+		<AssemblyName>UKHitMarker</AssemblyName>
 		<Description></Description>
 		<Version>0.0.1</Version>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -11,7 +11,7 @@
 			https://api.nuget.org/v3/index.json;
 			https://nuget.bepinex.dev/v3/index.json
 		</RestoreAdditionalProjectSources>
-		<RootNamespace>EffectChanger</RootNamespace>
+		<RootNamespace>UKHitMarker</RootNamespace>
 		<Nullable>enable</Nullable>
 		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
 	</PropertyGroup>
@@ -21,8 +21,8 @@
 		<PackageReference Include="BepInEx.Core" Version="5.*" />
 		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
 		<PackageReference Include="Krafs.Publicizer" Version="2.2.1">
-		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<Publicize Include="Assembly-CSharp" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -46,6 +46,10 @@
 			<HintPath>..\lib\UnityEngine.UI.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>..\lib\Unity.TextMeshPro.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 		<Reference Include="Unity.Addressables">
 			<HintPath>..\lib\Unity.Addressables.dll</HintPath>
 		</Reference>
@@ -61,18 +65,9 @@
 		
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="ExplosionFader.cs">
-	    <SubType>Code</SubType>
-	  </Compile>
-	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		
-		<Exec Command="copy &quot;$(SolutionDir)\UltraColor\Assets&quot; &quot;$(OutDir)\Assets&quot;" />
-		<Exec Command="copy &quot;$(SolutionDir)\UltraColor\Assets&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\Assets&quot; " />
-		
-		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\$(TargetName).dll&quot;" />
+		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\UKHitMarker\$(TargetName).dll&quot;" />
 	</Target>
 	
 	

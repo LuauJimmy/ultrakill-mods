@@ -151,6 +151,10 @@ public static class Settings
     public static ColorField idolHaloColor;
     public static ColorField idolSpikesColor;
 
+    public static BoolField enrageEnabled;
+    public static ColorField enrageSpriteColor;
+    public static ColorField enrageLightningColor;
+
     public static void Init(ConfigFile cfg)
     {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
@@ -215,7 +219,7 @@ public static class Settings
         shotgunMuzzleFlashColor = new ColorField(shotgunSubPanel, "Muzzle Flash Sprite Color", "ShotgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         shotgunMuzzleFlashPointLightColor = new ColorField(shotgunSubPanel, "Muzzle Flash Environment Light Color", "MuzzleFlashPointLightColor", new Color(1, 0.7725f, 0, 1));
         shotgunProjectileStartColor = new ColorField(shotgunSubPanel, "Projectile Trail Start Color", "ShotgunProjectileStartColor", new Color(1, 0.7725F, 0, 1));
-        shotgunProjectileEndColor = new ColorField(shotgunSubPanel, "Projectile Trail End Color", "ShotgunProjectileEndColor", new Color(1, 0.7725F, 0, 0));
+        shotgunProjectileEndColor = new ColorField(shotgunSubPanel, "Projectile Trail End Color", "ShotgunProjectileEndColor", new Color(0, 0, 0, 0));
         shotgunProjectileBoostStartColor = new ColorField(shotgunSubPanel, "Projectile Boost Trail Start Color", "ShotgunProjectileBoostStartColor", new Color(1f, 0.35f, 0f));
         shotgunProjectileBoostEndColor = new ColorField(shotgunSubPanel, "Projectile Boost Trail End Color", "ShotgunProjectileBoostEndColor", new Color(0f, 0f, 0f));
         shotgunBulletColor = new ColorField(shotgunSubPanel, "Bullet Color", "ShotgunProjectileMeshColor", new Color(1f, 0.35f, 0f));
@@ -356,5 +360,11 @@ public static class Settings
         blessingBeamColor = new ColorField(enemiesSubPanel, "Blessing Beam Color", "blessingBeamColor", new Color(0.3f, 0.5f, 0.8f));
         idolHaloColor = new ColorField(enemiesSubPanel, "Idol Halo Color", "idolHaloColor", new Color(0.3f, 0.5f, 0.8f));
         idolSpikesColor = new ColorField(enemiesSubPanel, "Idol Spikes Color", "idolSpikesColor", new Color(0.3f, 0.5f, 0.8f));
+
+        // Enemy Settings
+        // Blessing
+        enrageEnabled = new BoolField(enemiesSubPanel, "Enrage Enabled", "enrageEnabled", false);
+        enrageSpriteColor = new ColorField(enemiesSubPanel, "Enrage Circle Color", "EnrageSpriteColor", new Color(1, 0, 0));
+        enrageLightningColor = new ColorField(enemiesSubPanel, "Enrage Lightning Color", "EnrageLightningColor", new Color(1, 0, 0));
     }
 }

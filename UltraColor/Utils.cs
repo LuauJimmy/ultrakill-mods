@@ -14,7 +14,7 @@ namespace UltraColor
 
         public sealed class AssetDir : SortedDictionary<string, object>;
 
-        public static Texture2D LoadTexture(string filePath)
+        public static Texture2D LoadTexture(string filePath, FilterMode filterMode = FilterMode.Point)
         {
             Texture2D Tex = null;
             byte[] FileData;
@@ -24,14 +24,15 @@ namespace UltraColor
                 FileData = File.ReadAllBytes(filePath);
                 Tex = new Texture2D(2, 2);
                 Tex.LoadImage(FileData);
+                Tex.filterMode = filterMode;
+                Tex.anisoLevel = 15;
             }
 
             return Tex;
         }
 
-        public static Sprite LoadPNG(string filePath)
+        public static Sprite LoadPNG(string filePath, FilterMode filterMode = FilterMode.Point)
         {
-            Debug.Log($"trying filePath: {filePath}");
             Texture2D Tex = null;
             byte[] FileData;
             if (File.Exists(filePath))
@@ -39,7 +40,8 @@ namespace UltraColor
                 FileData = File.ReadAllBytes(filePath);
                 Tex = new Texture2D(2, 2);
                 Tex.LoadImage(FileData);
-                Tex.filterMode = FilterMode.Point;
+                Tex.filterMode = filterMode;
+                Tex.anisoLevel = 15;
             }
 
 
