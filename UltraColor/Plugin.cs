@@ -70,16 +70,23 @@ public sealed class Plugin : BaseUnityPlugin
 
         Settings.Init(this.Config);
 
-        Harmony.CreateAndPatchAll(this.GetType());
-        Harmony.CreateAndPatchAll(typeof(EnemyProjectile));
-        Harmony.CreateAndPatchAll(typeof(_Shotgun));
-        Harmony.CreateAndPatchAll(typeof(_Revolver));
-        Harmony.CreateAndPatchAll(typeof(_Nailgun));
-        Harmony.CreateAndPatchAll(typeof(_RocketLauncher));
-        Harmony.CreateAndPatchAll(typeof(_Railcannon));
-        Harmony.CreateAndPatchAll(typeof(_Movement));
-        Harmony.CreateAndPatchAll(typeof(_Idol));
-        Harmony.CreateAndPatchAll(typeof(_EnrageEffect));
+        System.Type[] enabledPatches = [
+            this.GetType(),
+            (typeof(EnemyProjectile)),
+            (typeof(_Shotgun)),
+            (typeof(_Revolver)),
+            (typeof(_Nailgun)),
+            (typeof(_RocketLauncher)),
+            (typeof(_Railcannon)),
+            (typeof(_Movement)),
+            (typeof(_Idol)),
+            (typeof(_EnrageEffect))
+        ];
+
+        foreach ( var type in enabledPatches )
+        {
+            Harmony.CreateAndPatchAll(type);
+        }
 
         if (debugMode) { Harmony.CreateAndPatchAll(typeof(DebugPatches)); }
 
@@ -162,69 +169,69 @@ public sealed class Plugin : BaseUnityPlugin
         return true;
     }
 
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(ExplosionController), "Start")]
-    private static bool RecolorExplosion(ExplosionController __instance)
-    {
-        //if (__instance.gameObject.name == "Explosion(Clone)")
-        //{
-        //    //if (global::UltraColor.Config.smallExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
+    //[HarmonyPrefix]
+    //[HarmonyPatch(typeof(ExplosionController), "Start")]
+    //private static bool RecolorExplosion(ExplosionController __instance)
+    //{
+    //    //if (__instance.gameObject.name == "Explosion(Clone)")
+    //    //{
+    //    //    //if (global::UltraColor.Config.smallExplosionColor.value == ColorHelper.ExplosionColor.Default) return;
 
-        //    //var newExplosionMat = ColorHelper.LoadExplosionMaterial(global::UltraColor.Config.smallExplosionColor.value);
-        //    //var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-        //    //explosionRenderers[0].material = newExplosionMat;
+    //    //    //var newExplosionMat = ColorHelper.LoadExplosionMaterial(global::UltraColor.Config.smallExplosionColor.value);
+    //    //    //var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
+    //    //    //explosionRenderers[0].material = newExplosionMat;
 
-        //    var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+    //    //    var mr = __instance.GetComponentsInChildren<MeshRenderer>();
 
-        //    var newMat = new Material(mr[0].material);
+    //    //    var newMat = new Material(mr[0].material);
 
-        //    newMat.mainTexture = explosionTexture;
+    //    //    newMat.mainTexture = explosionTexture;
 
-        //    mr[0].material = newMat;
+    //    //    mr[0].material = newMat;
 
-        //    var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
-        //    explosionRenderers[0].material = newMat;
-        //}
-        if (__instance.gameObject.name == "Explosion Malicious Railcannon(Clone)")
-        {
-            if (!Settings.maliciousExplosionEnabled.value) return true;
+    //    //    var explosionRenderers = __instance.gameObject.GetComponentsInChildren<MeshRenderer>();
+    //    //    explosionRenderers[0].material = newMat;
+    //    //}
+    //    if (__instance.gameObject.name == "Explosion Malicious Railcannon(Clone)")
+    //    {
+    //        if (!Settings.maliciousExplosionEnabled.value) return true;
 
-            var mr = __instance.GetComponentsInChildren<MeshRenderer>();
-            var newMat = new Material(mr[0].material)
-            {
-                mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION"]
-            };
-            newMat.color = Settings.maliciousExplosionColor.value;
-            mr[0].material = newMat;
-            //__instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
-        }
-        else if (__instance.gameObject.name == "Explosion Super(Clone)")
-        {
-            if (!Settings.nukeExplosionEnabled.value) return true;
+    //        var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+    //        var newMat = new Material(mr[0].material)
+    //        {
+    //            mainTexture = blankExplosionTexture,
+    //            shaderKeywords = ["_FADING_ON", "_EMISSION"]
+    //        };
+    //        newMat.color = Settings.maliciousExplosionColor.value;
+    //        mr[0].material = newMat;
+    //        //__instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
+    //    }
+    //    else if (__instance.gameObject.name == "Explosion Super(Clone)")
+    //    {
+    //        if (!Settings.nukeExplosionEnabled.value) return true;
 
-            var mr = __instance.GetComponentsInChildren<MeshRenderer>();
-            var newMat = new Material(mr[0].material)
-            {
-                mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION"]
-            };
-            newMat.color = Settings.nukeExplosionColor.value;
-            mr[0].material = newMat;
-            //__instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
-        }
+    //        var mr = __instance.GetComponentsInChildren<MeshRenderer>();
+    //        var newMat = new Material(mr[0].material)
+    //        {
+    //            mainTexture = blankExplosionTexture,
+    //            shaderKeywords = ["_FADING_ON", "_EMISSION"]
+    //        };
+    //        newMat.color = Settings.nukeExplosionColor.value;
+    //        mr[0].material = newMat;
+    //        //__instance.transform.Find("Sphere_8").gameObject.AddComponent<RendererFader>();
+    //    }
 
-        return true;
-    }
+    //    return true;
+    //}
 
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Explosion), "Start")]
-    private static void expFader(Explosion __instance)
-    {
-        __instance.gameObject.AddComponent<ExplosionFader>();
-        //var expMesh = __instance.transform.Find("Sphere_8");
-        //if (expMesh == null) return;
-        //expMesh.gameObject.AddComponent<ExplosionFader>();
-        //__instance.gameObject.AddComponent<ExplosionFader>();
-    }
+    //[HarmonyPostfix]
+    //[HarmonyPatch(typeof(Explosion), "Start")]
+    //private static void expFader(Explosion __instance)
+    //{
+    //    __instance.gameObject.AddComponent<ExplosionFader>();
+    //    var expMesh = __instance.transform.Find("Sphere_8");
+    //    if (expMesh == null) return;
+    //    expMesh.gameObject.AddComponent<ExplosionFader>();
+    //    __instance.gameObject.AddComponent<ExplosionFader>();
+    //}
 }

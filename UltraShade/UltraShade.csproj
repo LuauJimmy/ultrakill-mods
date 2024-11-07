@@ -62,7 +62,7 @@
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		
-		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\UltraShade\$(TargetName).dll&quot;" />
+		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\UltraColorAlternate\$(TargetName).dll&quot;" />
 	</Target>
 	
 	

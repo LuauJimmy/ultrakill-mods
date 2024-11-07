@@ -75,51 +75,51 @@ namespace EffectChanger.Weapons
 
         
 
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(Shotgun), "Start")]
-        private static bool exp(Shotgun __instance)
-        {
-            if (!Settings.smallExplosionEnabled.value) return true;
+        //[HarmonyPrefix]
+        //[HarmonyPatch(typeof(Shotgun), "Start")]
+        //private static bool exp(Shotgun __instance)
+        //{
+        //    if (!Settings.smallExplosionEnabled.value) return true;
 
-            var exp = __instance.explosion;
+        //    var exp = __instance.explosion;
 
-            var mr = exp.GetComponentsInChildren<MeshRenderer>();
+        //    var mr = exp.GetComponentsInChildren<MeshRenderer>();
 
-            var s8 = exp.transform.Find("Sphere_8");
+        //    var s8 = exp.transform.Find("Sphere_8");
 
-            var pl = s8.transform.Find("Point Light").GetComponent<Light>();
+        //    var pl = s8.transform.Find("Point Light").GetComponent<Light>();
 
-            //TODO: Change sprite inside explosion?z
+        //    //TODO: Change sprite inside explosion?z
 
-            //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
+        //    //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
 
-            //glowSr.sprite = chargeBlankSprite;
+        //    //glowSr.sprite = chargeBlankSprite;
             
-            pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
-            var newMat = new Material(mr[0].material)
-            {
-                mainTexture = blankExplosionTexture,
-                shaderKeywords = ["_FADING_ON", "_EMISSION"]
-            };
+        //    pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
+        //    var newMat = new Material(mr[0].material)
+        //    {
+        //        mainTexture = blankExplosionTexture,
+        //        shaderKeywords = ["_FADING_ON", "_EMISSION"]
+        //    };
 
-            newMat.color = Settings.smallExplosionColor.value;
+        //    newMat.color = Settings.smallExplosionColor.value;
 
-            mr[0].material = newMat;
+        //    mr[0].material = newMat;
 
-            var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
-            explosionRenderers[0].material = newMat;
-            //var rf = s8.transform.gameObject.AddComponent<RendererFader>();
-            return true;
-        }
+        //    var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
+        //    explosionRenderers[0].material = newMat;
+        //    //var rf = s8.transform.gameObject.AddComponent<RendererFader>();
+        //    return true;
+        //}
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(Shotgun), "Start")]
-        private static void AddExplosionFader(Shotgun __instance)
-        {
-            var exp = __instance.explosion;
-            var s8 = exp.transform.Find("Sphere_8");
-            var rf = s8.transform.gameObject.AddComponent<ExplosionFader>();
-        }
+        //[HarmonyPostfix]
+        //[HarmonyPatch(typeof(Shotgun), "Start")]
+        //private static void AddExplosionFader(Shotgun __instance)
+        //{
+        //    var exp = __instance.explosion;
+        //    var s8 = exp.transform.Find("Sphere_8");
+        //    var rf = s8.transform.gameObject.AddComponent<ExplosionFader>();
+        //}
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Shotgun), "Shoot")]

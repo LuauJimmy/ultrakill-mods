@@ -44,7 +44,7 @@ namespace UltraShade
             Settings.Init(this.Config);
 
             Harmony.CreateAndPatchAll(this.GetType());
-            Harmony.CreateAndPatchAll(typeof(_Shotgun));
+            //Harmony.CreateAndPatchAll(typeof(_Shotgun));
             //Harmony.CreateAndPatchAll(typeof(_Movement));
             //Harmony.CreateAndPatchAll(typeof(EnemyProjectile));
 
@@ -64,13 +64,13 @@ namespace UltraShade
                 universeShader = h.Result;
             };
 
-            Addressables.LoadAssetAsync<Material>("Assets/jimmaterial.mat").Completed += (h) =>
+            Addressables.LoadAssetAsync<Material>("Assets/fbm.mat").Completed += (h) =>
             {
                 Debug.Log("\n\n\n");
                 jimmat = h.Result;
             };
 
-            Addressables.LoadAssetAsync<Shader>("Assets/rolo.shader").Completed += (h) =>
+            Addressables.LoadAssetAsync<Shader>("Assets/fbm.shader").Completed += (h) =>
             {
                 Debug.Log("\n\n\n");
                 jimshade = h.Result;
@@ -91,36 +91,44 @@ namespace UltraShade
             _ = UltraShade.Instance;
         }
 
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Revolver), nameof(Revolver.ThrowCoin))]
+        private static void CoinDebug(Revolver __instance)
+        {
+            var olm = (OutdoorLightMaster)FindObjectsOfType(typeof(OutdoorLightMaster))[0];
+            olm.UpdateSkyboxMaterial();
+        }
 
-        //[HarmonyPrefix]
-        //[HarmonyPatch(typeof(CustomTextures), nameof(CustomTextures.Start))]
-        //private static void doobie2(CustomTextures __instance)
-        //{
-        //    var sky = __instance.skyMaterial;
-        //    //Resources.FindObjectsOfTypeAll<Material>()
-        //    //  .Where(m => m.name == "EndlessSky")
-        //    //    .FirstOrDefault();
-        //    sky.shader = universeShader;
 
-        //}
 
         //[HarmonyPostfix]
-        //[HarmonyPatch(typeof(CustomTextures), nameof(CustomTextures.Start))]
-        //private static void doobie3(CustomTextures __instance)
+        //[HarmonyPatch(typeof(OutdoorLightMaster), nameof(OutdoorLightMaster.UpdateSkyboxMaterial))]
+        //private static void UpdateSkyboxMaterial(OutdoorLightMaster __instance)
         //{
-        //    var sky = __instance.skyMaterial;
-        //    //Resources.FindObjectsOfTypeAll<Material>()
-        //    //  .Where(m => m.name == "EndlessSky")
-        //    //    .FirstOrDefault();
-        //    sky.shader = universeShader;
+
+        //    Vector4 rand = Random.insideUnitSphere;
+        //    rand.z = 1;
+        //    __instance.skyboxMaterial.SetVector("_Color", rand);
 
         //}
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(OutdoorLightMaster), nameof(OutdoorLightMaster.UpdateSkyboxMaterial))]
-        private static void UpdateSkyboxMaterial(OutdoorLightMaster __instance)
+        [HarmonyPatch(typeof(EndlessGrid), nameof(EndlessGrid.NextWave))]
+        private static void UpdateSkyboxMaterialAfterWave(EndlessGrid __instance)
         {
-            __instance.skyboxMaterial = universeMat;
+            var olm = (OutdoorLightMaster)FindObjectsOfType(typeof(OutdoorLightMaster))[0];
+            olm.UpdateSkyboxMaterial();
+
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(OutdoorLightMaster), nameof(OutdoorLightMaster.UpdateSkyboxMaterial))]
+        private static void UpdateSkyboxMaterialInit(OutdoorLightMaster __instance)
+        {
+            //jimmat.SetFloat("_Color", 0f);
+            var newcol = Random.insideUnitSphere;
+            jimmat.SetVector("_Color", new Vector4(newcol.x, newcol.y, newcol.z, 1));
+            __instance.skyboxMaterial = jimmat;
         }
 
         [HarmonyPrefix]
