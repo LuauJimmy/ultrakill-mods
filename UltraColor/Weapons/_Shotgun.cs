@@ -19,6 +19,8 @@ namespace EffectChanger.Weapons
         private static Texture2D? whiteSparkTexture => Plugin.whiteSparkTexture;
         private static Sprite? chargeBlankSprite => Plugin.chargeBlankSprite;
         private static Sprite? shotgunMuzzleFlashSprite => Plugin.blankMuzzleFlashShotgunSprite;
+        private static Texture2D? hammerImpactSprite => Plugin.enrageEffectTextureBlank;
+
         public void Awake()
         {
             
@@ -58,13 +60,55 @@ namespace EffectChanger.Weapons
         }
 
         [HarmonyPrefix]
+        [HarmonyPatch(typeof(ShotgunHammer), nameof(ShotgunHammer.Awake))]
+        private static bool RecolorHammerParticles(ShotgunHammer __instance)
+        {
+            if (!Settings.hammerEnabled.value) return true;
+            foreach (GameObject item in __instance.hitImpactParticle)
+            {
+                var srs = item.GetComponentsInChildren<SpriteRenderer>();
+                srs[0].color = Settings.hammerSpriteOuterColor.value;
+                srs[1].color = Settings.hammerSpriteInnerColor.value;
+            }
+            return true;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Chainsaw), nameof(Chainsaw.Start))]
+        private static void RecolorChainsawSprite(Chainsaw __instance)
+        {
+            if (!Settings.chainsawEnabled.value) return;
+            try
+            {
+                var sr = __instance.gameObject.GetComponentInChildren<SpriteRenderer>();
+                sr.sprite = blankMuzzleFlashSprite;
+                var colorA = Settings.chainsawSpriteColor.value;
+                var obj = Instantiate(sr);
+                var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
+                interpColor.a = 0.95f;
+                sr.color = interpColor;
+                sr.sprite = muzzleFlashInnerBase;
+                obj.transform.position = __instance.transform.position;
+                obj.transform.rotation = __instance.transform.rotation;
+                obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
+            }
+            catch
+            {
+                return;
+            }
+
+        }
+
+        [HarmonyPrefix]
         [HarmonyPatch(typeof(Chainsaw), nameof(Chainsaw.Start))]
         private static void RecolorChainsawTrail(Chainsaw __instance)
         {
+            if (!Settings.chainsawEnabled.value) return;
             try
             {
                 var tr = __instance.gameObject.GetComponent<TrailRenderer>();
-                tr.startColor = new Color(0f, 0.2f, 1, 0.25f);
+                tr.startColor = Settings.chainsawTrailStartColor.value;
+                tr.endColor = Settings.chainsawTrailEndColor.value;
             }
             catch
             {
@@ -75,51 +119,49 @@ namespace EffectChanger.Weapons
 
         
 
-        //[HarmonyPrefix]
-        //[HarmonyPatch(typeof(Shotgun), "Start")]
-        //private static bool exp(Shotgun __instance)
-        //{
-        //    if (!Settings.smallExplosionEnabled.value) return true;
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Shotgun), "Start")]
+        private static bool exp(Shotgun __instance)
+        {
+            if (!Settings.smallExplosionEnabled.value) return true;
 
-        //    var exp = __instance.explosion;
-
-        //    var mr = exp.GetComponentsInChildren<MeshRenderer>();
-
-        //    var s8 = exp.transform.Find("Sphere_8");
-
-        //    var pl = s8.transform.Find("Point Light").GetComponent<Light>();
-
-        //    //TODO: Change sprite inside explosion?z
-
-        //    //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
-
-        //    //glowSr.sprite = chargeBlankSprite;
+            var exp = __instance.explosion;
             
-        //    pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
-        //    var newMat = new Material(mr[0].material)
-        //    {
-        //        mainTexture = blankExplosionTexture,
-        //        shaderKeywords = ["_FADING_ON", "_EMISSION"]
-        //    };
+            var mr = exp.GetComponentsInChildren<MeshRenderer>();
 
-        //    newMat.color = Settings.smallExplosionColor.value;
+            var s8 = exp.transform.Find("Sphere_8");
 
-        //    mr[0].material = newMat;
+            var pl = s8.transform.Find("Point Light").GetComponent<Light>();
 
-        //    var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
-        //    explosionRenderers[0].material = newMat;
-        //    //var rf = s8.transform.gameObject.AddComponent<RendererFader>();
-        //    return true;
-        //}
+            //TODO: Change sprite inside explosion?
 
-        //[HarmonyPostfix]
-        //[HarmonyPatch(typeof(Shotgun), "Start")]
-        //private static void AddExplosionFader(Shotgun __instance)
-        //{
-        //    var exp = __instance.explosion;
-        //    var s8 = exp.transform.Find("Sphere_8");
-        //    var rf = s8.transform.gameObject.AddComponent<ExplosionFader>();
-        //}
+            //var glowSr = s8.transform.Find("Glow").GetComponent<SpriteRenderer>();
+
+            //glowSr.sprite = chargeBlankSprite;
+          
+            pl.color = Settings.shotgunMuzzleFlashPointLightColor.value;
+            var newMat = new Material(mr[0].material)
+            {
+                mainTexture = blankExplosionTexture,
+                shaderKeywords = ["_FADING_ON", "_EMISSION"]
+            };
+
+            newMat.color = Settings.smallExplosionColor.value;
+
+            mr[0].material = newMat;
+            
+            var explosionRenderers = __instance.explosion.gameObject.GetComponentsInChildren<MeshRenderer>();
+            explosionRenderers[0].material = newMat;
+            return true;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Shotgun), "Start")]
+        private static void AddExplosionFader(Shotgun __instance)
+        {
+            var exp = __instance.explosion;
+            var s8 = exp.transform.Find("Sphere_8");
+        }
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Shotgun), "Shoot")]

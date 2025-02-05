@@ -14,7 +14,7 @@ namespace UltraColor
 
         public sealed class AssetDir : SortedDictionary<string, object>;
 
-        public static Texture2D LoadTexture(string filePath, FilterMode filterMode = FilterMode.Point)
+        public static Texture2D CreateTextureFromImage(string filePath, FilterMode filterMode = FilterMode.Point)
         {
             Texture2D Tex = null;
             byte[] FileData;
@@ -26,12 +26,16 @@ namespace UltraColor
                 Tex.LoadImage(FileData);
                 Tex.filterMode = filterMode;
                 Tex.anisoLevel = 15;
+                return Tex;
+            }
+            else
+            {
+                throw new FileNotFoundException(filePath);
             }
 
-            return Tex;
         }
 
-        public static Sprite LoadPNG(string filePath, FilterMode filterMode = FilterMode.Point)
+        public static Sprite CreateSpriteFromImage(string filePath, FilterMode filterMode = FilterMode.Point)
         {
             Texture2D Tex = null;
             byte[] FileData;
@@ -42,11 +46,13 @@ namespace UltraColor
                 Tex.LoadImage(FileData);
                 Tex.filterMode = filterMode;
                 Tex.anisoLevel = 15;
+                return Sprite.Create(Tex, new Rect(0.0f, 0.0f, Tex.width, Tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+            }
+            else
+            {
+                throw new FileNotFoundException(filePath);
             }
 
-
-
-            return Sprite.Create(Tex, new Rect(0.0f, 0.0f, Tex.width, Tex.height), new Vector2(0.5f, 0.5f), 100.0f);
         }
 
         public static T CopyComponent<T>(T original, GameObject destination) where T : Component

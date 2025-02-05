@@ -23,7 +23,7 @@ namespace EffectChanger
             age += Time.deltaTime;
             
             //this.transform.localScale *= 0.75f;
-            if (age > 0.6)
+            if (age > 2)
             {
                 scalefactor += 0.01f;
                 

@@ -24,6 +24,15 @@ public static class Settings
     public static ColorField shotgunBulletColor;
     public static ColorField shotgunGrenadeSpriteColor;
 
+    public static BoolField hammerEnabled;
+    public static ColorField hammerSpriteInnerColor;
+    public static ColorField hammerSpriteOuterColor;
+
+    public static BoolField chainsawEnabled;
+    public static ColorField chainsawTrailStartColor;
+    public static ColorField chainsawTrailEndColor;
+    public static ColorField chainsawSpriteColor;
+
     public static BoolField piercerRevolverEnabled;
     public static ColorField piercerRevolverChargeBeamStartColor;
     public static ColorField piercerRevolverChargeBeamEndColor;
@@ -95,6 +104,10 @@ public static class Settings
     public static ColorField altOverheatNailgunHeatedNailTrailEndColor;
     public static ColorField altOverheatNailgunMuzzleFlashColor;
 
+    public static BoolField conductorEnabled;
+    public static ColorField conductorStartColor;
+    public static ColorField conductorEndColor;
+    
     public static BoolField smallExplosionEnabled;
     public static ColorField smallExplosionColor;
     public static BoolField maliciousExplosionEnabled;
@@ -225,6 +238,17 @@ public static class Settings
         shotgunBulletColor = new ColorField(shotgunSubPanel, "Bullet Color", "ShotgunProjectileMeshColor", new Color(1f, 0.35f, 0f));
         shotgunGrenadeSpriteColor = new ColorField(shotgunSubPanel, "Grenade Sprite Color", "ShotgunGrenadeSpriteColor", new Color(1f, 0.35f, 0f));
 
+        // Hammer
+        hammerEnabled = new BoolField(shotgunSubPanel, "Hammer Enabled", "hammerEnabled", false);
+        hammerSpriteInnerColor = new ColorField(shotgunSubPanel, "Hammer impact inner color", "HammerImpactInnerColor", new Color(1, 0, 0));
+        hammerSpriteOuterColor = new ColorField(shotgunSubPanel, "Hammer impact outer color", "HammerImpactOuterColor", new Color(1, 0, 0));
+
+        //Chainsaw
+        chainsawEnabled = new BoolField(shotgunSubPanel, "Chainsaw Enabled", "chainsawEnabled", false);
+        chainsawTrailStartColor = new ColorField(shotgunSubPanel, "Chainsaw Trail Start Color", "ChainsawTrailInnerColor", new Color(1, 0, 0));
+        chainsawTrailEndColor = new ColorField(shotgunSubPanel, "Chainsaw Trail End Color", "ChainsawTrailEndColor", new Color(1, 0, 0));
+        chainsawSpriteColor = new ColorField(shotgunSubPanel, "Chainsaw Sprite Color", "ChainsawSpriteColor", new Color(1, 0, 0));
+
         // Piercer
         piercerRevolverEnabled = new BoolField(piercerRevolverSubPanel, "Enabled", "piercerEnabled", false);
         piercerRevolverMuzzleFlashColor = new ColorField(piercerRevolverSubPanel, "Muzzle Flash Sprite Color", "PiercerRevolverMuzzleFlashColor", new Color(1, 1, 1, 1));
@@ -304,9 +328,9 @@ public static class Settings
         overheatNailgunHeatedNailTrailEndColor = new ColorField(overheatNailgunSubPanel, "Heated Nail Trail End Color", "OverHeatNailgunHeatedNailTrailEndColor", new Color(0, 0, 0, 0));
 
         altOverheatNailgunEnabled = new BoolField(altOverheatNailgunSubPanel, "Enabled", "altOverheatNailgunEnabled", false);
-        altOverheatNailgunMuzzleFlashColor = new ColorField(altOverheatNailgunSubPanel, "Muzzle Flash Sprite Color", "AltOverheatNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         altOverheatNailgunTrailStartColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail Start Color", "AltOverheatNailgunNailTrailStartColor", new Color(0.502F, 0.502F, 0.502F, 0.4902F));
         altOverheatNailgunTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Nail Trail End Color", "AltOverheatNailgunNailTrailEndColor", new Color(0, 0, 0, 0));
+        altOverheatNailgunMuzzleFlashColor = new ColorField(altOverheatNailgunSubPanel, "Muzzle Flash Sprite Color", "AltOverheatNailgunMuzzleFlashColor", new Color(1, 0.7725f, 0, 1));
         altOverheatNailgunHeatedNailTrailStartColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail Start Color", "AltOverHeatNailgunHeatedNailTrailStartColor", new Color(1, 0.5922F, 0, 0.4902F));
         altOverheatNailgunHeatedNailTrailEndColor = new ColorField(altOverheatNailgunSubPanel, "Heated Nail Trail End Color", "AltOverHeatNailgunHeatedNailTrailEndColor", new Color(0, 0, 0, 0));
 
@@ -352,6 +376,10 @@ public static class Settings
         knuckleBlasterShockwaveSpriteColor = new ColorField(knuckleBlasterSubPanel, "Shockwave Color", "knuckleBlasterShockwaveSpriteColor", new Color(0.63f, 0.63f, 0.63f, 1));
         knuckleBlasterExplosionColor = new ColorField(knuckleBlasterSubPanel, "Explosion Color", "knuckleBlasterExplosionColor", new Color(1, 1, 1, 1));
         knuckleBlasterLightColor = new ColorField(knuckleBlasterSubPanel, "Light Color", "knuckleBlasterLightColor", new Color(1, 0.5754f, 0, 1));
+
+        conductorEnabled = new BoolField(effectsSubPanel, "Enabled", "altOverheatNailgunEnabled", false);
+        conductorStartColor = new ColorField(effectsSubPanel, "Conductor Color 1", "AltOverheatNailgunNailTrailStartColor", new Color(1f, 0.8f, 0.8f, 0.8f));
+        conductorEndColor = new ColorField(effectsSubPanel, "Conductor Color 2", "AltOverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 1));
 
         // Enemy Settings
         // Blessing

@@ -54,8 +54,8 @@ namespace EffectChanger.Weapons
         {
             try
             {
+                //this is fucking stupid but it only runs once so i dont care
                 var shad = Resources.FindObjectsOfTypeAll<Shader>().Where(s => s.name == "psx/unlit/unlit").FirstOrDefault();
-                //this is fucking retarded but it only runs once so i dont care
                 
                 GameObject? gasProj = __instance.napalmProjectile.gameObject;
                 Debug.Log($"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n {gasProj.gameObject.name}");
