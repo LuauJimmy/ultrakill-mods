@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>netstandard2.1</TargetFramework>
 		<AssemblyName>EffectChanger</AssemblyName>
 		<Description></Description>
 		<Version>0.0.1</Version>
@@ -65,6 +65,9 @@
 	  <Compile Update="ExplosionFader.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
+	  <Compile Update="MuzzleFlashInnerComponentChainsaw.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -73,6 +76,8 @@
 		<Exec Command="copy &quot;$(SolutionDir)\UltraColor\Assets&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\Assets&quot; " />
 		
 		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;F:\SteamLibrary\steamapps\common\ULTRAKILL\BepInEx\plugins\Ultracolor\$(TargetName).dll&quot;" />
+		<Exec Command="copy &quot;$(TargetPath)&quot; &quot;C:\Users\luauj\AppData\Roaming\r2modmanPlus-local\ULTRAKILL\profiles\colortester\BepInEx\plugins\Unknown-Ultracolor\Ultracolor\$(TargetName).dll&quot;" />
+
 	</Target>
 	
 	

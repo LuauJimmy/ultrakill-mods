@@ -10,7 +10,7 @@ namespace EffectChanger.Player
     public class _Movement : MonoBehaviour
     {
         static private GradientAlphaKey[] slowFade = new GradientAlphaKey[] { new GradientAlphaKey(0.2f, 0.0f), new GradientAlphaKey(0.0f, 0.7f) };
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(NewMovement), nameof(NewMovement.Start))]
         private static void RecolorSlideScrapeParticle(NewMovement __instance)
         {
@@ -22,10 +22,11 @@ namespace EffectChanger.Player
             {
                 var myMat = Plugin.Fetch<Material>("Assets/Materials/Dev/Additive.mat");
                 var unlitShader = Plugin.Fetch<Shader>("Assets/Shaders/Transparent/ULTRAKILL-simple-additive.shader"); //Fetch<Shader>("Assets/Shaders/Particles/Particle_Additive.shader");
-                var scrapeSlide = __instance.slideScrapePrefab;//Resources.FindObjectsOfTypeAll<GameObject>().Where(s => s.gameObject.name == "ScrapeSlide").First();
-                var sparks = scrapeSlide.transform.Find("Sparks");
-                var ps = sparks.GetComponent<ParticleSystem>();
-                var psr = sparks.GetComponent<ParticleSystemRenderer>();
+                var scrapeSlide = __instance.slideParticle;//Resources.FindObjectsOfTypeAll<GameObject>().Where(s => s.gameObject.name == "ScrapeSlide").First();
+                // old
+                //var sparks = scrapeSlide.transform.Find("Sparks");
+                var ps = scrapeSlide.GetComponent<ParticleSystem>();
+                var psr = scrapeSlide.GetComponent<ParticleSystemRenderer>();
 
                 var newMat = new Material(myMat)
                 {
@@ -36,7 +37,7 @@ namespace EffectChanger.Player
 
                 var trails = ps.trails;
                 gradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f) },
+                    [new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f)],
                     slowFade
                 );
 
@@ -78,8 +79,8 @@ namespace EffectChanger.Player
 
                 var trails = ps.trails;
                 gradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f) },
-                    new GradientAlphaKey[] { new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f) });
+                    [new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f)],
+                    [new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f)]);
 
                 trails.colorOverLifetime = gradient;
                 trails.colorOverTrail = gradient;
@@ -119,8 +120,8 @@ namespace EffectChanger.Player
 
                 var trails = ps.trails;
                 gradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f) },
-                    new GradientAlphaKey[] { new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f) });
+                    [new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f)],
+                    [new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f)]);
 
                 trails.colorOverLifetime = gradient;
                 //trails.colorOverTrail = gradient;
@@ -160,8 +161,8 @@ namespace EffectChanger.Player
 
                 var trails = ps.trails;
                 gradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f) },
-                    new GradientAlphaKey[] { new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f) });
+                    [new GradientColorKey(color1, 0.0f), new GradientColorKey(color2, 0.5f)],
+                    [new GradientAlphaKey(1f, 0.0f), new GradientAlphaKey(1f, 0.5f), new GradientAlphaKey(0f, 0.7f)]);
 
                 trails.colorOverLifetime = gradient;
                 trails.colorOverTrail = gradient;

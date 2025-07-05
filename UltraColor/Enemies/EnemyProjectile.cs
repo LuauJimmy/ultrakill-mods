@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using HarmonyLib;
+using UltraColor;
 using UnityEngine;
 
 namespace EffectChanger.Enemies
@@ -8,15 +9,16 @@ namespace EffectChanger.Enemies
     {
         private static bool shouldInit = true;
 
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(Projectile), nameof(Projectile.Start))]
         private static void RecolorEnemyProjectile(Projectile __instance)
         {
-            if (!shouldInit) return;
-            __instance.GetComponent<TrailRenderer>().startColor = new Color(0.3f, 0, 1, 1);
-            __instance.GetComponent<TrailRenderer>().endColor = new Color(0.3f, 0, 1, 1);
-
-            shouldInit = false;
+            if (__instance.name.Contains("Homing") || __instance.friendly ) return;
+            __instance.GetComponent<TrailRenderer>().startColor = Settings.enemyProjTrailStartColor.value;
+            __instance.GetComponent<TrailRenderer>().endColor = Settings.enemyProjTrailStartColor.value;
+            __instance.GetComponent<MeshRenderer>().material.mainTexture = Plugin.chargeBlankTexture;
+            __instance.GetComponent<MeshRenderer>().material.color = Settings.enemyProjInnerGlowColor.value;
+            __instance.GetComponentsInChildren<MeshRenderer>()[1].material.color = Settings.enemyProjOuterGlowColor.value;
         }
 
 

@@ -101,15 +101,13 @@ namespace EffectChanger.Weapons
             if (!Settings.conductorEnabled.value) return;
             var gradient = new Gradient();
 
-            // Blend color from red at 0% to blue at 100%
             var colors = new GradientColorKey[2];
-            colors[0] = new GradientColorKey(Color.red, 0.0f);
-            colors[1] = new GradientColorKey(Color.blue, 1.0f);
+            colors[0] = new GradientColorKey(Settings.conductorStartColor.value, 0.0f);
+            colors[1] = new GradientColorKey(Settings.conductorEndColor.value, 1.0f);
 
-            // Blend alpha from opaque at 0% to transparent at 100%
-            var alphas = new GradientAlphaKey[2];
+            var alphas = new GradientAlphaKey[1];
             alphas[0] = new GradientAlphaKey(1.0f, 0.0f);
-            alphas[1] = new GradientAlphaKey(0.0f, 1.0f);
+            //alphas[1] = new GradientAlphaKey(0.0f, 1.0f);
 
             gradient.SetKeys(colors, alphas);
             ElectricLineGradient = gradient;
@@ -174,7 +172,7 @@ namespace EffectChanger.Weapons
             {
                 __instance.lr = __instance.GetComponent<LineRenderer>();
             }
-            __instance.lr.material = __instance.lightningMats[UnityEngine.Random.Range(0, __instance.lightningMats.Length)];
+            //__instance.lr.material = __instance.lightningMats[UnityEngine.Random.Range(0, __instance.lightningMats.Length)];
             __instance.lr.widthMultiplier = UnityEngine.Random.Range(__instance.minWidth, __instance.maxWidth);
             __instance.lr.startColor = ElectricLineGradient.Evaluate(UnityEngine.Random.Range(0f, 1f));
             __instance.lr.endColor = ElectricLineGradient.Evaluate(UnityEngine.Random.Range(0f, 1f));

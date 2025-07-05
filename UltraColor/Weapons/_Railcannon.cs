@@ -32,16 +32,26 @@ namespace EffectChanger.Weapons
             {
                 case "Railcannon Beam(Clone)":
                     if (!Settings.blueRailcannonEnabled.value) return;
-                    __instance.gameObject.GetComponent<LineRenderer>().startColor = Settings.blueRailcannonStartColor.value;
-                    __instance.gameObject.GetComponent<LineRenderer>().endColor = Settings.blueRailcannonEndColor.value;
 
-                    var color = Settings.blueRailcannonMuzzleFlashColor.value;
+                    var startColor = Settings.blueRailcannonStartColor.value;
+                    var endColor = Settings.blueRailcannonEndColor.value;
+
+                    __instance.gameObject.GetComponent<LineRenderer>().startColor = startColor;
+                    __instance.gameObject.GetComponent<LineRenderer>().endColor = endColor;
+                    var childLrs = __instance.gameObject.GetComponentsInChildren<LineRenderer>();
+                    foreach (var child in childLrs)
+                    {
+                        Debug.Log(Settings.blueRailcannonStartColor.value);
+                        child.startColor = startColor;
+                        child.endColor = endColor;
+                    }
+                    var flashColor = Settings.blueRailcannonMuzzleFlashColor.value;
 
                     var light = __instance.gameObject.GetComponent<Light>();
-                    light.color = color;
+                    light.color = flashColor;
                     var flash = __instance.gameObject.GetComponentInChildren<SpriteRenderer>();
                     flash.sprite = blankMuzzleFlashSprite;
-                    flash.color = color;
+                    flash.color = flashColor;
                     break;
 
                 case "Railcannon Beam Malicious(Clone)":

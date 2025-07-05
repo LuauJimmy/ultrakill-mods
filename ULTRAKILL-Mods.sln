@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UKHitMarker", "UKHitMarker\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudsOfBeyond", "CloudsOfBeyond\CloudsOfBeyond.csproj", "{A0DD3C5A-52B4-4EEB-9BDB-A519CA8D9A0A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfiggyTest", "CloudsOfBeyond - Copy\ConfiggyTest.csproj", "{CB89D617-6E08-4D87-8395-2242A6FDD4FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{A0DD3C5A-52B4-4EEB-9BDB-A519CA8D9A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0DD3C5A-52B4-4EEB-9BDB-A519CA8D9A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0DD3C5A-52B4-4EEB-9BDB-A519CA8D9A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB89D617-6E08-4D87-8395-2242A6FDD4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB89D617-6E08-4D87-8395-2242A6FDD4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB89D617-6E08-4D87-8395-2242A6FDD4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB89D617-6E08-4D87-8395-2242A6FDD4FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

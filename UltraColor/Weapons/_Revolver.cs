@@ -367,7 +367,6 @@ namespace EffectChanger.Weapons
                 obj.transform.position = flash.transform.position;
                 obj.transform.rotation = flash.transform.rotation;
                 obj.transform.localScale = __instance.transform.localScale;
-                //obj.transform.localScale = flash.transform.localScale;
                 obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
             }
             return;

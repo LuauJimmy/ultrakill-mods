@@ -73,7 +73,7 @@ namespace EffectChanger.Weapons
             return true;
         }
 
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         [HarmonyPatch(typeof(Chainsaw), nameof(Chainsaw.Start))]
         private static void RecolorChainsawSprite(Chainsaw __instance)
         {
@@ -83,20 +83,64 @@ namespace EffectChanger.Weapons
                 var sr = __instance.gameObject.GetComponentInChildren<SpriteRenderer>();
                 sr.sprite = blankMuzzleFlashSprite;
                 var colorA = Settings.chainsawSpriteColor.value;
-                var obj = Instantiate(sr);
-                var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
-                interpColor.a = 0.95f;
-                sr.color = interpColor;
+                colorA.a *= 0.85f;
                 sr.sprite = muzzleFlashInnerBase;
-                obj.transform.position = __instance.transform.position;
-                obj.transform.rotation = __instance.transform.rotation;
-                obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
+                
+                sr.color = colorA;
+
+                var srGo = __instance.gameObject.transform.Find("New Sprite");
+                
+                var obj = new GameObject()
+                {
+                    name = "New Sprite",
+                };
+                var newSr = obj.AddComponent<SpriteRenderer>();
+                newSr.sprite = muzzleFlashInnerBase;
+                var interpColor = Color.Lerp(colorA, Color.white, 0.8f);
+                interpColor.a = 0.85f;
+                newSr.color = interpColor;
+                obj.transform.parent = srGo.transform;
+                obj.gameObject.AddComponent<MuzzleFlashInnerComponentChainsaw>();
+                
             }
-            catch
+            catch(Exception e)
             {
-                return;
+                Debug.Log(e.StackTrace);
             }
 
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Chainsaw), nameof(Chainsaw.TouchPlayer))]
+        private static void TouchPlayer(Chainsaw __instance)
+        {
+            try
+            {
+                var mfic = __instance.gameObject.GetComponentInChildren<MuzzleFlashInnerComponentChainsaw>();
+                mfic.isTouchingPlayer = true;
+                mfic.transform.localScale = Vector3.one * 0.5f;
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e.StackTrace);
+            }
+
+        }
+        
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Chainsaw), nameof(Chainsaw.GetPunched))]
+        private static void GetPunched(Chainsaw __instance)
+        {
+            try
+            {
+                var mfic = __instance.gameObject.GetComponentInChildren<MuzzleFlashInnerComponentChainsaw>();
+                mfic.isTouchingPlayer = false;
+                mfic.transform.localScale = Vector3.one * 0.5f;
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e.StackTrace);
+            }
         }
 
         [HarmonyPrefix]
@@ -110,9 +154,9 @@ namespace EffectChanger.Weapons
                 tr.startColor = Settings.chainsawTrailStartColor.value;
                 tr.endColor = Settings.chainsawTrailEndColor.value;
             }
-            catch
+            catch(Exception e)
             {
-                return;
+                Debug.Log(e.StackTrace);
             }
             
         }
@@ -182,6 +226,7 @@ namespace EffectChanger.Weapons
                 obj.transform.rotation = __instance.shootPoints[0].transform.rotation;
                 obj.gameObject.AddComponent<MuzzleFlashInnerComponent>();
             };
+
         }
 
         [HarmonyPrefix]
@@ -222,6 +267,7 @@ namespace EffectChanger.Weapons
             } 
             
         }
+        
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(Shotgun), nameof(Shotgun.Start))]

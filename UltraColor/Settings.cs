@@ -168,6 +168,19 @@ public static class Settings
     public static ColorField enrageSpriteColor;
     public static ColorField enrageLightningColor;
 
+    public static BoolField enemyProjEnabled;
+    public static ColorField enemyProjColor;
+    public static ColorField enemyProjInnerGlowColor;
+    public static ColorField enemyProjTrailStartColor;
+    public static ColorField enemyProjTrailEndColor;
+    public static ColorField enemyProjOuterGlowColor;
+
+    public static BoolField homingProjEnabled;
+    public static ColorField homingProjColor;
+    public static ColorField homingProjGlowColor;
+    public static ColorField homingProjTrailStartColor;
+    public static ColorField homingProjTrailEndColor;
+
     public static void Init(ConfigFile cfg)
     {
         config = PluginConfigurator.Create("UltraColor", "luaujimmy.UltraColor");
@@ -211,6 +224,8 @@ public static class Settings
         ConfigPanel knuckleBlasterSubPanel = new ConfigPanel(config.rootPanel, "Knuckle Blaster", "KnuckleBlasterSubPanel");
 
         ConfigPanel enemiesSubPanel = new ConfigPanel(config.rootPanel, "Enemies", "EnemiesSubPanel");
+
+        ConfigPanel enemyProjSubPanel = new ConfigPanel(enemiesSubPanel, "Enemy Projectiles", "EnemyProjSubPanel");
 
         // Explosions
         smallExplosionEnabled = new BoolField(explosionSubPanel, "Enabled", "SmallExplosionEnabled", false);
@@ -372,14 +387,14 @@ public static class Settings
         slamStartColor = new ColorField(effectsSubPanel, "Slam Start Color", "SlamStartColor", new Color(0.3f, 0.3f, 0.3f, 1));
         slamEndColor = new ColorField(effectsSubPanel, "Slam End Color", "SlamSparksEndColor", new Color(0.3f, 0.3f, 0.3f, 1));
 
-        knuckleBlasterEnabled = new BoolField(knuckleBlasterSubPanel, "Enabled", "knuckleBlasterEnabled", false);
+        knuckleBlasterEnabled = new BoolField(knuckleBlasterSubPanel, "Knuckleblaster Enabled", "knuckleBlasterEnabled", false);
         knuckleBlasterShockwaveSpriteColor = new ColorField(knuckleBlasterSubPanel, "Shockwave Color", "knuckleBlasterShockwaveSpriteColor", new Color(0.63f, 0.63f, 0.63f, 1));
         knuckleBlasterExplosionColor = new ColorField(knuckleBlasterSubPanel, "Explosion Color", "knuckleBlasterExplosionColor", new Color(1, 1, 1, 1));
         knuckleBlasterLightColor = new ColorField(knuckleBlasterSubPanel, "Light Color", "knuckleBlasterLightColor", new Color(1, 0.5754f, 0, 1));
 
-        conductorEnabled = new BoolField(effectsSubPanel, "Enabled", "altOverheatNailgunEnabled", false);
-        conductorStartColor = new ColorField(effectsSubPanel, "Conductor Color 1", "AltOverheatNailgunNailTrailStartColor", new Color(1f, 0.8f, 0.8f, 0.8f));
-        conductorEndColor = new ColorField(effectsSubPanel, "Conductor Color 2", "AltOverheatNailgunNailTrailEndColor", new Color(1, 1, 1, 1));
+        conductorEnabled = new BoolField(effectsSubPanel, "Conductor Enabled", "ConductorEnabled", false);
+        conductorStartColor = new ColorField(effectsSubPanel, "Conductor Color 1", "ConductorStartColor", new Color(1f, 0.8f, 0.8f, 0.8f));
+        conductorEndColor = new ColorField(effectsSubPanel, "Conductor Color 2", "ConductorEndColor", new Color(1, 1, 1, 1));
 
         // Enemy Settings
         // Blessing
@@ -390,9 +405,26 @@ public static class Settings
         idolSpikesColor = new ColorField(enemiesSubPanel, "Idol Spikes Color", "idolSpikesColor", new Color(0.3f, 0.5f, 0.8f));
 
         // Enemy Settings
-        // Blessing
+        // Enrage
         enrageEnabled = new BoolField(enemiesSubPanel, "Enrage Enabled", "enrageEnabled", false);
         enrageSpriteColor = new ColorField(enemiesSubPanel, "Enrage Circle Color", "EnrageSpriteColor", new Color(1, 0, 0));
         enrageLightningColor = new ColorField(enemiesSubPanel, "Enrage Lightning Color", "EnrageLightningColor", new Color(1, 0, 0));
+
+        // Enemy Settings
+        // "Normal" Enemy Projectile
+
+        enemyProjEnabled = new BoolField(enemyProjSubPanel, "Enable Enemy Projectile", "enemyProjEnabled", false);
+        enemyProjColor = new ColorField(enemyProjSubPanel, "Enemy Projectile Color", "enemyProjColor", new Color(1, 1, 1));
+        enemyProjInnerGlowColor = new ColorField(enemyProjSubPanel, "Enemy Projectile Inner Glow Color", "enemyProjInnerGlowColor", new Color(1, 1, 1));
+        enemyProjTrailStartColor = new ColorField(enemyProjSubPanel, "Enemy Projectile Trail Start Color", "enemyProjTrailStartColor", new Color(1, 1, 1));
+        enemyProjTrailEndColor = new ColorField(enemyProjSubPanel, "Enemy Projectile Trail End Color", "enemyProjTrailEndColor", new Color(1, 1, 1));
+        enemyProjOuterGlowColor = new ColorField(enemyProjSubPanel, "Enemy Projectile Outer Glow Color", "enemyProjOuterGlowColor", new Color(1, 1, 1));
+
+        homingProjEnabled = new BoolField(enemyProjSubPanel, "Enable homing Projectile", "homingProjEnabled", false);
+        homingProjColor = new ColorField(enemyProjSubPanel, "Homing Projectile Color", "homingProjColor", new Color(1, 1, 1));
+        homingProjGlowColor = new ColorField(enemyProjSubPanel, "Homing Projectile Glow Color", "homingProjGlowColor", new Color(1, 1, 1));
+        homingProjTrailStartColor = new ColorField(enemyProjSubPanel, "Homing Projectile Trail Start Color", "homingProjTrailStartColor", new Color(1, 1, 1));
+        homingProjTrailEndColor = new ColorField(enemyProjSubPanel, "Homing Projectile Trail End Color", "homingProjTrailEndColor", new Color(1, 1, 1));
+
     }
 }
