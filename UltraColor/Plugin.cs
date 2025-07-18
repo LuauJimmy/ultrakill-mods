@@ -40,6 +40,7 @@ public sealed class Plugin : BaseUnityPlugin
     public static Texture2D? chargeBlankTexture;
     public static Texture2D? basicWhiteTexture;
     public static Texture2D? whiteSparkTexture;
+    public static Texture2D? skullBlankTexture;
     public static Texture2D? enrageEffectTextureBlank;
     public static Gradient? ElectricLineGradient;
     private static Color _revolverMuzzleFlashColor;
@@ -69,6 +70,7 @@ public sealed class Plugin : BaseUnityPlugin
         basicWhiteTexture = Utils.CreateTextureFromImage($"{AssetPath}\\basicwhite.png");
         whiteSparkTexture = Utils.CreateTextureFromImage($"{AssetPath}\\spark.png");
         enrageEffectTextureBlank = Utils.CreateTextureFromImage($"{AssetPath}\\RageEffect.png", FilterMode.Point);
+        skullBlankTexture = Utils.CreateTextureFromImage($"{AssetPath}\\skull_blank.png", FilterMode.Point);
 
         Settings.Init(this.Config);
 
@@ -82,7 +84,7 @@ public sealed class Plugin : BaseUnityPlugin
             typeof(_Railcannon),
             typeof(_Movement),
             typeof(_Idol),
-            //(typeof(_EnrageEffect))
+            (typeof(_EnrageEffect))
         ];
 
         foreach ( var type in enabledPatches )

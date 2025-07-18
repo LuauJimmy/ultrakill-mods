@@ -177,9 +177,10 @@ public static class Settings
 
     public static BoolField homingProjEnabled;
     public static ColorField homingProjColor;
-    public static ColorField homingProjGlowColor;
+    public static ColorField homingProjInnerGlowColor;
     public static ColorField homingProjTrailStartColor;
     public static ColorField homingProjTrailEndColor;
+    public static ColorField homingProjOuterGlowColor;
 
     public static void Init(ConfigFile cfg)
     {
@@ -422,9 +423,11 @@ public static class Settings
 
         homingProjEnabled = new BoolField(enemyProjSubPanel, "Enable homing Projectile", "homingProjEnabled", false);
         homingProjColor = new ColorField(enemyProjSubPanel, "Homing Projectile Color", "homingProjColor", new Color(1, 1, 1));
-        homingProjGlowColor = new ColorField(enemyProjSubPanel, "Homing Projectile Glow Color", "homingProjGlowColor", new Color(1, 1, 1));
+        homingProjInnerGlowColor = new ColorField(enemyProjSubPanel, "Homing Projectile Inner Glow Color", "homingProjInnerGlowColor", new Color(1, 1, 1));
         homingProjTrailStartColor = new ColorField(enemyProjSubPanel, "Homing Projectile Trail Start Color", "homingProjTrailStartColor", new Color(1, 1, 1));
         homingProjTrailEndColor = new ColorField(enemyProjSubPanel, "Homing Projectile Trail End Color", "homingProjTrailEndColor", new Color(1, 1, 1));
+        homingProjOuterGlowColor = new ColorField(enemyProjSubPanel, "Homing Projectile Outer Glow Color", "homingProjOuterGlowColor", new Color(1, 1, 1));
+
 
     }
 }
